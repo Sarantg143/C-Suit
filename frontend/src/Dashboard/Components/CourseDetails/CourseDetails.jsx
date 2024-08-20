@@ -9,7 +9,7 @@ import ErrorDataFetchOverlay from "../Error/ErrorDataFetchOverlay";
 import settingsSVG from "../Assets/SVG/settings.svg";
 import lightningSVG from "../Assets/SVG/lightning.svg";
 import tickIconSVG from "../Assets/SVG/tickIcon.svg";
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -28,8 +28,7 @@ const CourseDetails = () => {
   const status = params.get("status");
 
   useEffect(() => {
-
-    setPaymentSuccess(status==="success"? true : false || false)
+    setPaymentSuccess(status === "success" ? true : false || false);
 
     const fetchData = async () => {
       try {
@@ -60,31 +59,34 @@ const CourseDetails = () => {
 
   let navigate = useNavigate();
 
-  const makepayment = async (name,id, price) => {
-    if(localStorage.getItem("isloggedin")==="true")
-    {
-      const stripe = await loadStripe("pk_test_51PUVZZRrG0ZkGYrr3y8s7r35TsoywTtRefCFB64KvnZNuuU2kotNOBp8AOZMPfyejU5Ah1DG4vXjwyig9AZXFmNv00Etljhki6");
-      let data = {name:name,id:id, price:price}
+  const makepayment = async (name, id, price) => {
+    if (localStorage.getItem("isloggedin") === "true") {
+      const stripe = await loadStripe(
+        "pk_test_51PUVZZRrG0ZkGYrr3y8s7r35TsoywTtRefCFB64KvnZNuuU2kotNOBp8AOZMPfyejU5Ah1DG4vXjwyig9AZXFmNv00Etljhki6"
+      );
+      let data = { name: name, id: id, price: price };
 
-      const response = await axios.post("https://csuite-production.up.railway.app/api/payment/create-checkout-session",data, {
-        headers: { 'Content-Type': 'application/json' }, // Set Content-Type header
-      })
+      const response = await axios.post(
+        "https://csuite-production.up.railway.app/api/payment/create-checkout-session",
+        data,
+        {
+          headers: { "Content-Type": "application/json" }, // Set Content-Type header
+        }
+      );
 
-      console.log(response)
-      
+      // console.log(response)
+
       const result = stripe.redirectToCheckout({
-        sessionId:response.data.id
+        sessionId: response.data.id,
       });
-    
+
       if (result.error) {
         console.log(result.error);
       }
-    }
-    else{
+    } else {
       navigate("../Authentication");
     }
-  }
-
+  };
 
   const handleLessonClick = (index) => {
     setActiveLesson(index === activeLesson ? "" : index);
@@ -153,14 +155,18 @@ const CourseDetails = () => {
           <div className="CDHeaderIntroVideo">
             <div className="embed-responsive-16by9">
               <iframe
-                title="intro video title 1"
+                title={courseContentDetailsData.title || "Intro Video Title"}
                 className="embed-responsive-item"
-                src={
-                  courseContentDetailsData?.videoUrl === "http://yourvideo.url"
-                    ? // ? "https://www.youtube.com/embed/9DccPRe6-I8?autoplay=1&start=15"
-                      "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
-                    : courseContentDetailsData?.videoUrl
-                }
+                // src={courseContentDetailsData?.videoUrl}
+                src={`https://player.vimeo.com/video/${courseContentDetailsData?.videoUrl
+                  .split("/")
+                  .pop()}`}
+                // src={
+                //   courseContentDetailsData?.videoUrl === "http://yourvideo.url"
+                //     ? // ? "https://www.youtube.com/embed/9DccPRe6-I8?autoplay=1&start=15"
+                //       "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
+                //     : courseContentDetailsData?.videoUrl
+                // }
                 allow="autoplay"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
@@ -179,13 +185,9 @@ const CourseDetails = () => {
                   //   courseContentDetailsData?.videoUrl ||
                   //   "https://www.youtube.com/embed/9DccPRe6-I8?autoplay=1&start=15"
                   // }
-                  src={
-                    courseContentDetailsData?.videoUrl ===
-                    "http://yourvideo.url"
-                      ? // ? "https://www.youtube.com/embed/9WMqKhAcrpI?autoplay=1&start=0"
-                        "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
-                      : courseContentDetailsData?.videoUrl
-                  }
+                  src={`https://player.vimeo.com/video/${courseContentDetailsData?.videoUrl
+                    .split("/")
+                    .pop()}`}
                   allow="autoplay"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
@@ -383,7 +385,13 @@ const CourseDetails = () => {
               </div>
               <button className="CDCartBtn">Add to Cart</button>
               <button
-                onClick={() => makepayment(courseContentDetailsData.title, courseId, courseContentDetailsData?.price)}
+                onClick={() =>
+                  makepayment(
+                    courseContentDetailsData.title,
+                    courseId,
+                    courseContentDetailsData?.price
+                  )
+                }
                 className="CDBuyBtn"
               >
                 Buy Now

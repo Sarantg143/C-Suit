@@ -171,6 +171,7 @@
 
 .CCaccordianBox .accordion-button {
   border: none;
+  display: flex;
   border-radius: 16px !important;
   background-color: var(--primary-bg);
   transition: border-radius 0.3s ease, background-color 0.3s;
@@ -293,26 +294,28 @@ COMPLETED LESSON CSS DA ETHU REMOVE PANATHA LATER USE AAGUM
   background-color: #d3abf9 !important;
 } */
 
-.lesson-meta {
+.CClesson-meta {
   width: 92%;
+  text-align: left;
   padding-left: 15px;
 }
 
-.lesson-title {
+.CClesson-title {
   display: flex;
+  /* background-color: aqua; */
   font-size: 1.1em;
   font-weight: 450;
   margin-bottom: 5px;
 }
 
-.lesson-meta .lesson-duration,
+.CClesson-meta .lesson-duration,
 .list-group-item .lesson-duration {
   font-size: 0.8em;
   width: max-content;
   padding: 0 0 0 20px;
 }
 
-.lesson-meta span {
+.CClesson-meta span {
   font-size: 0.8em;
 }
 
@@ -379,17 +382,17 @@ COMPLETED LESSON CSS DA ETHU REMOVE PANATHA LATER USE AAGUM
     font-size: 0.85em;
   }
 
-  .lesson-title {
+  .CClesson-title {
     font-size: 0.85em;
   }
 
-  .lesson-meta .lesson-duration,
+  .CClesson-meta .lesson-duration,
   .list-group-item .lesson-duration {
     font-size: 0.7em;
     padding: 0 0 0 10px;
   }
 
-  .lesson-meta span {
+  .CClesson-meta span {
     font-size: 0.7em;
   }
 
@@ -401,7 +404,7 @@ COMPLETED LESSON CSS DA ETHU REMOVE PANATHA LATER USE AAGUM
     width: 14px;
   }
 
-  .lesson-meta {
+  .CClesson-meta {
     padding-left: 0px;
   }
 }
@@ -522,22 +525,22 @@ COMPLETED LESSON CSS DA ETHU REMOVE PANATHA LATER USE AAGUM
     border-radius: 7px !important;
   }
 
-  .lesson-meta {
+  .CClesson-meta {
     padding-left: 0px;
   }
 
-  .lesson-title {
+  .CClesson-title {
     font-size: 0.65em;
     margin-bottom: 0px;
   }
 
-  .lesson-meta .lesson-duration,
+  .CClesson-meta .lesson-duration,
   .list-group-item .lesson-duration {
     font-size: 0.6em;
     padding: 0 0 0 10px;
   }
 
-  .lesson-meta span {
+  .CClesson-meta span {
     font-size: 0.6em;
   }
 
@@ -556,7 +559,24 @@ COMPLETED LESSON CSS DA ETHU REMOVE PANATHA LATER USE AAGUM
   }
 }
 
-
-.accordion-button{
+.accordion-button {
   font-size: 1rem !important;
+}
+
+/*  */
+.accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23052c65'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  transform: rotate(-180deg);
+}
+
+.accordion-button::after {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  content: "";
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23052c65'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  transition: transform 0.2s ease-in-out;
 }
