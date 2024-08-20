@@ -114,6 +114,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
 }
 
 .users-details-header p {
@@ -330,25 +331,25 @@
   }
 }
 
-.file-input-hide {
-  opacity: 0;
+.file-input-hide{
+    opacity: 0;
 }
 
 .file-upload {
-  position: absolute;
-  top: 1rem;
-  left: 2.5rem;
+    position: absolute;
+    top: 1rem;
+    left: 2.5rem;
 }
 
 @media (min-width: 700px) {
-  .user-page {
+  .user-page{
     padding: 2rem 2rem 0 2rem;
     font-size: medium;
   }
 
-  .users-list-cnt {
+  .users-list-cnt{
     font-size: medium;
-  }
+  } 
 }
 
 @media (min-width: 1000px) {
@@ -365,14 +366,14 @@
     font-size: 1rem;
   }
 
-  .users-details-header {
+  .users-details-header{
     padding: 1rem;
   }
 
-  .users-list-cnt {
+  .users-list-cnt{
     margin-top: 2rem;
   }
-  .users-list-header {
+  .users-list-header{
     margin-top: 2rem;
   }
 }

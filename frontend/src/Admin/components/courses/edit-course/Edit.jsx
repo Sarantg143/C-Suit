@@ -6,7 +6,7 @@ import EditImg from "../../Assets/Images/edit.png";
 import Nolesson from "../../Assets/Images/no-lesson-illustration.svg";
 import BackIcon from "../../Assets/Images/left-arrow.png";
 import { useNavigate } from "react-router-dom";
-import { updateCourse } from "../../../api/baseApi";
+import { deleteCourse, updateCourse } from "../../../api/baseApi";
 import NewLesson from "../new-course/NewLesson";
 
 const Edit = ({ courseDetails }) => {
@@ -47,7 +47,10 @@ const Edit = ({ courseDetails }) => {
   const addNewOverview = () => {
     if (currentOverview.heading && currentOverview.content) {
       const newOverview = courseData.overviewPoints;
-      if (currentOverview.updateIndex === null || currentOverview.updateIndex === undefined) {
+      if (
+        currentOverview.updateIndex === null ||
+        currentOverview.updateIndex === undefined
+      ) {
         newOverview.push({
           ...currentOverview,
           updateIndex: newOverview.length > 0 ? newOverview?.length : 0,
@@ -66,9 +69,9 @@ const Edit = ({ courseDetails }) => {
   };
 
   const addLessontoCourse = (lesson) => {
-    console.log("lesson",lesson)
+    console.log("lesson", lesson);
     const newLessons = [...courseData.lessons];
-    if (lesson?.updateIndex === null ||lesson?.updateIndex === undefined ) {
+    if (lesson?.updateIndex === null || lesson?.updateIndex === undefined) {
       newLessons.push({
         ...lesson,
         updateIndex: newLessons?.length > 0 ? newLessons?.length : 0,
@@ -95,6 +98,24 @@ const Edit = ({ courseDetails }) => {
       } catch (error) {
         console.log(error);
       }
+    } else {
+      window.alert(
+        "This course is not valid add at least on lesson and fill other details"
+      );
+    }
+  };
+
+  const deleteThisCourse = async () => {
+    const confirm = window.confirm(
+      "Confirm to delete this course all lessons associated will be lost"
+    );
+    if (confirm) {
+      try {
+        const res = await deleteCourse(courseDetails._id);
+        if (res) navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -104,15 +125,22 @@ const Edit = ({ courseDetails }) => {
     setCourseData({ ...courseData, overviewPoints: newOverviews });
   };
 
-  const openEditLesson = (lesson,index)=>{
-    lesson.updateIndex = index
-    setPopupOpen({ open: true, data: lesson })
-  }
+  const handleRemoveLesson = (title) => {
+    const newLessonList = courseDetails.lessons?.filter(
+      (lesson) => lesson.title !== title
+    );
+    setCourseData({ ...courseData, lessons: newLessonList });
+  };
 
-  const setEditValues = (overview,index)=>{
-    overview.updateIndex = index
-    setCurrentOverview(overview)
-  }
+  const openEditLesson = (lesson, index) => {
+    lesson.updateIndex = index;
+    setPopupOpen({ open: true, data: lesson });
+  };
+
+  const setEditValues = (overview, index) => {
+    overview.updateIndex = index;
+    setCurrentOverview(overview);
+  };
 
   console.log(courseData);
   return (
@@ -140,11 +168,19 @@ const Edit = ({ courseDetails }) => {
             </div>
           </div>
         ) : (
-          <div
-            className="add-new-lesson-btn"
-            onClick={() => setEditCourse(true)}
-          >
-            Edit Course
+          <div className="top-btn-cnt">
+            <div
+              className=" course-delete-btn "
+              onClick={() => deleteThisCourse()}
+            >
+              Delete Course
+            </div>
+            <div
+              className="add-new-lesson-btn"
+              onClick={() => setEditCourse(true)}
+            >
+              Edit Course
+            </div>
           </div>
         )}
       </div>
@@ -226,7 +262,9 @@ const Edit = ({ courseDetails }) => {
                   readOnly={editCourse ? false : true}
                   value={currentOverview.heading}
                   placeholder="Heading"
-                  onChange={(e) => handleOverviewInput("heading", e.target.value)}
+                  onChange={(e) =>
+                    handleOverviewInput("heading", e.target.value)
+                  }
                 />
                 <textarea
                   type="text"
@@ -264,7 +302,7 @@ const Edit = ({ courseDetails }) => {
                         src={EditImg}
                         alt="edit"
                         className="action-img-overview"
-                        onClick={() => setEditValues(overview,index)}
+                        onClick={() => setEditValues(overview, index)}
                         // onClick={() => openEdit()}
                       />
                     </div>
@@ -295,7 +333,7 @@ const Edit = ({ courseDetails }) => {
                 <div
                   className="lesson"
                   style={{ pointerEvents: editCourse ? "all" : "none" }}
-                  onClick={() => openEditLesson(lesson,index)}
+                  onClick={() => openEditLesson(lesson, index)}
                 >
                   <h1 className="lesson-number">{index + 1}</h1>
                   <div className="lesson-title-cnt">
@@ -330,6 +368,7 @@ const Edit = ({ courseDetails }) => {
           addLesson={(lesson) => addLessontoCourse(lesson)}
           editData={popupOpen?.data}
           cancel={() => setPopupOpen({ open: false, data: null })}
+          removeThisLesson={(Id) => handleRemoveLesson(Id)}
         />
       )}
     </div>

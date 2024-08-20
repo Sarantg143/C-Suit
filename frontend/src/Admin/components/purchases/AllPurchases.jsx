@@ -11,7 +11,7 @@ const AllPurchases = () => {
       <div className="users-list-header">
         <h2>
           All Purchases
-          {/* <span> 44</span> */}
+          <span> 44</span>
         </h2>
         {/* <div className="users-header-actions-cnt">
           <div className="search-user-cnt">

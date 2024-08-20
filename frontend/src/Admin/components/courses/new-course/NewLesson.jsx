@@ -5,8 +5,9 @@ import Test from "../../Assets/Images/exam.png";
 import AddTest from "./AddTest";
 import { uploadVedio } from "../../../api/baseApi";
 import { findFileType } from "../../../hooks/newCourseFunctions";
+import BackIcon from "../../Assets/Images/left-arrow.png";
 
-const NewLesson = ({ addLesson, cancel, editData }) => {
+const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
   const [openTest, setOpenTest] = useState({ open: false, data: null });
 
   const [currentLesson, setCurrentLesson] = useState({
@@ -120,6 +121,16 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
     if (editData) setCurrentLesson(editData);
   }, [editData]);
 
+  const handleDelete = () => {
+    const confirm = window.confirm(
+      "Confirm to delete this lesson, all subLessons will be deleted"
+    );
+    console.log(editData?.title)
+    if (confirm) {removeThisLesson(editData.title)
+      cancel()
+    };
+  };
+
   return (
     <div className="lesson-popup-cnt">
       <div className="lesson-new-cnt">
@@ -133,16 +144,18 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
           />
         )}
         <div className="form-right-header">
-          <h3 className="course-new-title form-right-heading">
-            Create New Lesson
-          </h3>
+          <div className="back-btn" onClick={() => cancel()}>
+            <img src={BackIcon} alt="back" className="back-icon-img" />
+          </div>
           <div className="top-btn-cnt">
-            <div
-              className="add-new-lesson-btn cancel-btn"
-              onClick={() => cancel()}
-            >
-              Cancel
-            </div>
+            {editData && (
+              <div
+                className="add-new-lesson-btn cancel-btn"
+                onClick={() => handleDelete()}
+              >
+                Delete Lesson
+              </div>
+            )}
             <div
               className="add-new-lesson-btn"
               onClick={() => validateAndUpdateLesson()}
@@ -151,6 +164,9 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
             </div>
           </div>
         </div>
+        <h3 className="course-new-title form-right-heading">
+          Create New Lesson
+        </h3>
         <div className="new-lesson-top">
           <div className="lesson-name-cnt">
             <p>Lesson Title</p>
