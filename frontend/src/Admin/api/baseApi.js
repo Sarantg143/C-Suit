@@ -26,6 +26,11 @@ export const uploadVedio = (formdata) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+export const uploadDocument = (formdata) =>
+  API.post("/uploadtodrive", formdata, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
 export const updateCourse = (updatedData) =>
   API.put(`/courseDetail/edit/${updatedData?._id}`, updatedData);
 

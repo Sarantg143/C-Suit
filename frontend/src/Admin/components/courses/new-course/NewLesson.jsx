@@ -3,7 +3,7 @@ import Trash from "../../Assets/Images/trash.png";
 import Edit from "../../Assets/Images/edit.png";
 import Test from "../../Assets/Images/exam.png";
 import AddTest from "./AddTest";
-import { uploadVedio } from "../../../api/baseApi";
+import { uploadDocument, uploadVedio } from "../../../api/baseApi";
 import { findFileType } from "../../../hooks/newCourseFunctions";
 import BackIcon from "../../Assets/Images/left-arrow.png";
 
@@ -29,7 +29,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
 
   const handleAddFile = (file) => {
     const filetype = findFileType(file);
-    console.log("filetype");
+    console.log("filetype", filetype);
     setSublessonFile(file);
     setCurrentSublesson({ ...currentSublesson, type: filetype });
   };
@@ -51,15 +51,34 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     }
   };
 
+  const getDocumentUrl = async () => {
+    try {
+      const vedioFormData = new FormData();
+      vedioFormData.append("document", sublessonFile);
+      const { data } = await uploadDocument(vedioFormData);
+      console.log(" doc response -> data", data);
+      return data?.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const addSublessons = async () => {
     const newLessons = [...currentLesson.chapter];
     if (currentSublesson.title && currentSublesson.duration && sublessonFile) {
-      let videoLink = await getVideoURL();
+      let Link;
+      if (currentSublesson.type === "video") Link = await getVideoURL();
+      if (
+        currentSublesson.type === "pdf" ||
+        currentSublesson.type === "ppt" ||
+        currentSublesson.type === "doc"
+      )
+        Link = await getDocumentUrl();
       if (
         currentSublesson.updateIndex === null ||
         currentSublesson.updateIndex === undefined
       ) {
-        newLessons.push({ ...currentSublesson, link: videoLink });
+        newLessons.push({ ...currentSublesson, link: Link });
         setCurrentLesson({ ...currentLesson, chapter: newLessons });
         setCurrentSublesson({
           title: "",
@@ -71,7 +90,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
       } else {
         newLessons[currentSublesson.updateIndex] = {
           ...currentSublesson,
-          link: videoLink,
+          link: Link,
         };
         setCurrentLesson({ ...currentLesson, chapter: newLessons });
         setCurrentSublesson({
@@ -125,10 +144,11 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     const confirm = window.confirm(
       "Confirm to delete this lesson, all subLessons will be deleted"
     );
-    console.log(editData?.title)
-    if (confirm) {removeThisLesson(editData.title)
-      cancel()
-    };
+    console.log(editData?.title);
+    if (confirm) {
+      removeThisLesson(editData.title);
+      cancel();
+    }
   };
 
   return (
@@ -283,7 +303,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
                     className="sublesson-title-input center-media sublesson-card-input"
                     onClick={() => window.open(sublesson?.link)}
                   >
-                    <p className="sublesson-title-txt">play video</p>
+                    <p className="sublesson-title-txt">{`open ${sublesson.type}`}</p>
                   </div>
                 </div>
                 <div
