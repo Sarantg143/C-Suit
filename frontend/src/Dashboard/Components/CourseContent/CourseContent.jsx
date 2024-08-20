@@ -170,6 +170,10 @@ const CourseContent = () => {
   };
 
   function convertToReadableDuration(duration) {
+    if (!duration || duration === "0") {
+      return "3mins+";
+    }
+
     const [minutes, seconds] = duration.split(":");
     return `${parseInt(minutes, 10)}m ${parseInt(seconds, 10)}s`;
   }
@@ -260,58 +264,32 @@ const CourseContent = () => {
   };
 
   const renderContent = (link, typeManual) => {
-    // if (link.type === "video") {
-    console.log(link);
     if (typeManual === "video") {
       return (
-        // <iframe
-        //   title={
-        //     !currentCourseData.title ? "Video Title" : currentCourseData.title
-        //   }
-        //   className="embed-responsive-item"
-        //   src={link}
-        //   allow="autoplay"
-        //   referrerPolicy="strict-origin-when-cross-origin"
-        //   allowFullScreen
-        // ></iframe>
-        <iframe
-          title={currentCourseData.title || "Video Title"}
-          className="embed-responsive-item"
-          src={`https://player.vimeo.com/video/${link.split("/").pop()}`}
-          allow="autoplay"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
+        <div>
+          <iframe
+            title={currentCourseData.title || "Video Title"}
+            className="embed-responsive-item"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-presentation"
+            src={`https://player.vimeo.com/video/${link.split("/").pop()}`}
+            style={{ width: "100%", height: "100%" }}
+            allow="autoplay; encrypted-media"
+          ></iframe>
+        </div>
       );
     } else if (typeManual === "ppt") {
-      // const fileId = link.split("/d/")[1].split("/")[0];
-      const fileId =
-        "https://drive.google.com/file/d/11LZ9bwWvJMaOfTe-AMFLcbsjQeehXJbc/view"
-          .split("/d/")[1]
-          .split("/")[0];
+      const fileId = link.split("/d/")[1].split("/")[0];
       const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
       return (
-        <iframe
-          title="PPT"
-          sandbox="allow-same-origin allow-scripts"
-          className="embed-responsive-item"
-          src={embedUrl}
-          allowFullScreen
-        ></iframe>
-      );
-    } else if (typeManual === "audio") {
-      // const Nlink =
-      //   "https://drive.google.com/file/d/1o5fqu02l3u6vGVCC6BEhe4XZ9trfqVr7/view?usp=sharing";
-      // const audioURL = Nlink.split("/d/")[1].split("/")[0];
-      // const embedUrl = `https://drive.google.com/uc?export=download&id=${audioURL}`;
-      return (
-        <iframe
-          title="audio"
-          src="https://drive.google.com/file/d/1CqdN4fSdXF4pMFEzjcMH6dkxsrfqt5Oq/preview"
-          width="640"
-          height="480"
-          allow="autoplay"
-        ></iframe>
+        <div>
+          <iframe
+            title="PPT"
+            className="embed-responsive-item"
+            src={embedUrl}
+            style={{ width: "100%", height: "100%" }}
+            allow="autoplay; encrypted-media"
+          ></iframe>
+        </div>
       );
     }
   };
@@ -369,23 +347,11 @@ const CourseContent = () => {
           <div className="videoBox">
             <div className="embed-responsive embed-responsive-16by9">
               {courseData?.lessons.length > 0 &&
-                // renderContent(
-                //   !currentCourseData.link
-                //     ? courseData.videoUrl === "http://yourvideo.url"
-                //       ? "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
-                //       : courseData.videoUrl
-                //     : currentCourseData.link === "#"
-                //     ? "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
-                //     : currentCourseData.link,
-                //   // !currentCourseData.type ? "video" : "audio"
-                //   currentCourseData.type ? currentCourseData.type : "video"
-                // )
                 renderContent(
                   !currentCourseData.link
                     ? courseData.videoUrl
                     : currentCourseData.link,
-                  // !currentCourseData.type ? "video" : "audio"
-                  currentCourseData.type ? currentCourseData.type : "video"
+                  !currentCourseData.link ? "video" : currentCourseData.type
                 )}
             </div>
             <div>
@@ -455,7 +421,7 @@ const CourseContent = () => {
                           &nbsp; /&nbsp;
                         </span>
 
-                        <span>Total Videos : {lesson.chapter?.length}</span>
+                        <span>Total Content : {lesson.chapter?.length}</span>
                       </div>
                     </Accordion.Header>
                     <Accordion.Body>
@@ -477,10 +443,14 @@ const CourseContent = () => {
                               }
                             >
                               <span className="video-number">
-                                <a href={video.link}>
+                                {/* <a href={video.link}>
                                   {`${index + 1}.${vidIndex + 1}`}&nbsp;
                                   {video.title}
-                                </a>
+                                </a> */}
+                                <div>
+                                  {`${index + 1}.${vidIndex + 1}`}&nbsp;
+                                  {video.title}
+                                </div>
 
                                 {completedExercises.has(
                                   `${index}-${vidIndex}`

@@ -109,6 +109,10 @@ const CourseDetails = () => {
   };
 
   function convertToReadableDuration(duration) {
+    if (!duration || duration === "0") {
+      return "3mins+";
+    }
+
     const [minutes, seconds] = duration.split(":");
     return `${parseInt(minutes, 10)}m ${parseInt(seconds, 10)}s`;
   }
@@ -311,7 +315,7 @@ const CourseDetails = () => {
                                     {calculateTotalDuration(lesson?.chapter)}
                                   </span>
                                   <span className="">
-                                    &nbsp;/&nbsp; Total Videos:{" "}
+                                    &nbsp;/&nbsp; Total Content:{" "}
                                     {lesson?.chapter?.length}
                                   </span>
                                 </div>
@@ -325,10 +329,14 @@ const CourseDetails = () => {
                                         className="list-group-item"
                                       >
                                         <span className="video-number">
-                                          <a href={video?.link}>
+                                          <div>
                                             {`${index + 1}.${vidIndex + 1}`}{" "}
                                             {video?.title}
-                                          </a>
+                                          </div>
+                                          {/* <a href={video?.link}>
+                                            {`${index + 1}.${vidIndex + 1}`}{" "}
+                                            {video?.title}
+                                          </a> */}
                                         </span>
                                         {/* <span className="CDlesson-duration">
                                           Duration: {video?.duration}
