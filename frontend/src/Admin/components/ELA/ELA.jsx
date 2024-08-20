@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { getEla } from "../../api/baseApi";
 import {
   addNewQuestion,
   addSection,
   deleteSingleQuestion,
   deleteSingleSection,
+  editQuestionDetails,
   editQuestions,
-  editSectionDetails,
+  secondsToUtc,
+  UTCtoSeconds,
 } from "../../hooks/ElaFunctions";
 
 const ELA = () => {
@@ -18,29 +20,21 @@ const ELA = () => {
     updateIndex: null,
   };
 
-  const defaultSection = {
-    section: 1,
-    duration: {
-      hours: 0,
-      minutes: 0,
-    },
+  const defaultTest = {
+    sections: [initialState],
+    time: 0,
     difficulty: null,
     tags: [],
     description: "",
-    questions: [],
   };
 
-  const [currentTest, setCurrentTest] = useState([
-    defaultSection,
-    { ...defaultSection, section: 2 },
-    { ...defaultSection, section: 3 },
-  ]);
-
+  const [currentTest, setCurrentTest] = useState([defaultTest]);
   const [currentQuestion, setCurrentQuestion] = useState(initialState);
   const [dropDown, setDropDown] = useState(false);
   const [difficultyDropDown, setDifficultyDropDown] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
   const [TestId, setTestId] = useState(null);
+  const [time, setTime] = useState({ hour: 0, minute: 0 });
 
   const handleChoiceSelect = (index) => {
     setDropDown(false);
@@ -58,7 +52,8 @@ const ELA = () => {
 
   const handleNext = async () => {
     const updateIndex = currentQuestion?.updateIndex;
-    const updatestart = { ...currentTest };
+    const sectionCopy =[...currentTest.sections]
+
     if (updateIndex === null) {
       console.log("executing");
       const updatedQuestions = await addNewQuestion(
@@ -66,36 +61,32 @@ const ELA = () => {
         currentSection + 1,
         currentQuestion
       );
-      console.log("added", updatedQuestions);
-      setCurrentTest({ ...currentTest, [currentSection]: updatedQuestions });
+      setCurrentTest(updatedQuestions);
       setCurrentQuestion(initialState);
+      console.log("added", updatedQuestions);
     } else if (
       updateIndex + 1 ===
-      currentTest[currentSection]?.questions?.length
+      sectionCopy[currentSection]?.questions?.length
     ) {
-      updatestart[currentSection].questions[updateIndex] = currentQuestion;
-      console.log("last", updatestart[currentSection].questions);
       const updatedQuestions = await editQuestions(
         TestId,
         currentSection + 1,
-        updatestart[currentSection].questions
+        currentQuestion?.updateIndex,
+        currentQuestion
       );
+      setCurrentTest(updatedQuestions);
+      setCurrentQuestion(initialState)
       console.log("updated-last", updatedQuestions);
-      setCurrentTest({ ...currentTest, [currentSection]: updatedQuestions });
-      setCurrentQuestion(initialState);
     } else {
-      updatestart[currentSection].questions[updateIndex] = currentQuestion;
+      let nextIndex = currentQuestion.updateIndex+1
       const updatedQuestions = await editQuestions(
         TestId,
         currentSection + 1,
-        updatestart[currentSection].questions
+        currentQuestion?.updateIndex,
+        currentQuestion
       );
-      console.log("updated-middle", updatedQuestions);
-      setCurrentTest({ ...currentTest, [currentSection]: updatedQuestions });
-      setCurrentQuestion({
-        ...currentTest[currentSection].questions[updateIndex + 1],
-        updateIndex: updateIndex + 1,
-      });
+      setCurrentTest(updatedQuestions)
+      setCurrentQuestion({...updatedQuestions?.sections[currentSection]?.questions[nextIndex],updateIndex:nextIndex});
     }
   };
 
@@ -119,246 +110,153 @@ const ELA = () => {
     const fetchEla = async () => {
       const { data } = await getEla();
       setTestId(data[0]?._id);
-      setCurrentTest(data[0]?.sections);
+      setCurrentTest(data[0]);
+      setTime(secondsToUtc(data[0]?.time))
     };
     fetchEla();
   }, []);
+  useEffect(() => {
+    const getTimeInSeconds = () => {
+      const seconds = UTCtoSeconds(time);
+      setCurrentTest(prevTest => {
+        let currentData = { ...prevTest };
+        currentData.time = seconds;
+        return currentData;
+      });
+    };
+    getTimeInSeconds();
+  }, [time]); 
+  
 
   const changeDifficulty = (difficulty) => {
-    let currentData = { ...currentTest };
-    currentData[currentSection].difficulty = difficulty;
-    setCurrentTest(currentData);
-  };
-
-  const changeDuration = (type, value) => {
-    let currentData = { ...currentTest };
-    currentData[currentSection].duration[type] = value;
+    let currentData = {...currentTest};
+    currentData.difficulty = difficulty;
     setCurrentTest(currentData);
   };
 
   const updateTags = (value) => {
-    const tagsArray = value.split(",");
-    let currentData = { ...currentTest };
-    currentData[currentSection].tags = tagsArray;
+    let currentData = {...currentTest};
+    const tagsArray = value?.split(",");
+    currentData.tags = tagsArray;
     setCurrentTest(currentData);
   };
 
   const updateSectionDetails = async () => {
-    if (!Array.isArray(currentTest[currentSection].tags))
-      updateTags(currentTest[currentSection].tags);
-    let sectionDetails = {
-      duration: currentTest[currentSection].duration,
-      difficulty: currentTest[currentSection].difficulty,
-      tags: currentTest[currentSection].tags,
-      description: currentTest[currentSection].description,
+    if (!Array.isArray(currentTest.tags))
+      updateTags(currentTest.tags);
+    let questionDetails = {
+      time: currentTest.time,
+      difficulty: currentTest.difficulty,
+      tags: currentTest.tags,
+      description: currentTest.description,
     };
-    const data = await editSectionDetails(
+    const data = await editQuestionDetails(
       TestId,
-      currentSection + 1,
-      sectionDetails
+      questionDetails
     );
-    setCurrentTest({ ...currentTest, [currentSection]: data });
+    setCurrentTest(data);
   };
 
   const deleteQuestionByIndex = async () => {
+    console.log(currentSection)
     if (currentQuestion.updateIndex !== null) {
       const res = await deleteSingleQuestion(
         TestId,
-        currentSection + 1,
+        currentTest?.sections[currentSection].section,
         currentQuestion.updateIndex
       );
-      setCurrentTest(res?.sections);
+      setCurrentTest(res);
     }
   };
 
   const deleteSection = async () => {
-    const res = await deleteSingleSection(TestId, currentSection + 1);
-    setCurrentTest(res.sections);
-    console.log(res.sections);
-    if (res) setCurrentTest(res.sections);
+    console.log( currentTest)
+    const res = await deleteSingleSection(
+      TestId,
+      currentTest?.sections[currentSection]?.section
+    );
+    setCurrentTest(res);
+    if (res) setCurrentTest(res);
   };
 
   const addNewSection = async () => {
     const res = await addSection(TestId, {
-      ...defaultSection,
-      section: currentTest.length + 1,
+      section: currentTest?.sections?.length + 1,
     });
-    console.log(res.sections);
-    setCurrentTest(res.sections);
+    setCurrentTest(res);
   };
 
-  console.log(currentQuestion);
   return (
     <div className="ela-test-page">
       <p className="ela-title">Create or Edit your ELA assessment</p>
       <div className="questions-block-cnt justify-section-cnt">
-        <div
-          className="section-cnt"
-          onClick={() => setCurrentSection(0)}
-          style={{ background: currentSection === 0 && "#FFA500" }}
-        >
-          <div className="section-indicator">
-            <p>Section-1</p>
-          </div>
-          <div className="questions-block-cover">
-            {currentTest[0]?.questions?.map((test, index) => (
-              <div
-                className="question-block"
-                style={{ background: checkquestionMatch(index, 0) }}
-                key={index}
-                onClick={() =>
-                  setCurrentQuestion({
-                    ...test,
-                    updateIndex:
-                      test.updateIndex !== undefined ? test.updateIndex : index,
-                  })
-                }
-              >
-                <p
-                  key={index}
-                  className="question-number"
-                  style={{
-                    color:
-                      checkquestionMatch(index, 0) === "transparent" &&
-                      "#8949ff",
-                  }}
-                >
-                  {index + 1}
-                </p>
-              </div>
-            ))}
+        {currentTest?.sections?.length > 0 &&
+          currentTest?.sections?.map((section, sectionIndex) => (
             <div
-              className="question-block"
-              style={{ background: checkquestionMatch(null, 0) }}
-              onClick={() => setCurrentQuestion(initialState)}
+              className="section-cnt"
+              onClick={() => setCurrentSection(sectionIndex)}
+              style={{ background: currentSection === sectionIndex && "#FFA500" }}
+              key={sectionIndex}
             >
-              <p
-                className="question-number"
-                a
-                style={{
-                  color:
-                    checkquestionMatch(null, 0) === "transparent" && "#8949ff",
-                }}
-              >
-                {currentTest[0]?.questions?.length + 1}
-              </p>
-            </div>
-          </div>
-        </div>
-        {currentTest.length > 1 && (
-          <div
-            className="section-cnt"
-            onClick={() => setCurrentSection(1)}
-            style={{ background: currentSection === 1 && "#FFA500" }}
-          >
-            <div className="section-indicator">
-              <p>Section-2</p>
-            </div>
-            <div className="questions-block-cover">
-              {currentTest[1]?.questions?.map((test, index) => (
+              <div className="section-indicator">
+                <p>{`Section-${sectionIndex + 1}`}</p>
+              </div>
+              <div className="questions-block-cover">
+                {section?.questions?.map((test, index) => (
+                  <div
+                    className="question-block"
+                    style={{
+                      background: checkquestionMatch(
+                        index,
+                        sectionIndex
+                      ),
+                    }}
+                    key={index}
+                    onClick={() =>
+                      setCurrentQuestion({
+                        ...test,
+                        updateIndex:
+                          test.updateIndex !== undefined
+                            ? test.updateIndex
+                            : index,
+                      })
+                    }
+                  >
+                    <p
+                      key={index}
+                      className="question-number"
+                      style={{
+                        color:
+                          checkquestionMatch(index, sectionIndex) ===
+                            "transparent" && "#8949ff",
+                      }}
+                    >
+                      {index + 1}
+                    </p>
+                  </div>
+                ))}
                 <div
                   className="question-block"
-                  style={{ background: checkquestionMatch(index, 1) }}
-                  key={index}
-                  onClick={() =>
-                    setCurrentQuestion({
-                      ...test,
-                      updateIndex:
-                        test.updateIndex !== undefined
-                          ? test.updateIndex
-                          : index,
-                    })
-                  }
+                  style={{
+                    background: checkquestionMatch(null, sectionIndex),
+                  }}
+                  onClick={() => setCurrentQuestion(initialState)}
                 >
                   <p
-                    key={index}
                     className="question-number"
+                    a
                     style={{
                       color:
-                        checkquestionMatch(index, 1) === "transparent" &&
-                        "#8949ff",
+                        checkquestionMatch(null, sectionIndex) ===
+                          "transparent" && "#8949ff",
                     }}
                   >
-                    {index + 1}
+                    {section?.questions?.length + 1}
                   </p>
                 </div>
-              ))}
-              <div
-                className="question-block"
-                style={{ background: checkquestionMatch(null, 1) }}
-                onClick={() => setCurrentQuestion(initialState)}
-              >
-                <p
-                  className="question-number"
-                  style={{
-                    color:
-                      checkquestionMatch(null, 1) === "transparent" &&
-                      "#8949ff",
-                  }}
-                >
-                  {currentTest[1]?.questions?.length + 1}
-                </p>
               </div>
             </div>
-          </div>
-        )}
-        {currentTest.length > 2 && (
-          <div
-            className="section-cnt"
-            onClick={() => setCurrentSection(2)}
-            style={{ background: currentSection === 2 && "#FFA500" }}
-          >
-            <div className="section-indicator">
-              <p>Section-3</p>
-            </div>
-            <div className="questions-block-cover">
-              {currentTest[2]?.questions?.map((test, index) => (
-                <div
-                  className="question-block"
-                  style={{ background: checkquestionMatch(index, 2) }}
-                  key={index}
-                  onClick={() =>
-                    setCurrentQuestion({
-                      ...test,
-                      updateIndex:
-                        test.updateIndex !== undefined
-                          ? test.updateIndex
-                          : index,
-                    })
-                  }
-                >
-                  <p
-                    key={index}
-                    className="question-number"
-                    style={{
-                      color:
-                        checkquestionMatch(index, 2) === "transparent" &&
-                        "#8949ff",
-                    }}
-                  >
-                    {index + 1}
-                  </p>
-                </div>
-              ))}
-              <div
-                className="question-block"
-                style={{ background: checkquestionMatch(null, 2) }}
-                onClick={() => setCurrentQuestion(initialState)}
-              >
-                <p
-                  className="question-number"
-                  style={{
-                    color:
-                      checkquestionMatch(null, 2) === "transparent" &&
-                      "#8949ff",
-                  }}
-                >
-                  {currentTest[2]?.questions?.length + 1}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
+          ))}
         <div className="ela-new-section-btn" onClick={() => addNewSection()}>
           <div className="new-section-btn-text">
             <p>Add Section</p>
@@ -495,17 +393,17 @@ const ELA = () => {
               <div className="ela-timer-cover">
                 <input
                   type="text"
-                  value={currentTest[currentSection]?.duration?.hours}
+                  value={time?.hour}
                   className="ela-timer-input description-input "
-                  onChange={(e) => changeDuration("hours", e.target.value)}
+                  onChange={(e) => setTime({ ...time, hour: e.target.value })}
                 />
                 <p>Hours</p>
               </div>
               <div className="ela-timer-cover">
                 <input
                   type="text"
-                  value={currentTest[currentSection]?.duration?.minutes}
-                  onChange={(e) => changeDuration("minutes", e.target.value)}
+                  value={time?.minute}
+                  onChange={(e) => setTime({ ...time, minute: e.target.value })}
                   className="ela-timer-input description-input "
                 />
                 <p>Minutes</p>
@@ -516,16 +414,10 @@ const ELA = () => {
             <p>Describe the test</p>
             <textarea
               type="text"
-              value={currentTest[currentSection]?.description}
-              onChange={(e) =>
-                setCurrentTest({
-                  ...currentTest,
-                  [currentSection]: {
-                    ...currentTest[currentSection],
-                    description: e.target.value,
-                  },
-                })
-              }
+              value={currentTest?.description}
+              onChange={(e) => {
+                setCurrentTest({...currentTest,description:e.target.value});
+              }}
               className="ela-description description-input "
             />
           </div>
@@ -536,8 +428,8 @@ const ELA = () => {
               onClick={() => setDifficultyDropDown(!difficultyDropDown)}
             >
               <p>
-                {currentTest[currentSection]?.difficulty
-                  ? currentTest[currentSection]?.difficulty
+                {currentTest?.difficulty
+                  ? currentTest?.difficulty
                   : "Choose"}
               </p>
               {difficultyDropDown && (
@@ -569,19 +461,13 @@ const ELA = () => {
             <input
               type="text"
               value={
-                Array.isArray(currentTest[currentSection]?.tags)
-                  ? currentTest[currentSection]?.tags.join(", ")
-                  : currentTest[currentSection]?.tags || ""
+                Array.isArray(currentTest?.tags)
+                  ? currentTest?.tags.join(", ")
+                  : currentTest?.tags || ""
               }
-              onChange={(e) =>
-                setCurrentTest({
-                  ...currentTest,
-                  [currentSection]: {
-                    ...currentTest[currentSection],
-                    tags: e.target.value,
-                  },
-                })
-              }
+              onChange={(e) => {
+                setCurrentTest({...currentTest,tags:e.target.value});
+              }}
               className="ela-tags description-input "
             />
           </div>
