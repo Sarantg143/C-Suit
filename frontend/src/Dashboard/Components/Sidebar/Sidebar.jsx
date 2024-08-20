@@ -189,12 +189,12 @@ const Sidebar = () => {
             />
           </div>
           <div className="menu-bottom">
-            <SidebarItem
+            {/* <SidebarItem
               icon={faCog}
               path={"./setting"}
               text={"Settings"}
               expanded={expanded}
-            />
+            /> */}
             <SidebarItem
               icon={faSignOutAlt}
               path={"/"}
