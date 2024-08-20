@@ -26,8 +26,16 @@ export const uploadVedio = (formdata) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+export const uploadDocument = (formdata) =>
+  API.post("/uploadtodrive", formdata, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
 export const updateCourse = (updatedData) =>
   API.put(`/courseDetail/edit/${updatedData?._id}`, updatedData);
+
+export const deleteCourse = (courseId) =>
+  API.delete(`/courseDetail/delete/${courseId}`);
 
 // test
 export const addnewTest = (test) => API.post("/tests", test);
@@ -40,11 +48,11 @@ export const getEla = () => API.get(`question`);
 export const addQuestion = (questionId, section, question) =>
   API.post(`question/${questionId}/sections/${section}/questions`, question);
 
-export const updateQuestion = (questionId, section, questions) =>
-  API.put(`question/${questionId}/sections/${section}/questions`, questions);
+export const updateQuestion = (questionId, section,index,questionData) =>
+  API.put(`question/${questionId}/sections/${section}/questions/${index}`,questionData);
 
-export const updateSection = (questionId, section, sectionDetails) =>
-  API.put(`question/${questionId}/sections/${section}/details`, sectionDetails);
+export const updateQuestionDetails = (questionId, questionDetails) =>
+  API.put(`question/${questionId}`, questionDetails);
 
 export const deleteQuestion = (questionId, section, index) =>
   API.delete(`question/${questionId}/sections/${section}/questions/${index}`);
@@ -52,5 +60,5 @@ export const deleteQuestion = (questionId, section, index) =>
 export const deleteTestSection = (questionId, section) =>
   API.delete(`question/${questionId}/sections/${section}`);
 
-export const addSectionToTest = (questionId, sectionData) =>
-  API.post(`question/${questionId}/sections`, sectionData);
+export const addSectionToTest = (questionId,section) =>
+  API.post(`question/${questionId}/sections`,section);

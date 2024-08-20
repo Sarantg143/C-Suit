@@ -3,10 +3,11 @@ import Trash from "../../Assets/Images/trash.png";
 import Edit from "../../Assets/Images/edit.png";
 import Test from "../../Assets/Images/exam.png";
 import AddTest from "./AddTest";
-import { uploadVedio } from "../../../api/baseApi";
+import { uploadDocument, uploadVedio } from "../../../api/baseApi";
 import { findFileType } from "../../../hooks/newCourseFunctions";
+import BackIcon from "../../Assets/Images/left-arrow.png";
 
-const NewLesson = ({ addLesson, cancel, editData }) => {
+const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
   const [openTest, setOpenTest] = useState({ open: false, data: null });
 
   const [currentLesson, setCurrentLesson] = useState({
@@ -28,7 +29,7 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
 
   const handleAddFile = (file) => {
     const filetype = findFileType(file);
-    console.log("filetype");
+    console.log("filetype", filetype);
     setSublessonFile(file);
     setCurrentSublesson({ ...currentSublesson, type: filetype });
   };
@@ -50,15 +51,34 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
     }
   };
 
+  const getDocumentUrl = async () => {
+    try {
+      const vedioFormData = new FormData();
+      vedioFormData.append("document", sublessonFile);
+      const { data } = await uploadDocument(vedioFormData);
+      console.log(" doc response -> data", data);
+      return data?.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const addSublessons = async () => {
     const newLessons = [...currentLesson.chapter];
     if (currentSublesson.title && currentSublesson.duration && sublessonFile) {
-      let videoLink = await getVideoURL();
+      let Link;
+      if (currentSublesson.type === "video") Link = await getVideoURL();
+      if (
+        currentSublesson.type === "pdf" ||
+        currentSublesson.type === "ppt" ||
+        currentSublesson.type === "doc"
+      )
+        Link = await getDocumentUrl();
       if (
         currentSublesson.updateIndex === null ||
         currentSublesson.updateIndex === undefined
       ) {
-        newLessons.push({ ...currentSublesson, link: videoLink });
+        newLessons.push({ ...currentSublesson, link: Link });
         setCurrentLesson({ ...currentLesson, chapter: newLessons });
         setCurrentSublesson({
           title: "",
@@ -70,7 +90,7 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
       } else {
         newLessons[currentSublesson.updateIndex] = {
           ...currentSublesson,
-          link: videoLink,
+          link: Link,
         };
         setCurrentLesson({ ...currentLesson, chapter: newLessons });
         setCurrentSublesson({
@@ -120,6 +140,17 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
     if (editData) setCurrentLesson(editData);
   }, [editData]);
 
+  const handleDelete = () => {
+    const confirm = window.confirm(
+      "Confirm to delete this lesson, all subLessons will be deleted"
+    );
+    console.log(editData?.title);
+    if (confirm) {
+      removeThisLesson(editData.title);
+      cancel();
+    }
+  };
+
   return (
     <div className="lesson-popup-cnt">
       <div className="lesson-new-cnt">
@@ -133,16 +164,18 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
           />
         )}
         <div className="form-right-header">
-          <h3 className="course-new-title form-right-heading">
-            Create New Lesson
-          </h3>
+          <div className="back-btn" onClick={() => cancel()}>
+            <img src={BackIcon} alt="back" className="back-icon-img" />
+          </div>
           <div className="top-btn-cnt">
-            <div
-              className="add-new-lesson-btn cancel-btn"
-              onClick={() => cancel()}
-            >
-              Cancel
-            </div>
+            {editData && (
+              <div
+                className="add-new-lesson-btn cancel-btn"
+                onClick={() => handleDelete()}
+              >
+                Delete Lesson
+              </div>
+            )}
             <div
               className="add-new-lesson-btn"
               onClick={() => validateAndUpdateLesson()}
@@ -151,6 +184,9 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
             </div>
           </div>
         </div>
+        <h3 className="course-new-title form-right-heading">
+          Create New Lesson
+        </h3>
         <div className="new-lesson-top">
           <div className="lesson-name-cnt">
             <p>Lesson Title</p>
@@ -267,7 +303,7 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
                     className="sublesson-title-input center-media sublesson-card-input"
                     onClick={() => window.open(sublesson?.link)}
                   >
-                    <p className="sublesson-title-txt">play video</p>
+                    <p className="sublesson-title-txt">{`open ${sublesson.type}`}</p>
                   </div>
                 </div>
                 <div

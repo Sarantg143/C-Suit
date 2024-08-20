@@ -42,7 +42,7 @@ const CourseContent = () => {
         // console.log(response.data.course);
 
         const userInfo = localStorage.getItem("userid");
-        console.log(userInfo)
+        // console.log(userInfo)
         if (userInfo) {
           const userID = userInfo;
           setUserId(userID);
@@ -117,11 +117,14 @@ const CourseContent = () => {
             try {
               const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-              await axios.post(`https://csuite-production.up.railway.app/api/completevideo/`, {
-                userId,
-                courseId,
-                completedVideos: [],
-              });
+              await axios.post(
+                `https://csuite-production.up.railway.app/api/completevideo/`,
+                {
+                  userId,
+                  courseId,
+                  completedVideos: [],
+                }
+              );
               // alert("posting in effect");
               // console.log("New entry created with empty completed videos.");
             } catch (postErr) {
@@ -258,14 +261,23 @@ const CourseContent = () => {
 
   const renderContent = (link, typeManual) => {
     // if (link.type === "video") {
+    console.log(link);
     if (typeManual === "video") {
       return (
+        // <iframe
+        //   title={
+        //     !currentCourseData.title ? "Video Title" : currentCourseData.title
+        //   }
+        //   className="embed-responsive-item"
+        //   src={link}
+        //   allow="autoplay"
+        //   referrerPolicy="strict-origin-when-cross-origin"
+        //   allowFullScreen
+        // ></iframe>
         <iframe
-          title={
-            !currentCourseData.title ? "Video Title" : currentCourseData.title
-          }
+          title={currentCourseData.title || "Video Title"}
           className="embed-responsive-item"
-          src={link}
+          src={`https://player.vimeo.com/video/${link.split("/").pop()}`}
           allow="autoplay"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
@@ -357,13 +369,20 @@ const CourseContent = () => {
           <div className="videoBox">
             <div className="embed-responsive embed-responsive-16by9">
               {courseData?.lessons.length > 0 &&
+                // renderContent(
+                //   !currentCourseData.link
+                //     ? courseData.videoUrl === "http://yourvideo.url"
+                //       ? "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
+                //       : courseData.videoUrl
+                //     : currentCourseData.link === "#"
+                //     ? "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
+                //     : currentCourseData.link,
+                //   // !currentCourseData.type ? "video" : "audio"
+                //   currentCourseData.type ? currentCourseData.type : "video"
+                // )
                 renderContent(
                   !currentCourseData.link
-                    ? courseData.videoUrl === "http://yourvideo.url"
-                      ? "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
-                      : courseData.videoUrl
-                    : currentCourseData.link === "#"
-                    ? "https://player.vimeo.com/video/988747921?title=0&byline=0&portrait=0&sidedock=0"
+                    ? courseData.videoUrl
                     : currentCourseData.link,
                   // !currentCourseData.type ? "video" : "audio"
                   currentCourseData.type ? currentCourseData.type : "video"
@@ -417,8 +436,8 @@ const CourseContent = () => {
                             }`
                       }
                     >
-                      <div className="lesson-meta">
-                        <div className="lesson-title">
+                      <div className="CClesson-meta">
+                        <div className="CClesson-title">
                           <div>
                             {index + 1}&nbsp;.&nbsp;{lesson.title}
                           </div>
