@@ -213,12 +213,12 @@ const Profile = () => {
         `${apiBaseUrl}/user/${profileData._id}`,
         formData
       );
-      
+
       localStorage.setItem(
         "userDataUpdated",
         JSON.stringify(response.data.user)
       );
-      
+
       if (response.status !== 200) {
         console.error("Error updating profile:", response.data);
       }

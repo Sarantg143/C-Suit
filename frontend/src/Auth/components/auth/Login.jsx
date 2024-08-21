@@ -78,7 +78,7 @@ const Login = ({ toggleSlide }) => {
             "userDataUpdated",
             JSON.stringify(res.data.user)
           );
-          console.log(res.data.user);
+          // console.log(res.data.user);
           if (res.data.user.type == "user") {
             localStorage.setItem("isloggedin", true);
             localStorage.setItem("userid", res.data.user._id);

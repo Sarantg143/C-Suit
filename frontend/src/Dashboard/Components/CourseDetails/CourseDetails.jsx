@@ -6,6 +6,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { Tabs, Tab, Accordion } from "react-bootstrap";
 import PaymentSuccess from "../PaymentSuccess/PaymentSuccess";
 import ErrorDataFetchOverlay from "../Error/ErrorDataFetchOverlay";
+import { fetchUserData } from "../../../api/baseapi";
 import settingsSVG from "../Assets/SVG/settings.svg";
 import lightningSVG from "../Assets/SVG/lightning.svg";
 import tickIconSVG from "../Assets/SVG/tickIcon.svg";
@@ -26,9 +27,12 @@ const CourseDetails = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const status = params.get("status");
+  const userDataString = localStorage.getItem("userDataUpdated");
+  const userData = JSON.parse(userDataString);
 
   useEffect(() => {
-    setPaymentSuccess(status === "success" ? true : false || false);
+    // Commented out the strip
+    // setPaymentSuccess(status === "success" ? true : false || false);
 
     const fetchData = async () => {
       try {
@@ -59,34 +63,75 @@ const CourseDetails = () => {
 
   let navigate = useNavigate();
 
-  const makepayment = async (name, id, price) => {
+  // commentedout the stripe
+  // const makepayment = async (name, id, price) => {
+  //   if (localStorage.getItem("isloggedin") === "true") {
+  //     const stripe = await loadStripe(
+  //       "pk_test_51PUVZZRrG0ZkGYrr3y8s7r35TsoywTtRefCFB64KvnZNuuU2kotNOBp8AOZMPfyejU5Ah1DG4vXjwyig9AZXFmNv00Etljhki6"
+  //     );
+  //     let data = { name: name, id: id, price: price };
+
+  //     const response = await axios.post(
+  //       "https://csuite-production.up.railway.app/api/payment/create-checkout-session",
+  //       data,
+  //       {
+  //         headers: { "Content-Type": "application/json" }, // Set Content-Type header
+  //       }
+  //     );
+
+  //     // console.log(response)
+
+  //     const result = stripe.redirectToCheckout({
+  //       sessionId: response.data.id,
+  //     });
+
+  //     if (result.error) {
+  //       console.log(result.error);
+  //     }
+  //     setPaymentSuccess(true);
+
+  //   } else {
+  //     navigate("../Authentication");
+  //   }
+  // };
+
+  const makepayment = async (courseName, courseId, userId) => {
     if (localStorage.getItem("isloggedin") === "true") {
-      const stripe = await loadStripe(
-        "pk_test_51PUVZZRrG0ZkGYrr3y8s7r35TsoywTtRefCFB64KvnZNuuU2kotNOBp8AOZMPfyejU5Ah1DG4vXjwyig9AZXFmNv00Etljhki6"
-      );
-      let data = { name: name, id: id, price: price };
+      try {
+        const response = await axios.put(
+          `https://csuite-production.up.railway.app/api/user/updatecourse/${userId}`,
+          { courseId, courseName }
+        );
 
-      const response = await axios.post(
-        "https://csuite-production.up.railway.app/api/payment/create-checkout-session",
-        data,
-        {
-          headers: { "Content-Type": "application/json" }, // Set Content-Type header
+        if (response.data.success) {
+          setPaymentSuccess(true);
+          fetchData(userId);
+        } else {
+          alert("Error Occured !");
         }
-      );
-
-      // console.log(response)
-
-      const result = stripe.redirectToCheckout({
-        sessionId: response.data.id,
-      });
-
-      if (result.error) {
-        console.log(result.error);
+      } catch (error) {
+        console.error("Error updating the course:", error);
       }
     } else {
       navigate("../Authentication");
     }
   };
+
+  async function fetchData(id) {
+    try {
+      const res = await fetchUserData(id);
+      // console.log(res.data.user.coursePurchased);
+
+      const userDataUpdated =
+        JSON.parse(localStorage.getItem("userDataUpdated")) || {};
+
+      userDataUpdated.coursePurchased = res.data.user.coursePurchased || [];
+
+      localStorage.setItem("userDataUpdated", JSON.stringify(userDataUpdated));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleLessonClick = (index) => {
     setActiveLesson(index === activeLesson ? "" : index);
@@ -118,7 +163,7 @@ const CourseDetails = () => {
   }
 
   // const resolveSVGPath = (relativePath) => {
-  //   return require(`../Assets/SVG/${relativePath}`);
+  //  return require(`../Assets/SVG/${relativePath}`);
   // };
 
   // const resolveSVGPath = () => {
@@ -148,6 +193,7 @@ const CourseDetails = () => {
       {paymentSuccess && (
         <>
           <PaymentSuccess
+            userName={userData.name}
             courseId={courseId}
             price={courseContentDetailsData.price}
             courseTitle={courseContentDetailsData.title}
@@ -397,7 +443,7 @@ const CourseDetails = () => {
                   makepayment(
                     courseContentDetailsData.title,
                     courseId,
-                    courseContentDetailsData?.price
+                    userData._id
                   )
                 }
                 className="CDBuyBtn"

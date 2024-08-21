@@ -8,7 +8,6 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 export const googlePopup = async (navigate, Courseid) => {
-
   let loc = "";
 
   const res = await signInWithPopup(auth, provider)
@@ -102,16 +101,16 @@ export const googlePopup = async (navigate, Courseid) => {
 
 function login(data) {
   // Assuming data is already an object
-  const userData = data;
-  console.log(data._id)
+  const userData = data.user ? data.user : data;
+
   toast.success("Login Successful!");
-  localStorage.setItem("userDataUpdated", JSON.stringify(userData));
+  localStorage.setItem("userDataUpdated", JSON.stringify(data));
   localStorage.setItem("isloggedin", true);
   localStorage.setItem("userid", data._id);
   localStorage.setItem("name", data.name);
   localStorage.setItem("email", data.email);
   localStorage.setItem("linkedin", data.linkedin);
   localStorage.setItem("elacomplete", data.elaComplete);
-  
+
   return userData.elacomplete ? "home" : "quick-assessment";
 }
