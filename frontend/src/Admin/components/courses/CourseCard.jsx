@@ -17,9 +17,9 @@ const CourseCard = ({ data }) => {
         className="course-img"
       />
       <h4 className="course-card-title">{data?.title}</h4>
-      <p className="course-card-description">{data?.description?.slice(0,110)}..</p>
+      <p className="course-card-description">{data?.description?.slice(0,80)}..</p>
       <div className="course-edit-btn">
-        <p>Edit Course</p>
+      <p>Edit Course</p>
       </div>
     </div>
   );

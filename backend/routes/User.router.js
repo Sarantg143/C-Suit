@@ -82,11 +82,14 @@ userRouter.put('/:id', upload.fields([{ name: 'profilePic' }, { name: 'profileBa
       const hashedPassword = await bcrypt.hash(password, 10);
       rest.password = hashedPassword;
     }
-    if (req.files.profilePic) {
-      rest.profilePic = req.files.profilePic[0].buffer.toString('base64');
-    }
-    if (req.files.profileBanner) {
-      rest.profileBanner = req.files.profileBanner[0].buffer.toString('base64');
+    
+    if (req.files) {
+      if (req.files.profilePic) {
+        rest.profilePic = req.files.profilePic[0].buffer.toString('base64');
+      }
+      if (req.files.profileBanner) {
+        rest.profileBanner = req.files.profileBanner[0].buffer.toString('base64');
+      }
     }
 
     const updatedUser = await User.findByIdAndUpdate(req.params.id, rest, { new: true });

@@ -12,6 +12,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 //react-router
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { Elacompleted } from '../../api/baseapi';
 
 const Assessmentsstart = () => {
 
@@ -227,14 +228,22 @@ const Assessmentsstart = () => {
   }
   };
 
-  function testcomplete(){
+  async function testcomplete (){
     let sum = 0;
     for (let i = 0; i < Object.values(score).length; i++) {
       sum += Object.values(score)[i];
     }
-    setFinalScore(sum);
-    localStorage.setItem("finalScore", sum);
-    navigate("/finish-assessment")
+    try {
+      const res = await Elacompleted({testScore:sum,elaComplete:true})
+      console.log(res)
+     if(res){
+      setFinalScore(sum);
+      localStorage.setItem("finalScore", sum);
+      navigate("/finish-assessment") 
+     }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

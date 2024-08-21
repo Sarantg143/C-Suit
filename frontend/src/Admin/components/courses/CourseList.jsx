@@ -28,7 +28,7 @@ useEffect(()=>{
     <div className="course-list-cnt">
       <div className="course-list-header">
         <h1>Course List</h1>
-        <div className="add-course-btn" onClick={() => navigate("Courses/new")}>
+        <div className="admin-add-course-btn" onClick={() => navigate("Courses/new")}>
           <h3 className="top-btn-text">New Course</h3>
         </div>
       </div>

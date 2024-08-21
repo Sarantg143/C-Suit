@@ -21,3 +21,5 @@ export const signupCheck = (userdata, config) =>
 export const fetchela = () => API.get("/api/user/fetchela");
 
 export const fetchUserData = (id) => API.get(`/api/user/${id}`)
+
+export const Elacompleted =(userId,data)=> API.put(`/api/user/${userId}`,data)

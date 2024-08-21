@@ -35,14 +35,14 @@ const ForgotPassword = ({ toggleSlide, updateEmail }) => {
 
   const handleRequestOtp = async () => {
     if (isValidEmail(userEmail)) {
-      // try {
-      //   const response = await sendPasswordResetEmail(auth, userEmail);
-      //   console.log(response);
-      //   updateEmail(userEmail);
-      //   toggleSlide("email-response");
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      try {
+        const response = await sendPasswordResetEmail(auth, userEmail);
+        console.log(response);
+        updateEmail(userEmail);
+        toggleSlide("email-response");
+      } catch (error) {
+        console.log(error);
+      }
       // sendEmail
     } else {
       toast.error("Enter valid Email");

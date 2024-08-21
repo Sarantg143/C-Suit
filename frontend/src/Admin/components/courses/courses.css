@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+h3, h2 , p{
+  margin: 0;
+}
+
+
 input[type="file"] {
   margin-top: 0;
   margin: 0;
@@ -40,7 +45,7 @@ input[type="file"] {
   align-items: center;
 }
 
-.add-course-btn {
+.admin-add-course-btn {
   width: 8rem;
   height: 2.5rem;
   display: flex;
@@ -53,6 +58,7 @@ input[type="file"] {
 }
 
 .top-btn-text {
+  font-size: 1rem;
   font-weight: 400;
 }
 
@@ -70,20 +76,21 @@ input[type="file"] {
 
 .course-card {
   width: 10rem;
-  height: 15rem;
+  height: 20rem;
   background: #ffffff;
   border-radius: 0.5rem;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: .5rem;
   box-shadow: 1px 1px 10px 2px rgb(224, 224, 224);
   /* gap: 0.5rem; */
 }
 
 .course-img {
   width: 100%;
-  height: 6rem;
+  height: 5rem;
   object-fit: cover;
   border-radius: 0.5rem;
 }
@@ -100,7 +107,7 @@ input[type="file"] {
 
 .course-edit-btn {
   width: 100%;
-  height: 2rem;
+  min-height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;

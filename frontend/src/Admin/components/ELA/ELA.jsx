@@ -53,7 +53,6 @@ const ELA = () => {
   const handleNext = async () => {
     const updateIndex = currentQuestion?.updateIndex;
     const sectionCopy =[...currentTest.sections]
-
     if (updateIndex === null) {
       console.log("executing");
       const updatedQuestions = await addNewQuestion(
@@ -115,6 +114,7 @@ const ELA = () => {
     };
     fetchEla();
   }, []);
+
   useEffect(() => {
     const getTimeInSeconds = () => {
       const seconds = UTCtoSeconds(time);

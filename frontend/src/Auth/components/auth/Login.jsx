@@ -74,6 +74,7 @@ const Login = ({ toggleSlide }) => {
             password: form?.password,
           });
           toast.success("Login Successful");
+          console.log(res.data)
           localStorage.setItem(
             "userDataUpdated",
             JSON.stringify(res.data.user)
