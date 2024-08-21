@@ -27,15 +27,16 @@ const Enrolled = () => {
 
         // isUserLogin ?
         const userInfo = JSON.parse(localStorage.getItem("userDataUpdated"));
-        console.log(userInfo);
+        // console.log(userInfo);
         if (userInfo) {
           const { coursePurchased } = userInfo;
+          const courseIds = coursePurchased.map((course) => course.courseId);
 
           // Checking course vangiyacha ?
           if (
-            coursePurchased.length === 0 ||
-            (coursePurchased.length === 1 &&
-              (coursePurchased[0] === "" || coursePurchased[0] === null))
+            courseIds.length === 0 ||
+            (courseIds.length === 1 &&
+              (courseIds[0] === "" || courseIds[0] === null))
           ) {
             setHasPurchasedCourses(false);
           } else {
@@ -44,7 +45,7 @@ const Enrolled = () => {
 
           // Filtering
           const filteredCourses = allCourses.filter((course) =>
-            coursePurchased.includes(course._id)
+            courseIds.includes(course._id)
           );
           setCoursesData(filteredCourses);
         } else {

@@ -7,7 +7,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./PaymentSuccess.css";
 
-const PaymentSuccess = ({ courseId, price, courseTitle }) => {
+const PaymentSuccess = ({ courseId, price, courseTitle, userName }) => {
   const [countdown, setCountdown] = useState(10);
   const [paymentDetails, setPaymentDetails] = useState(null);
   const navigate = useNavigate();
@@ -39,9 +39,9 @@ const PaymentSuccess = ({ courseId, price, courseTitle }) => {
       courseTitle: courseTitle,
       referenceNumber: "1234567890",
       merchantName: "Example Merchant",
-      paymentMethod: "Credit Card",
+      paymentMethod: "Debit Card",
       paymentTime: "10:30 AM, July 10, 2024",
-      sender: "John Doe",
+      sender: userName,
     };
 
     setPaymentDetails(fetchedPaymentDetails);

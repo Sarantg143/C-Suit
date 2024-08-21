@@ -28,11 +28,15 @@ const Courses = () => {
         if (userInfo) {
           const { coursePurchased } = userInfo;
 
+          const purchasedCourseIds = coursePurchased.map(
+            (course) => course.courseId
+          );
+
           // Checking course vangiyacha ?
-          if (coursePurchased.length > 0) {
+          if (purchasedCourseIds.length > 0) {
             // Filtering
             const remainingCourses = allCourses.filter(
-              (course) => !coursePurchased.includes(course._id)
+              (course) => !purchasedCourseIds.includes(course._id)
             );
 
             setCoursesData(remainingCourses);
