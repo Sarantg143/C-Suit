@@ -234,7 +234,9 @@ const Assessmentsstart = () => {
       sum += Object.values(score)[i];
     }
     try {
-      const res = await Elacompleted({testScore:sum,elaComplete:true})
+     const Id = localStorage.getItem('userid')
+     console.log(Id)
+      const res = await Elacompleted(Id,{testScore:sum,elaComplete:true})
       console.log(res)
      if(res){
       setFinalScore(sum);

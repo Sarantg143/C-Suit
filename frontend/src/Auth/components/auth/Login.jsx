@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import assets from "../assets/assets";
 import { auth } from "../../firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 import { isStrongPassword, isValidEmail } from "../../utils/validityCheck";
 import { googlePopup } from "../../firebase/auth_google_popup";
 import { signinMicrosoft } from "../../firebase/auth_microsoft_execute";
@@ -74,7 +74,7 @@ const Login = ({ toggleSlide }) => {
             password: form?.password,
           });
           toast.success("Login Successful");
-          console.log(res.data)
+          console.log(res.data);
           localStorage.setItem(
             "userDataUpdated",
             JSON.stringify(res.data.user)
@@ -233,7 +233,6 @@ const Login = ({ toggleSlide }) => {
     if (type === "microsoft") {
       res = await signinMicrosoft();
     }
-    console.log(res);
   };
 
   return (

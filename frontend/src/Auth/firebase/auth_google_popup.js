@@ -10,7 +10,7 @@ const provider = new GoogleAuthProvider();
 export const googlePopup = async (navigate, Courseid) => {
   let loc = "";
 
-  const res = await signInWithPopup(auth, provider)
+  await signInWithPopup(auth, provider)
     .then(async (result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
@@ -19,7 +19,9 @@ export const googlePopup = async (navigate, Courseid) => {
 
       // Check if the user already exists
       try {
+        console.log('Check if the user already exists')
         const checkResponse = await check({ email: user.email });
+        console.log("checkResponse",checkResponse)
 
         if (checkResponse.status === 200) {
           toast.success("User already registered. Logging in...");
@@ -112,5 +114,5 @@ function login(data) {
   localStorage.setItem("linkedin", data.linkedin);
   localStorage.setItem("elacomplete", data.elaComplete);
 
-  return userData.elacomplete ? "home" : "quick-assessment";
+  return userData.elaComplete ? "home" : "quick-assessment";
 }
