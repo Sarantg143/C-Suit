@@ -107,7 +107,7 @@ const CourseDetails = () => {
           setPaymentSuccess(true);
           fetchData(userId);
         } else {
-          alert("Error Occured !");
+          console.error("Failed to update course:", response.data.message);
         }
       } catch (error) {
         console.error("Error updating the course:", error);
