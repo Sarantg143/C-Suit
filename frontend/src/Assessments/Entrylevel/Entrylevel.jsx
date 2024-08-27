@@ -34,18 +34,19 @@ const Entrylevel = () => {
         async function fetchELA(){
           try {
 
-            axios
-            .get(`https://csuite-production.up.railway.app/api/question`)
-            .then((res) => {
-                console.log(res.data[0])
-            })  
+            // axios
+            // .get(`https://csuite-production.up.railway.app/api/question`)
+            // .then((res) => {
+            //     console.log(res.data[0])
+            // })  
 
             const response = await axios.get(`https://csuite-production.up.railway.app/api/question`);
-            // console.log(JSON.parse(response.data))
-            var data = questionData;
+            console.log("response.data",response?.data[0])
+            // var data = questionData;
+            var data = response?.data[0];
             console.log(data)
-            localStorage.setItem("TimeLeft", 1800)
-            settime(1800);
+            localStorage.setItem("TimeLeft", data?.time)
+            settime(data?.time);
             localStorage.setItem("questionData", JSON.stringify(data))
             var total = 0;
             for(var index in data.sections){
