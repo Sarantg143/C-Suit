@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const ChapterProgressSchema = new mongoose.Schema({
   chapterId: {
-    type: Number, 
+    type: Number,
     required: true
   },
   watched: {
@@ -15,7 +15,7 @@ const ChapterProgressSchema = new mongoose.Schema({
 
 const LessonProgressSchema = new mongoose.Schema({
   lessonId: {
-    type: Number, 
+    type: Number,
     required: true
   },
   chapters: {
@@ -103,7 +103,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [false, 'Password field required'],
-    select: false 
+    select: false
   },
   linkedIn: {
     type: String,
@@ -159,12 +159,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [false, 'Social media ID required'],
     unique: true,
-    sparse: true 
+    sparse: true
   },
   courseProgress: [CourseProgressSchema],
   type: { type: String, default: 'user' },
   firstLogin: { type: Boolean, default: true },
   elaComplete: { type: Boolean, default: false },
+  joinedDate: { type: Date, default: new Date }
 }, { timestamps: true });
 
 // Hash the password

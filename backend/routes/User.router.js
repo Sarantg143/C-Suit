@@ -53,6 +53,7 @@ userRouter.get('/:id', async (req, res) => {
 userRouter.post('/', upload.fields([{ name: 'profilePic' }, { name: 'profileBanner' }]), async (req, res) => {
   try {
     const { password, socialMediaId, ...rest } = req.body;
+    const date = new Date()
     const profilePic = req.files.profilePic ? req.files.profilePic[0].buffer.toString('base64') : null;
     const profileBanner = req.files.profileBanner ? req.files.profileBanner[0].buffer.toString('base64') : null;
 

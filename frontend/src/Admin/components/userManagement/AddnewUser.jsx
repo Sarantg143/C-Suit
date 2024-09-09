@@ -28,6 +28,7 @@ const AddnewUser = ({ closeNewUser }) => {
     try {
       const res = await addnewUser(formData);
       console.log(res);
+      if(res) closeNewUser()
     } catch (error) {
       console.log(error);
     }
