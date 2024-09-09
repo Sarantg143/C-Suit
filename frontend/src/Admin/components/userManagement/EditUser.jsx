@@ -1,5 +1,4 @@
 import React from "react";
-import potrate from "../Assets/Images/potrate-1.jpg";
 import Trash from "../Assets/Images/trash.png";
 import Edit from "../Assets/Images/edit.png";
 import { deleteUser } from "../../api/baseApi";
@@ -13,13 +12,14 @@ const EditUser = ({ open, openEdit, data }) => {
       console.log(error);
     }
   };
+
   return (
     <div
       className="edit-user-cnt"
       style={{ right: open?.open ? "1rem" : " -28rem" }}
     >
       <div className="profile-details-cnt">
-        <img src={potrate} alt="potrate" className="profile-details-img" />
+        <img src={`data:image/png;base64,${data?.profilePic}`} alt="potrate" className="profile-details-img" />
         <h4>{data?.name}</h4>
         <div className="action-btn-cnt">
           <img

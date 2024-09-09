@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { addnewUser } from "../../api/baseApi";
+import { hasNullField } from "../../hooks/newCourseFunctions";
 
 const AddnewUser = ({ closeNewUser }) => {
   const [newUserData, setNewUserData] = useState({
@@ -9,7 +10,7 @@ const AddnewUser = ({ closeNewUser }) => {
     position: null,
     gender: null,
     profileImg: null,
-    password:null,
+    password: null,
   });
 
   const handleChnageData = (type, value) => {
@@ -17,20 +18,24 @@ const AddnewUser = ({ closeNewUser }) => {
   };
 
   const createNewUser = async () => {
-    const formData = new FormData();
-    formData.append("name", newUserData.name);
-    formData.append("email", newUserData.email);
-    formData.append("companyname", newUserData.companyname);
-    formData.append("position", newUserData.position);
-    formData.append("gender", newUserData.gender);
-    formData.append("profilePic", newUserData.profileImg);
-    formData.append("password", newUserData.password);
-    try {
-      const res = await addnewUser(formData);
-      console.log(res);
-      if(res) closeNewUser()
-    } catch (error) {
-      console.log(error);
+    if (!hasNullField(newUserData)) {
+      const formData = new FormData();
+      formData.append("name", newUserData.name);
+      formData.append("email", newUserData.email);
+      formData.append("companyname", newUserData.companyname);
+      formData.append("position", newUserData.position);
+      formData.append("gender", newUserData.gender);
+      formData.append("profilePic", newUserData.profileImg);
+      formData.append("password", newUserData.password);
+      try {
+        const res = await addnewUser(formData);
+        console.log(res);
+        if (res) closeNewUser()
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      window.alert("Please fill all fields")
     }
   };
 
@@ -98,7 +103,7 @@ const AddnewUser = ({ closeNewUser }) => {
             className="course-name-cnt name-input user-input "
             style={{ position: "relative" }}
           >
-            <p className="file-upload ">{newUserData?.profileImg?.name ? newUserData?.profileImg?.name.slice(0,20) :"Upload profile image"  }</p>
+            <p className="file-upload ">{newUserData?.profileImg?.name ? newUserData?.profileImg?.name.slice(0, 20) : "Upload profile image"}</p>
             <input
               type="file"
               name=""
@@ -131,7 +136,7 @@ const AddnewUser = ({ closeNewUser }) => {
               name=""
               id=""
               className="name-input "
-              // onChange={(e) => handleChnageData("gender", e.target.value)}
+            // onChange={(e) => handleChnageData("gender", e.target.value)}
             />
           </div>
         </form>
