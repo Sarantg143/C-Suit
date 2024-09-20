@@ -125,12 +125,12 @@ const Edit = ({ courseDetails }) => {
     setCourseData({ ...courseData, overviewPoints: newOverviews });
   };
 
-  const handleRemoveLesson = (title) => {
-    const newLessonList = courseDetails.lessons?.filter(
-      (lesson) => lesson.title !== title
-    );
-    setCourseData({ ...courseData, lessons: newLessonList });
-  };
+  const removeLessonFromCourse = (lesson) => {
+    const newLessons = [...courseData.lessons];
+    newLessons.splice(lesson.updateIndex, 1);
+    console.log(newLessons)
+    setCourseData({...courseData, lessons: newLessons });
+  }
 
   const openEditLesson = (lesson, index) => {
     lesson.updateIndex = index;
@@ -152,7 +152,7 @@ const Edit = ({ courseDetails }) => {
       }}
     >
       <div className="top-header-cnt">
-        <div className="back-btn" onClick={() => navigate("/")}>
+        <div className="back-btn" onClick={() => navigate("/admin")}>
           <img src={BackIcon} alt="back" className="back-icon-img" />
         </div>
         {editCourse ? (
@@ -368,7 +368,7 @@ const Edit = ({ courseDetails }) => {
           addLesson={(lesson) => addLessontoCourse(lesson)}
           editData={popupOpen?.data}
           cancel={() => setPopupOpen({ open: false, data: null })}
-          removeThisLesson={(Id) => handleRemoveLesson(Id)}
+          removeThisLesson={(lesson) => removeLessonFromCourse(lesson)}
         />
       )}
     </div>

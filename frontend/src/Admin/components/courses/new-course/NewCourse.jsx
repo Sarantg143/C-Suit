@@ -129,7 +129,7 @@ const NewCourse = () => {
           </p>
         </div>
         <div className="top-btn-cnt">
-          <div className=" course-delete-btn " onClick={() => navigate("/")}>
+          <div className=" course-delete-btn " onClick={() => navigate("/admin")}>
             Cancel
           </div>
           <div className="add-new-lesson-btn" onClick={() => uploadCourse()}>
