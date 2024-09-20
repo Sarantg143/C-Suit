@@ -56,7 +56,7 @@ courseDetailsRouter.post('/add', upload.single('image'), parseJsonFields, async 
       whoIsThisFor,
       whatYouGet,
       syllabus,
-      price
+      price: Number(JSON.parse(price))
     });
 
     await newCourse.save();
