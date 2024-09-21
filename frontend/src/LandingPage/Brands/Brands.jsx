@@ -111,12 +111,24 @@ const Brands = () => {
       <div className='row'>
         <div className='col-md-6'>
           <div className='lms-info'>
-            <h1 className='why-lms'>Why use LMS?</h1>
+            <h1 className='why-lms'>Do I really, need C-Suite coaching?</h1>
             <h3 className='why-para-one'>Preferred by educators worldwide.<br /> Adopted by leading educational institutions.</h3>
-            <p className='why-para-two'>LMS offers a comprehensive suite of tools, services, and content, facilitating streamlined course management and delivery, empowering educators to enhance learning experiences effectively.</p>
+            <p className='why-para-two'>
+              In an average large enterprise, there are about 10,000 employees. Of which:
+              <ul >
+                <li>200 to 300 are considered as High Performers.</li>
+                <li>Only 5 to 10 have true strategic authority, i.e., CXOs.</li>
+              </ul>
+              <ul>
+                <li>Most High Performers never make it as CXOs in their career, despite topping all performance metrics.</li>
+                <li>To be a CXO, your employer needs to be Irreplaceably Dependent on you.</li>
+                <li>To be Irreplaceably Dependent, you must constantly deliver company-wide contributions.</li>
+                <li>This work style is not taught in B-schools or company training; it requires special coaching and mentorship.</li>
+              </ul>
+            </p>
           </div>
 
-          <div className='stats-container'>
+          {/* <div className='stats-container'>
             <div className='stat-item'>
               <strong ref={usersRef}>
                 {usersInView && <CountUp end={data.stats.users} duration={2} separator="," />}M+
@@ -135,7 +147,7 @@ const Brands = () => {
               </strong>
               <p className='para-tool'>COURSES</p>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className='col-md-6'>

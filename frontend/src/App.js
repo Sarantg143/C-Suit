@@ -61,7 +61,21 @@ function App() {
       <Router>
         <ToastContainer />
         <Routes>
-          <Route path="/" element={[<Landingpage/>,<Management/>,<Brands/>,<Success/>,<Engage/>,<CoursesLandingPage/>,<Partners/>,<FindPricing/>,<ContactUs/>,<Footer/>]}/>
+          <Route path="/" 
+          element={
+            [<Landingpage/>,
+            <Management/>,
+            <Brands/>,
+            // <Success/>,
+            // <Engage/>,
+            <CoursesLandingPage/>,
+            <Partners/>,
+            <FindPricing/>,
+            <ContactUs/>,
+            <Footer/>
+            ]
+            }
+          />
 
           <Route path='/authentication' element={<Auth />}/>
           <Route path="reset-password" element={<ResetPage />} />

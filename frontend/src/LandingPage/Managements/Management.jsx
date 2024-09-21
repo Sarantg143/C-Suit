@@ -1,69 +1,130 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./managements.css";
-import {
-  MdOutlineAssessment,
-  MdOutlineUnsubscribe,
-  MdDashboard,
-} from "react-icons/md";
+import { MdOutlineAssessment, MdOutlineUnsubscribe, MdDashboard } from "react-icons/md";
 import { LiaUniversitySolid } from "react-icons/lia";
-
-
-//Aos animations
-import Aos from "aos"
-import 'aos/dist/aos.css'
+import Aos from "aos";
+import 'aos/dist/aos.css';
+import p1 from "./Asset/panchimam.jpeg"
 
 const contentData = {
   Assessment: {
-    title: "Officials",
+    title: "ABOUT US",
     content: [
       {
-        title: "Chief Executive Officer (CEO)",
-        text: "Oversees the overall operations and strategic direction of the company, responsible for driving growth and ensuring organizational success."
+        title: "The core purpose of C-Suite is to groom High Performing Executives and help them make it to the boardroom decades earlier than usual.",
+        text: "• High-performing executives with great potential in strategic leadership spend decades to reach positions where they can steer the course of their companies."
       },
       {
-        title: "Chief Technology Officer (CTO)",
-        text: "Leads the technology vision and development initiatives, driving innovation and ensuring technical excellence aligns with business goals."
+        text: "• Many make it to CXO positions in the dusk years of their career and do not have enough time to contribute real value.",
       },
       {
-        title: "Chief Financial Officer (CFO)",
-        text: "Manages the financial aspects of the company, including budgeting and financial reporting to optimize financial performance and support strategic decision making."
+        title: "C-Suite will help you climb the corporate ladder faster, giving you enough time to meaningfully contribute.",
+        text: "• For your training and grooming C-Suite Academy has assembled a team of CXOs who have not only made it to the boardroom early in their careers, but have also made pioneering contributions to their industry.",
+      },
+      {
+        text: "• C-Suite Academy is a Govt of India DIPP-recognized startup",
       }
     ],
     imageClass: "card-image"
   },
   Subscribe: {
-    title: "Subscribe",
+    title: "Team | Faculty",
     content: [
       {
-        title: "Community Engagement",
-        text: "Emphasize the sense of community subscribers can experience, including opportunities for discussions, collaboration, and networking."
+        component: () => (
+          <div className="custom-cards-container">
+            {/* 1st Card */}
+            <div className="custom-card">
+              <img className="custom-card-image" src={p1} alt="Person" />
+              <div className="custom-card-content">
+                <h2 className="custom-card-title">Panchi Samuthirakani, Founder & MD</h2>
+                <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
+                <p className="custom-card-text">• Director, Lion’s Club</p>
+                <button className="custom-card-button">Learn More</button>
+              </div>
+            </div>
+            
+            {/* 2nd Card */}
+            <div className="custom-card">
+              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <div className="custom-card-content">
+                <h2 className="custom-card-title">Selvaraj Veerachamy, <br />Co-Founder</h2>
+                <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
+                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
+                <button className="custom-card-button">Learn More</button>
+              </div>
+            </div>
+
+            {/* 3rd Card */}
+            <div className="custom-card">
+              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <div className="custom-card-content">
+                <h2 className="custom-card-title">M R Muthuswamy (MRM), CTO</h2>
+                <p className="custom-card-text">•  CTO,<br />Founder,<br /> Procrama</p>
+                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
+                <button className="custom-card-button">Learn More</button>
+              </div>
+            </div>
+
+            {/* 4th Card */}
+            <div className="custom-card">
+              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <div className="custom-card-content">
+                <h2 className="custom-card-title">Col (Dr.) Inderjeet Singh, CISO</h2>
+                <p className="custom-card-text">• Chief Cyber Officer, CyberSleuths</p>
+                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
+                <button className="custom-card-button">Learn More</button>
+              </div>
+            </div>
+
+          </div>
+        ),
       },
-      {
-        title: "Support and Assistance",
-        text: "Assure subscribers of dedicated support and assistance, including access to customer service, FAQs, and troubleshooting guides."
-      },
-      {
-        title: "Flexible Subscription Plans",
-        text: "Outline the different subscription plans available, including their features, duration, and pricing options.Highlight the benefits of subscribing, such as gaining access to exclusive courses, resources, and features."
-      }
     ],
-    imageClass: "card-image-subscribe"
+    // imageClass: "card-image-subscribe",
   },
+  
   Dashboard: {
-    title: "Dashboard",
+    title: "Expert",
     content: [
       {
-        title: "Comprehensive Insights",
-        text: "Explain how the dashboard provides users with comprehensive insights into their learning progress, including course completion rates, quiz scores, and participation levels."
+        component: () => (
+          <div className="custom-cards-container">
+            {/* 1st Card */}
+            <div className="custom-card">
+              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <div className="custom-card-content">
+                <h2 className="custom-card-title">Srinivas Mahankali, Experts Panel.</h2>
+                <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
+                <p className="custom-card-text">• Director, Lion’s Club</p>
+                <button className="custom-card-button">Learn More</button>
+              </div>
+            </div>
+            
+            {/* 2nd Card */}
+            <div className="custom-card">
+              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <div className="custom-card-content">
+                <h2 className="custom-card-title">Venkatraman Rajendran, Experts Panel</h2>
+                <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
+                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
+                <button className="custom-card-button">Learn More</button>
+              </div>
+            </div>
+
+            {/* 3rd Card */}
+            {/* <div className="custom-card">
+              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <div className="custom-card-content">
+                <h2 className="custom-card-title">M R Muthuswamy (MRM), CTO</h2>
+                <p className="custom-card-text">•  CTO,<br />Founder,<br /> Procrama</p>
+                <p className="custom-card-text">• Expert in Operational Excellence</p>
+                <button className="custom-card-button">Learn More</button>
+              </div>
+            </div> */}
+          </div>
+        ),
       },
-      {
-        title: "Real-Time Analytics",
-        text: "Highlight the feature of real-time analytics, enabling users to track their performance instantly and make data-driven decisions to improve their learning outcomes."
-      },
-      {
-        title: "Resource Management",
-        text: "Outline how the dashboard facilitates resource management, enabling users to organize and access course materials, assignments, and supplementary resources efficiently."
-      }
     ],
     imageClass: "card-image-dashboard"
   },
@@ -100,22 +161,23 @@ const Management = () => {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-8">
+          <div className={content.title==="Team | Faculty"||content.title==="Expert"?"col-md-12":"col-md-8"}>
             <div data-aos="fade-right" className="changes-head">
               <h1 className="content-title">{content.title}</h1>
               <div className="total-content">
                 <div className="container-para">
                   {content.content.map((item, index) => (
                     <div key={index}>
-                      <strong className="item-title" >{item.title}</strong>
-                      <p className="pt-1">{item.text}</p>
+                      <strong className="item-title">{item.title}</strong>
+                      {item.text && <p className="pt-1">{item.text}</p>}
+                      {item.component && <item.component />} 
                     </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className={content.title==="Team | Faculty"||content.title==="Expert"?"col-md-0":"col-md-4"}>
             <div data-aos="fade-left" className="image-sytle">
               <div className={content.imageClass}></div>
             </div>
@@ -125,28 +187,24 @@ const Management = () => {
     );
   };
 
-  //aos fatch 
-  useEffect(()=>{
+  useEffect(() => {
     Aos.init();
-  },[])
+  }, []);
 
   return (
     <>
       <div className="container-fluid" id="what">
         <div className="container-lms-head">
           <div className="heading-lms" data-aos="fade-up">
-            <div  >What is LMS ?</div>
+            <div>Why C-suite Academy?</div>
             <div>
-              Streamline educational course administration and
-              <br /> delivery to enhance learning experience
+              So, you aced your performance review again. Yet, you do
+              <br /> not see a clear career progression to the C-suite.
             </div>
             <div>
-              LMS: Empowering educators to streamline course management,
-              tracking, and delivery for an enhanced
+              There is only one quality that paves your way to upper management, Irreplaceable Dependence
               <br />
-              <p id="para3">
-                learning experience all from one centralized platform
-              </p>
+              <p id="para3">C-suite Academy will help you cultivate this.</p>
             </div>
           </div>
         </div>
@@ -155,24 +213,24 @@ const Management = () => {
       <div className="container-read">
         <div className="buttons-all">
           <button data-aos="fade-right" className="txt-access" onClick={() => handleButtonClick("Assessment")}>
-            <MdOutlineAssessment style={{marginTop:"0px"}} className="text-primary-color mr-2" size="1.5rem" />
-            <span>Assessment</span>
+            <MdOutlineAssessment className="text-primary-color mr-2" size="1.5rem" />
+            <span>ABOUT US</span>
           </button>
           <button data-aos="fade-right" className="txt-access" onClick={() => handleButtonClick("Subscribe")}>
-            <MdOutlineUnsubscribe style={{marginTop:"0px"}} className="text-primary-color mr-2" size="1.5rem" />
-            <span>Subscribe</span>
+            <MdOutlineUnsubscribe className="text-primary-color mr-2" size="1.5rem" />
+            <span>TEAM/FACULTY</span>
           </button>
           <button data-aos="fade-left" className="txt-access" onClick={() => handleButtonClick("Dashboard")}>
-            <MdDashboard style={{marginTop:"0px"}} className="text-primary-color mr-2" size="1.5rem" />
-            <span>Dashboard</span>
+            <MdDashboard className="text-primary-color mr-2" size="1.5rem" />
+            <span>EXPERTS</span>
           </button>
           <button data-aos="fade-left" className="txt-access" onClick={() => handleButtonClick("Learning")}>
-            <LiaUniversitySolid style={{marginTop:"0px"}} className="text-primary-color mr-2" size="1.5rem" />
-            <span>Learning</span>
+            <LiaUniversitySolid className="text-primary-color mr-2" size="1.5rem" />
+            <span>LEARNING GOURNEY</span>
           </button>
         </div>
       </div>
-      {/* Render the selected content */}
+
       {renderContent()}
     </>
   );

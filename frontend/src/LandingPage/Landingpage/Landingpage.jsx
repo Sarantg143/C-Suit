@@ -26,13 +26,13 @@ const Landingpage = () => {
         <Header/>
         <section className="hero-section" >
           <div className="container-landing-text">
-            <div className='text-learn' data-aos="fade-down" data-aos-duration="3000">
+            {/* <div className='text-learn' data-aos="fade-down" data-aos-duration="3000">
               <PiStudent size='2.5rem' />
               <p>Learn more</p>
-            </div>
-            <p className='text-grow'  data-aos="zoom-in-up"  data-aos-duration="1000">Grow your skills,</p>
-            <p className='text-build'  data-aos="zoom-in-up"  data-aos-duration="2000">Build your future</p>
-            <p className='text-course-development'  data-aos="zoom-in-up"  data-aos-duration="3000">Streamlining course development and delivery</p>
+            </div> */}
+            <p className='text-grow'  data-aos="zoom-in-up"  data-aos-duration="1000">On average CXOs earn 14X, more</p>
+            <p className='text-build'  data-aos="zoom-in-up"  data-aos-duration="2000">than Top-performers</p>
+            <p className='text-course-development'  data-aos="zoom-in-up"  data-aos-duration="3000">Only 3% of Top-performers make it to the C-suite.</p>
             <div data-aos="fade-up"
             data-aos-duration="3000">
               <button type="button" className="button-unlock" >Unlock Your Potential</button>
