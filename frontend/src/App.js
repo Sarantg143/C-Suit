@@ -48,48 +48,49 @@ import ELApage from "./Admin/components/ELA/ELApage";
 
 
 
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from './Auth/components/auth/Auth';
 import ResetPage from './Auth/components/auth/ResetPage';
 import LinkedInAuth from './Auth/components/auth/LinkedInAuth';
 import AuthContainer from './Auth';
+import MoreDetails from './LandingPage/Managements/MoreDetails';
 
 function App() {
   return (
-    <div style={{width:"100vw", overflow:"hidden"}}>
+    <div style={{ width: "100vw", overflow: "hidden" }}>
       <Router>
         <ToastContainer />
         <Routes>
-          <Route path="/" 
-          element={
-            [<Landingpage/>,
-            <Management/>,
-            <Brands/>,
-            // <Success/>,
-            // <Engage/>,
-            <CoursesLandingPage/>,
-            <Partners/>,
-            <FindPricing/>,
-            <ContactUs/>,
-            <Footer/>
-            ]
+          <Route path="/"
+            element={
+              [<Landingpage />,
+              <Management />,
+              <Brands />,
+              // <Success/>,
+              // <Engage/>,
+              <CoursesLandingPage />,
+              <Partners />,
+              <FindPricing />,
+              <ContactUs />,
+              <Footer />
+              ]
             }
           />
-
-          <Route path='/authentication' element={<Auth />}/>
+          <Route path="/management/details" index element={<MoreDetails />}></Route>
+          <Route path='/authentication' element={<Auth />} />
           <Route path="reset-password" element={<ResetPage />} />
           <Route path="auth-linkedin-bridge" element={<LinkedInAuth />} />
 
           {/* <Route path="/authentication" element={<Authentication></Authentication>}></Route> */}
-          <Route path="/quick-assessment" element={<Entrylevel/>}/>
-          <Route path="/assessment-page" element={<Assessmentsstart/>}/>
-          <Route path="/finish-assessment" element={<Closelevel/>}/>
+          <Route path="/quick-assessment" element={<Entrylevel />} />
+          <Route path="/assessment-page" element={<Assessmentsstart />} />
+          <Route path="/finish-assessment" element={<Closelevel />} />
 
           <Route path='/payment' element={<Pricing></Pricing>}></Route>
 
-          <Route path='/home' element={<Dashboard/>}>
-            <Route path='' index element={<Home/>}></Route>
+          <Route path='/home' element={<Dashboard />}>
+            <Route path='' index element={<Home />}></Route>
             <Route path="courses" index element={<Courses />}></Route>
             <Route path="profile" index element={<Profile />}></Route>
             <Route path="enrolled" index element={<Enrolled />}></Route>
@@ -112,15 +113,15 @@ function App() {
             <Route path="courseContent/:courseId" element={<CourseContent />} />
             <Route path="courseDetails/:courseId" element={<CourseDetails />} />
           </Route>
-          <Route path='/admin' element={<AllCourses/>}/>
+          <Route path='/admin' element={<AllCourses />} />
           <Route path="/admin/Courses/new" element={<AddnewCourse />} />
           <Route path="/admin/Course/edit" element={<EditCourse />} />
           <Route path="/admin/users" element={<Allusers />} />
           <Route path="/admin/purchases" element={<PurchasesPage />} />
           <Route path="admin/instructors" element={<AllInstructors />} />
-      <Route path="admin/ela" element={<ELApage />} />
-      </Routes>
-     </Router>  
+          <Route path="admin/ela" element={<ELApage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

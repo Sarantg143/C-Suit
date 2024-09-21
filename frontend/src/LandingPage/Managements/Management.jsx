@@ -5,6 +5,7 @@ import { LiaUniversitySolid } from "react-icons/lia";
 import Aos from "aos";
 import 'aos/dist/aos.css';
 import p1 from "./Asset/panchimam.jpeg"
+import { useNavigate } from "react-router-dom";
 
 const contentData = {
   Assessment: {
@@ -31,7 +32,7 @@ const contentData = {
     title: "Team | Faculty",
     content: [
       {
-        component: () => (
+        component: ({ navigation }) => (
           <div className="custom-cards-container">
             {/* 1st Card */}
             <div className="custom-card">
@@ -40,10 +41,10 @@ const contentData = {
                 <h2 className="custom-card-title">Panchi Samuthirakani, Founder & MD</h2>
                 <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
                 <p className="custom-card-text">• Director, Lion’s Club</p>
-                <button className="custom-card-button">Learn More</button>
+                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
               </div>
             </div>
-            
+
             {/* 2nd Card */}
             <div className="custom-card">
               <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
@@ -51,7 +52,7 @@ const contentData = {
                 <h2 className="custom-card-title">Selvaraj Veerachamy, <br />Co-Founder</h2>
                 <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button">Learn More</button>
+                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
               </div>
             </div>
 
@@ -62,7 +63,7 @@ const contentData = {
                 <h2 className="custom-card-title">M R Muthuswamy (MRM), CTO</h2>
                 <p className="custom-card-text">•  CTO,<br />Founder,<br /> Procrama</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button">Learn More</button>
+                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
               </div>
             </div>
 
@@ -73,7 +74,7 @@ const contentData = {
                 <h2 className="custom-card-title">Col (Dr.) Inderjeet Singh, CISO</h2>
                 <p className="custom-card-text">• Chief Cyber Officer, CyberSleuths</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button">Learn More</button>
+                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
               </div>
             </div>
 
@@ -83,12 +84,12 @@ const contentData = {
     ],
     // imageClass: "card-image-subscribe",
   },
-  
+
   Dashboard: {
     title: "Expert",
     content: [
       {
-        component: () => (
+        component: ({ navigation }) => (
           <div className="custom-cards-container">
             {/* 1st Card */}
             <div className="custom-card">
@@ -97,10 +98,10 @@ const contentData = {
                 <h2 className="custom-card-title">Srinivas Mahankali, Experts Panel.</h2>
                 <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
                 <p className="custom-card-text">• Director, Lion’s Club</p>
-                <button className="custom-card-button">Learn More</button>
+                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
               </div>
             </div>
-            
+
             {/* 2nd Card */}
             <div className="custom-card">
               <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
@@ -108,7 +109,7 @@ const contentData = {
                 <h2 className="custom-card-title">Venkatraman Rajendran, Experts Panel</h2>
                 <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button">Learn More</button>
+                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
               </div>
             </div>
 
@@ -150,6 +151,7 @@ const contentData = {
 
 const Management = () => {
   const [selectedContent, setSelectedContent] = useState("Assessment");
+  const navigate = useNavigate()
 
   const handleButtonClick = (content) => {
     setSelectedContent(content);
@@ -161,7 +163,7 @@ const Management = () => {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className={content.title==="Team | Faculty"||content.title==="Expert"?"col-md-12":"col-md-8"}>
+          <div className={content.title === "Team | Faculty" || content.title === "Expert" ? "col-md-12" : "col-md-8"}>
             <div data-aos="fade-right" className="changes-head">
               <h1 className="content-title">{content.title}</h1>
               <div className="total-content">
@@ -170,14 +172,14 @@ const Management = () => {
                     <div key={index}>
                       <strong className="item-title">{item.title}</strong>
                       {item.text && <p className="pt-1">{item.text}</p>}
-                      {item.component && <item.component />} 
+                      {item.component && <item.component navigation={(path) => navigate(path)} />}
                     </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
-          <div className={content.title==="Team | Faculty"||content.title==="Expert"?"col-md-0":"col-md-4"}>
+          <div className={content.title === "Team | Faculty" || content.title === "Expert" ? "col-md-0" : "col-md-4"}>
             <div data-aos="fade-left" className="image-sytle">
               <div className={content.imageClass}></div>
             </div>
@@ -197,7 +199,7 @@ const Management = () => {
         <div className="container-lms-head">
           <div className="heading-lms" data-aos="fade-up">
             <div>Why C-suite Academy?</div>
-            <div>
+            <div> 
               So, you aced your performance review again. Yet, you do
               <br /> not see a clear career progression to the C-suite.
             </div>
