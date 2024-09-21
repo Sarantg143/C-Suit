@@ -13,7 +13,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
   const [currentLesson, setCurrentLesson] = useState({
     title: null,
     chapter: [],
-    testId: "",
+    testId: null,
     updateIndex: null,
     description: "test-description",
   });
@@ -24,8 +24,9 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     updateIndex: null,
     type: null,
   });
-
   const [sublessonFile, setSublessonFile] = useState(null);
+  const [uploadingFile, setUploadingFile] = useState(false);
+
 
   const handleAddFile = (file) => {
     const filetype = findFileType(file);
@@ -64,6 +65,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
   };
 
   const addSublessons = async () => {
+    setUploadingFile(true)
     const newLessons = [...currentLesson.chapter];
     if (currentSublesson.title && currentSublesson.duration && sublessonFile) {
       let Link;
@@ -74,12 +76,14 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
         currentSublesson.type === "doc"
       )
         Link = await getDocumentUrl();
+      setUploadingFile(false)
       if (
         currentSublesson.updateIndex === null ||
         currentSublesson.updateIndex === undefined
       ) {
         newLessons.push({ ...currentSublesson, link: Link });
         setCurrentLesson({ ...currentLesson, chapter: newLessons });
+        setSublessonFile(null)
         setCurrentSublesson({
           title: "",
           duration: "",
@@ -93,6 +97,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
           link: Link,
         };
         setCurrentLesson({ ...currentLesson, chapter: newLessons });
+        setSublessonFile(null)
         setCurrentSublesson({
           title: "",
           duration: "",
@@ -108,6 +113,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     ) {
       newLessons[currentSublesson.updateIndex] = currentSublesson;
       setCurrentLesson({ ...currentLesson, chapter: newLessons });
+      setSublessonFile(null)
       setCurrentSublesson({
         title: "",
         duration: "",
@@ -134,7 +140,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     setCurrentLesson({ ...currentLesson, chapter: newsubLessons });
   };
 
-  console.log(currentSublesson);
+  console.log(editData);
 
   useEffect(() => {
     if (editData) setCurrentLesson(editData);
@@ -146,7 +152,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     );
     console.log(editData?.title);
     if (confirm) {
-      removeThisLesson(editData.title);
+      removeThisLesson(editData);
       cancel();
     }
   };
@@ -180,7 +186,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
               className="add-new-lesson-btn"
               onClick={() => validateAndUpdateLesson()}
             >
-              Add to Course
+              {editData?.updateIndex ? 'Add to Course' :' Update Course'}
             </div>
           </div>
         </div>
@@ -246,7 +252,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
               </div>
               <div className="input-cnt add-sublesson-btn">
                 <div className="sublesson-title-input center-media">
-                  <p>upload video</p>
+                  <p>{sublessonFile?.name || 'upload-media'}</p>
                   <input
                     type="file"
                     name="video-upload"
@@ -262,7 +268,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
                 className="add-new-lesson-btn add-sublesson-btn"
                 onClick={() => addSublessons()}
               >
-                Add
+                {uploadingFile ? "uploading.." : ' Add'}
               </div>
             </div>
           </div>
@@ -308,7 +314,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
                 </div>
                 <div
                   className="add-new-lesson-btn add-sublesson-btn edit-sublesson-btn"
-                  //   onClick={() => setPopupOpen(false)}
+                //   onClick={() => setPopupOpen(false)}
                 >
                   <div className="delete-btn">
                     <img

@@ -75,6 +75,13 @@ const NewCourse = () => {
     setPopupOpen({ open: false });
   };
 
+  const removeLessonFromCourse = (lesson) => {
+    const newLessons = [...courseData.lessons];
+    newLessons.splice(lesson.updateIndex, 1);
+    console.log(newLessons)
+    setCourseData({...courseData, lessons: newLessons });
+  }
+
   const uploadCourse = async () => {
     if (
       courseData.title &&
@@ -122,7 +129,7 @@ const NewCourse = () => {
           </p>
         </div>
         <div className="top-btn-cnt">
-          <div className=" course-delete-btn " onClick={() => navigate("/")}>
+          <div className=" course-delete-btn " onClick={() => navigate("/admin")}>
             Cancel
           </div>
           <div className="add-new-lesson-btn" onClick={() => uploadCourse()}>
@@ -251,7 +258,7 @@ const NewCourse = () => {
               courseData?.lessons?.map((lesson, index) => (
                 <div
                   className="lesson"
-                  onClick={() => setPopupOpen({ open: true, data: lesson })}
+                  onClick={() => setPopupOpen({ open: true, data: {...lesson,updateIndex:index} })}
                 >
                   <h1 className="lesson-number">{index + 1}</h1>
                   <div className="lesson-title-cnt">
@@ -287,6 +294,7 @@ const NewCourse = () => {
           addLesson={(lesson) => addLessontoCourse(lesson)}
           editData={popupOpen?.data}
           cancel={() => setPopupOpen({ open: false, data: null })}
+          removeThisLesson={(lesson)=>removeLessonFromCourse(lesson)}
         />
       )}
     </div>

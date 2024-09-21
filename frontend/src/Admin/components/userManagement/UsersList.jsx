@@ -30,7 +30,8 @@ const UsersList = ({ editAction }) => {
       console.log("strict");
       try {
         const { data } = await allUsers();
-        setUserList(data?.users);
+        let reverseUsers =data?.users?.reverse()
+        setUserList(reverseUsers);
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +66,7 @@ const UsersList = ({ editAction }) => {
             </div>
             <p className="user-name-cnt details-text">{user?.position}</p>
             <p className="details-text user-name-cnt">{user?.companyname}</p>
-            <p className="details-text user-date-cnt">july 4, 2023</p>
+            <p className="details-text user-date-cnt">{user?.joinedDate}</p>
             <img
               src={moreIcon}
               alt="more"
