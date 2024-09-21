@@ -5,6 +5,9 @@ import { LiaUniversitySolid } from "react-icons/lia";
 import Aos from "aos";
 import 'aos/dist/aos.css';
 import p1 from "./Asset/panchimam.jpeg"
+import p2 from "./Asset/selvaraj.jpg"
+import p3 from "./Asset/mrm.jpg"
+import p4 from "./Asset/col.jpg"
 import { useNavigate } from "react-router-dom";
 
 const contentData = {
@@ -39,42 +42,50 @@ const contentData = {
               <img className="custom-card-image" src={p1} alt="Person" />
               <div className="custom-card-content">
                 <h2 className="custom-card-title">Panchi Samuthirakani, Founder & MD</h2>
+                <div class="custom-card-overlay">
                 <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
                 <p className="custom-card-text">• Director, Lion’s Club</p>
                 <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
+                </div>
               </div>
             </div>
 
             {/* 2nd Card */}
             <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <img className="custom-card-image" src={p2} alt="Person" />
               <div className="custom-card-content">
                 <h2 className="custom-card-title">Selvaraj Veerachamy, <br />Co-Founder</h2>
-                <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
+                <div class="custom-card-overlay">
+                <p className="custom-card-text">• Co-Founder/Director,<br /> iSheild Technology Pvt Ltd</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
                 <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
+                </div>
               </div>
             </div>
 
             {/* 3rd Card */}
             <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <img className="custom-card-image" src={p3} alt="Person" />
               <div className="custom-card-content">
                 <h2 className="custom-card-title">M R Muthuswamy (MRM), CTO</h2>
+                <div class="custom-card-overlay">
                 <p className="custom-card-text">•  CTO,<br />Founder,<br /> Procrama</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
                 <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
+                </div>
               </div>
             </div>
 
             {/* 4th Card */}
             <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
+              <img className="custom-card-image" src={p4} alt="Person" />
               <div className="custom-card-content">
                 <h2 className="custom-card-title">Col (Dr.) Inderjeet Singh, CISO</h2>
+                <div class="custom-card-overlay">
                 <p className="custom-card-text">• Chief Cyber Officer, CyberSleuths</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
                 <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
+                </div>
               </div>
             </div>
 
@@ -96,9 +107,11 @@ const contentData = {
               <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
               <div className="custom-card-content">
                 <h2 className="custom-card-title">Srinivas Mahankali, Experts Panel.</h2>
+                <div class="custom-card-overlay">
                 <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
                 <p className="custom-card-text">• Director, Lion’s Club</p>
                 <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
+                </div>
               </div>
             </div>
 
@@ -107,9 +120,11 @@ const contentData = {
               <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
               <div className="custom-card-content">
                 <h2 className="custom-card-title">Venkatraman Rajendran, Experts Panel</h2>
-                <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
+                <div class="custom-card-overlay">
+                <p className="custom-card-text">• Co-Founder/Director,<br /> iSheild Technology Pvt Ltd</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
                 <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
+                </div>
               </div>
             </div>
 
