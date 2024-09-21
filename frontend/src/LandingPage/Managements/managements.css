@@ -257,18 +257,19 @@ height:300px;
 .custom-cards-container {
   display: flex;
   justify-content: space-evenly;
-  gap: 60px;
+  gap: 20px;
   width: 100%;
 }
 
 .custom-card {
   width: 300px;
+  height: 400px;
   background-color: #fff;
   border-radius: 50px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
-  position: relative; /* To allow the overlay to be positioned */
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .custom-card:hover {
@@ -278,7 +279,7 @@ height:300px;
 
 .custom-card-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
@@ -287,23 +288,49 @@ height:300px;
   transform: scale(1.1);
 }
 
-.custom-card-content {
-  padding: 20px;
+/* Position the name at the bottom of the card */
+.custom-card-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  font-size: 1.5rem;
   text-align: center;
-  transition: transform 0.3s ease;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  z-index: 2; /* Ensures the name stays on top of the image */
 }
 
-.custom-card-title {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  color: #333;
+/* Slide Overlay */
+.custom-card-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Transparent background (70% opacity black) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: top 0.4s ease; /* Slide up effect */
+  z-index: 3; /* Overlay stays above the name */
+  color: white; /* Ensure text is visible on the transparent background */
+}
+
+.custom-card:hover .custom-card-overlay {
+  top: 0; /* Slide the overlay up when hovered */
+}
+
+.custom-card-overlay .custom-card-text,
+.custom-card-overlay .custom-card-button {
+  display: block;
 }
 
 .custom-card-text {
   font-size: 1rem;
-  margin: 5px 0;
-  color: #ffffff;
-  display: none; /* Hidden initially */
+  margin: 10px 0;
 }
 
 .custom-card-button {
@@ -315,36 +342,10 @@ height:300px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 10px;
-  display: none; /* Hidden initially */
 }
 
 .custom-card-button:hover {
   background-color: #c02df1;
-}
-
-/* Slide Overlay */
-.custom-card-overlay {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(27, 26, 26, 0.5); /* Slightly transparent white background */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: top 0.4s ease; /* Slide up effect */
-}
-
-.custom-card:hover .custom-card-overlay {
-  top: 0; /* Bring the overlay up on hover */
-}
-
-/* Ensure the text and button are visible in the overlay */
-.custom-card-overlay .custom-card-text, 
-.custom-card-overlay .custom-card-button {
-  display: block;
 }
 
 @media (max-width: 768px) {
@@ -352,22 +353,6 @@ height:300px;
     flex-direction: column;
     align-items: center;
   }
-  .details-cnt {
-    width: 90%;
-  }
-  .management-details-cnt {
-    align-items: center;
-    justify-content: center;
-  }
-  .details-profile-image {
-    width: 10rem;
-    height: 10rem;
-    margin-bottom: 2rem;
-  }
-  .profile-details {
-    width: 100%;
-  }
-
 }
 
 @media (min-width: 1000px) {

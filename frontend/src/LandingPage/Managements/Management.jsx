@@ -69,7 +69,7 @@ const contentData = {
               <div className="custom-card-content">
                 <h2 className="custom-card-title">M R Muthuswamy (MRM), CTO</h2>
                 <div class="custom-card-overlay">
-                <p className="custom-card-text">•  CTO,<br />Founder,<br /> Procrama</p>
+                <p className="custom-card-text">• Founder,<br /> Procrama</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
                 <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
                 </div>
