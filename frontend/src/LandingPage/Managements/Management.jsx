@@ -6,6 +6,9 @@ import { LiaUniversitySolid } from "react-icons/lia";
 import Aos from "aos";
 import 'aos/dist/aos.css';
 import p1 from "./Asset/panchimam.jpeg"
+import p2 from "./Asset/selvaraj.jpg"
+import p3 from "./Asset/mrm.jpg"
+import p4 from "./Asset/col.jpg"
 import { useNavigate } from "react-router-dom";
 import ManagementCard from "./components/ManagementCard";
 
