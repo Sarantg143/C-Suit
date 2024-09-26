@@ -84,7 +84,7 @@ const Management = () => {
                 {content?.title === "Team|Faculty" || content?.title === "Expert" ?
                   (<div className="custom-cards-container">
                     {content?.content.map((memberData, index) => (
-                      <ManagementCard data={memberData} />
+                      <ManagementCard data={memberData} key={index} />
                     ))}
                   </div>) :
                   (<div className="container-para">
