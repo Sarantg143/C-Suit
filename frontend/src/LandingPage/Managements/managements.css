@@ -244,6 +244,8 @@
 
   .container-para{
     padding-top: 2rem;
+    width: 100%;
+
   }
 
   .image-sytle{
@@ -252,12 +254,10 @@
   }
 }
 
-
 .custom-cards-container {
   display: flex;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   gap: 60px;
-  width: 100%;
   /* padding: 2rem; */
 }
 
@@ -286,11 +286,14 @@
 .custom-card:hover .custom-card-image {
   transform: scale(1.1);
   
-
 }
 
 .custom-card-content {
-  padding: 20px;
+  padding: 1.2rem;
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   text-align: center;
 }
 

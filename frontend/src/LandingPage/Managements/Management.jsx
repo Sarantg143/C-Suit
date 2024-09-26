@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./managements.css";
 import { MdOutlineAssessment, MdOutlineUnsubscribe, MdDashboard } from "react-icons/md";
+import MembersData from '../Assets/Data/Members.json'
 import { LiaUniversitySolid } from "react-icons/lia";
 import Aos from "aos";
 import 'aos/dist/aos.css';
 import p1 from "./Asset/panchimam.jpeg"
 import { useNavigate } from "react-router-dom";
+import ManagementCard from "./components/ManagementCard";
 
 const contentData = {
   Assessment: {
@@ -29,105 +31,14 @@ const contentData = {
     imageClass: "card-image"
   },
   Subscribe: {
-    title: "Team | Faculty",
-    content: [
-      {
-        component: ({ navigation }) => (
-          <div className="custom-cards-container">
-            {/* 1st Card */}
-            <div className="custom-card">
-              <img className="custom-card-image" src={p1} alt="Person" />
-              <div className="custom-card-content">
-                <h2 className="custom-card-title">Panchi Samuthirakani, Founder & MD</h2>
-                <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
-                <p className="custom-card-text">• Director, Lion’s Club</p>
-                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
-              </div>
-            </div>
-
-            {/* 2nd Card */}
-            <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
-              <div className="custom-card-content">
-                <h2 className="custom-card-title">Selvaraj Veerachamy, <br />Co-Founder</h2>
-                <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
-                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
-              </div>
-            </div>
-
-            {/* 3rd Card */}
-            <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
-              <div className="custom-card-content">
-                <h2 className="custom-card-title">M R Muthuswamy (MRM), CTO</h2>
-                <p className="custom-card-text">•  CTO,<br />Founder,<br /> Procrama</p>
-                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
-              </div>
-            </div>
-
-            {/* 4th Card */}
-            <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
-              <div className="custom-card-content">
-                <h2 className="custom-card-title">Col (Dr.) Inderjeet Singh, CISO</h2>
-                <p className="custom-card-text">• Chief Cyber Officer, CyberSleuths</p>
-                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
-              </div>
-            </div>
-
-          </div>
-        ),
-      },
-    ],
+    title: "Team|Faculty",
+    content: MembersData['teamMembers']
     // imageClass: "card-image-subscribe",
   },
 
   Dashboard: {
     title: "Expert",
-    content: [
-      {
-        component: ({ navigation }) => (
-          <div className="custom-cards-container">
-            {/* 1st Card */}
-            <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
-              <div className="custom-card-content">
-                <h2 className="custom-card-title">Srinivas Mahankali, Experts Panel.</h2>
-                <p className="custom-card-text">• Ex-CTO, Indian Overseas Bank</p>
-                <p className="custom-card-text">• Director, Lion’s Club</p>
-                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
-              </div>
-            </div>
-
-            {/* 2nd Card */}
-            <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
-              <div className="custom-card-content">
-                <h2 className="custom-card-title">Venkatraman Rajendran, Experts Panel</h2>
-                <p className="custom-card-text">• Co-Founder/Director, iSheild Technology Pvt Ltd</p>
-                {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button" onClick={() => navigation('management/details')}>Learn More</button>
-              </div>
-            </div>
-
-            {/* 3rd Card */}
-            {/* <div className="custom-card">
-              <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
-              <div className="custom-card-content">
-                <h2 className="custom-card-title">M R Muthuswamy (MRM), CTO</h2>
-                <p className="custom-card-text">•  CTO,<br />Founder,<br /> Procrama</p>
-                <p className="custom-card-text">• Expert in Operational Excellence</p>
-                <button className="custom-card-button">Learn More</button>
-              </div>
-            </div> */}
-          </div>
-        ),
-      },
-    ],
-    imageClass: "card-image-dashboard"
+    content: MembersData['expertPanel']
   },
   Learning: {
     title: "Learning",
@@ -167,15 +78,25 @@ const Management = () => {
             <div data-aos="fade-right" className="changes-head">
               <h1 className="content-title">{content.title}</h1>
               <div className="total-content">
-                <div className="container-para">
-                  {content.content.map((item, index) => (
-                    <div key={index}>
-                      <strong className="item-title">{item.title}</strong>
-                      {item.text && <p className="pt-1">{item.text}</p>}
-                      {item.component && <item.component navigation={(path) => navigate(path)} />}
-                    </div>
-                  ))}
-                </div>
+                {content?.title === "Team|Faculty" || content?.title === "Expert" ?
+                  (<div className="custom-cards-container">
+                    {content?.content.map((memberData, index) => (
+                      <ManagementCard data={memberData} />
+                    ))}
+                  </div>) :
+                  (<div className="container-para">
+                    {content.content.map((item, index) => (
+                      <div key={index}>
+                        <strong className="item-title">{item.title}</strong>
+                        {item.text && <p className="pt-1">{item.text}</p>}
+                        {item.component && (
+                          <item.component />
+                        )
+                        }
+                      </div>
+                    ))}
+                  </div>)
+                }
               </div>
             </div>
           </div>
@@ -199,7 +120,7 @@ const Management = () => {
         <div className="container-lms-head">
           <div className="heading-lms" data-aos="fade-up">
             <div>Why C-suite Academy?</div>
-            <div> 
+            <div>
               So, you aced your performance review again. Yet, you do
               <br /> not see a clear career progression to the C-suite.
             </div>

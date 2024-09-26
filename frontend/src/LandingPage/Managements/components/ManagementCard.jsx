@@ -1,14 +1,16 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const ManagementCard = () => {
+const ManagementCard = ({ data }) => {
+    const navigate = useNavigate()
     return (
         <div className="custom-card">
             <img className="custom-card-image" src="https://via.placeholder.com/150" alt="Person" />
             <div className="custom-card-content">
-                <h2 className="custom-card-title">Col (Dr.) Inderjeet Singh, CISO</h2>
-                <p className="custom-card-text">• Chief Cyber Officer, CyberSleuths</p>
+                <h2 className="custom-card-title">{data?.name}</h2>
+                <p className="custom-card-text"> • {data?.previousRole || data?.currentRole}</p>
                 {/* <p className="custom-card-text">• Expert in Operational Excellence</p> */}
-                <button className="custom-card-button">Learn More</button>
+                <button className="custom-card-button" onClick={() => navigate('/management/details', { state: { data: data } })}>Learn More</button>
             </div>
         </div>
     )

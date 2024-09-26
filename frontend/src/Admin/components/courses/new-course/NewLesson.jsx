@@ -7,6 +7,7 @@ import { uploadDocument, uploadVedio } from "../../../api/baseApi";
 import { findFileType } from "../../../hooks/newCourseFunctions";
 import BackIcon from "../../Assets/Images/left-arrow.png";
 
+
 const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
   const [openTest, setOpenTest] = useState({ open: false, data: null });
 
@@ -26,7 +27,6 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
   });
   const [sublessonFile, setSublessonFile] = useState(null);
   const [uploadingFile, setUploadingFile] = useState(false);
-
 
   const handleAddFile = (file) => {
     const filetype = findFileType(file);
@@ -186,7 +186,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
               className="add-new-lesson-btn"
               onClick={() => validateAndUpdateLesson()}
             >
-              {editData?.updateIndex ? 'Add to Course' :' Update Course'}
+              {editData?.updateIndex ? 'Add to Course' : ' Update Course'}
             </div>
           </div>
         </div>
@@ -209,20 +209,20 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
                 })
               }
             />
-            <div
-              className="lesson-test-overview-cnt"
-              onClick={() =>
-                setOpenTest({ open: true, data: currentLesson.testId })
-              }
-            >
-              <img src={Test} alt="test" className="test" />
-              <p>
-                {!currentLesson?.testId?.length > 3
-                  ? "No Tests has been created for this lesson"
-                  : `Test click to update`}
-              </p>
-              <div className="lesson-test-overview-btn"></div>
-            </div>
+              <div
+                className="lesson-test-overview-cnt"
+                onClick={() =>
+                  setOpenTest({ open: true, data: currentLesson.testId })
+                }
+              >
+                <img src={Test} alt="test" className="test" />
+                <p>
+                  {!currentLesson?.testId?.length > 3
+                    ? "No Tests has been created for this lesson"
+                    : `Test click to update`}
+                </p>
+                <div className="lesson-test-overview-btn"></div>
+              </div>
           </div>
           <div className="lesson-content-input-cnt">
             <div className="sublesson-name-cnt">
