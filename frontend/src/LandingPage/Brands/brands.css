@@ -26,22 +26,18 @@
 }
 
 .why-para-two ul {
-  list-style-type: disc;  /* Ensures bullet points are shown */
-  padding-left: 1.5rem;   /* Adjusts padding for bullet alignment */
-  margin: 0;              /* Removes extra margins */
+  list-style-type: disc;  
+  padding-left: 1.5rem;   
+  margin: 0;              
   padding-left: 40px;
 }
 
 .why-para-two li {
-  margin-left: 0;         /* Ensures bullets are aligned to the left */
-  line-height: 1.5;       /* Adjusts spacing between list items */
+  margin-left: 0;         
+  line-height: 1.5;       
   text-align: start;
   
 }
-
-  
-
-
 
 /* stats container heres*/
   
@@ -95,9 +91,6 @@
 }
 
 
-
-
-
 .logos-container {
   width: 100%;
   height: 100%; 
@@ -144,5 +137,3 @@
     transform: translateY(-100%);
   }
 } */
-
-

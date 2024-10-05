@@ -14,7 +14,7 @@ const MoreDetails = () => {
             <div className='details-cnt'>
                 <h2 data-aos="fade-up" className='gradientText'> {data?.panel}</h2>
                 <div className='management-details-cnt'>
-                    <img data-aos="fade-up" src={p1} alt="profile" className='details-profile-image' />
+                <img data-aos="fade-up" src={require(``+data.img+``)} alt="profile" className='details-profile-image' />
                     <div className='profile-details' >
                         <h3 data-aos="fade-left" style={{ marginBottom: "1rem" }} >{data?.name} , {data?.role}</h3>
 
@@ -33,6 +33,8 @@ const MoreDetails = () => {
                         <p data-aos="fade-left" style={{ textAlign: "justify" }}>
                             {data?.publicRecognition}
                         </p>
+                        <br />
+                        <p data-aos="fade-left" style={{ textAlign: "justify" }}>  {data?.professionalExperience}</p>                      
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ import p2 from "./Asset/selvaraj.jpg"
 import p3 from "./Asset/mrm.jpg"
 import p4 from "./Asset/col.jpg"
 import { useNavigate } from "react-router-dom";
-import ManagementCard from "./components/ManagementCard";
+import ManagementCard from "./ManagementCard";
 
 const contentData = {
   Assessment: {
@@ -152,7 +152,7 @@ const Management = () => {
           </button>
           <button data-aos="fade-left" className="txt-access" onClick={() => handleButtonClick("Learning")}>
             <LiaUniversitySolid className="text-primary-color mr-2" size="1.5rem" />
-            <span>LEARNING GOURNEY</span>
+            <span>LEARNING JOURNEY</span>
           </button>
         </div>
       </div>
