@@ -186,7 +186,7 @@ const CoursesLandingPage = () => {
                   </ul>
                   <button
                     onClick={() =>
-                      navigate(`/authentication?courseid=${course._id}`)
+                      navigate(`/course-preview`,{state:{course}})
                     }
                     className="lessonDetailBtn3"
                   >

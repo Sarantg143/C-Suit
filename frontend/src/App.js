@@ -55,6 +55,7 @@ import ResetPage from './Auth/components/auth/ResetPage';
 import LinkedInAuth from './Auth/components/auth/LinkedInAuth';
 import AuthContainer from './Auth';
 import MoreDetails from './LandingPage/Managements/MoreDetails';
+import CoursePreview from './LandingPage/Courses/CoursePreview';
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
           />
           <Route path="/management/details" index element={<MoreDetails />}></Route>
           <Route path='/authentication' element={<Auth />} />
+          <Route path='/course-preview' element={<CoursePreview />} />
           <Route path="reset-password" element={<ResetPage />} />
           <Route path="auth-linkedin-bridge" element={<LinkedInAuth />} />
 
