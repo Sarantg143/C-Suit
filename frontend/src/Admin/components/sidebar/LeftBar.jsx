@@ -11,7 +11,7 @@ const LeftBar = () => {
         <img src={logo} alt="Logo" className="logo" />
       </div>
       <div className="menu">
-        <Link to="./" className="menu-item">
+        <Link to="../admin" className="menu-item">
           {/* <FontAwesomeIcon icon="fa-solid fa-fan" className="icon"/> */}
           <span>Dashboard</span>
         </Link>

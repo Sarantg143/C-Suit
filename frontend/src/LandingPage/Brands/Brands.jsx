@@ -111,8 +111,8 @@ const Brands = () => {
       <div className='row'>
         <div className='col-md-6'>
           <div className='lms-info'>
-            <h1 className='why-lms'>Do I really, need C-Suite coaching?</h1>
-            <h3 className='why-para-one'>Preferred by educators worldwide.<br /> Adopted by leading educational institutions.</h3>
+            <h1 className='why-lms'>Do I really, need C-Suite <br />coaching?</h1>
+            {/* <h3 className='why-para-one'>Preferred by educators worldwide.<br /> Adopted by leading educational institutions.</h3> */}
             <p className='why-para-two'>
               In an average large enterprise, there are about 10,000 employees. Of which:
               <ul >
