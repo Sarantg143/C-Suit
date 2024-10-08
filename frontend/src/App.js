@@ -71,7 +71,7 @@ function App() {
               // <Success/>,
               // <Engage/>,
               <CoursesLandingPage />,
-              <Partners />,
+              // <Partners />,
               <FindPricing />,
               <ContactUs />,
               <Footer />

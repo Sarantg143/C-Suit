@@ -73,11 +73,21 @@ const Management = () => {
 
   const renderContent = () => {
     const content = contentData[selectedContent];
+    let classname = "";
+    if(content.title==="Learning"){
+      classname = "col-md-12";
+    }
+    else if(content.title==="ABOUT US"){
+      classname = "col-md-4";
+    }
+    else{
+      classname = "col-md-0"
+    }
     if (!content) return null;
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className={content.title === "Team | Faculty" || content.title === "Expert" ? "col-md-12" : "col-md-8"}>
+          {content.title!=="Learning" && <div className={content.title === "Team | Faculty" || content.title === "Expert" ? "col-md-12" : "col-md-8"}>
             <div data-aos="fade-right" className="changes-head">
               <h1 className="content-title">{content.title}</h1>
               <div className="total-content">
@@ -102,8 +112,8 @@ const Management = () => {
                 }
               </div>
             </div>
-          </div>
-          <div className={content.title === "Team | Faculty" || content.title === "Expert" ? "col-md-0" : "col-md-4"}>
+          </div>}
+          <div className={classname}>
             <div data-aos="fade-left" className="image-sytle">
               <div className={content.imageClass}></div>
             </div>

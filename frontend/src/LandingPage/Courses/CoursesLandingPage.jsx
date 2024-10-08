@@ -196,7 +196,7 @@ const CoursesLandingPage = () => {
               </div>
             ))}
           </div>
-        <div data-aos="fade-up" style={{padding:"5rem 0px 0px 0px"}}>
+        {/* <div data-aos="fade-up" style={{padding:"5rem 0px 0px 0px"}}>
          <h4 onClick={() =>
                       {
                         console.log(localStorage.getItem('isloggedin'))
@@ -207,8 +207,9 @@ const CoursesLandingPage = () => {
                         navigate(`/authentication`)
                     }
                 }
-                    } style={{fontSize:"25px"}}>More <FaArrowRight size='1.2rem'/></h4>
-        </div>
+                    } 
+                    style={{fontSize:"25px"}}>More <FaArrowRight size='1.2rem'/></h4>
+        </div> */}
      </div>
         </div>
       </div>
