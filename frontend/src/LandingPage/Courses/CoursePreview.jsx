@@ -8,7 +8,7 @@ const CoursePreview = () => {
     const courseData = useLocation().state?.course
     const [fullDescription, setFullDescription] = useState(false)
     const navigate = useNavigate()
-    console.log(courseData)
+    console.log(`https://vimeo.com/video${courseData?.videoUrl?.slice(17,)}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`)
     return (
         <div className='preview-page'>
             <div className='course-info-cnt'>
@@ -17,8 +17,13 @@ const CoursePreview = () => {
                     <img src={Book} alt="book" className='lesson-icon' />
                     <p>Lessons {courseData?.lessons?.length}</p>
                 </div>
-                <iframe src={courseData?.videoUrl} allow="autoplay; fullscreen; picture-in-picture; clipboard-write" className='lessons-video-cnt' title="test1"></iframe><script src="https://player.vimeo.com/api/player.js"></script>
-
+                <iframe src={`https://player.vimeo.com/video/${courseData?.videoUrl
+                    .split("/")
+                    .pop()}`}
+                    allow="autoplay"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className='lessons-video-cnt'></iframe>
                 <div className='course-about-cnt'>
                     <h2 className='preview-header'>About This Course</h2>
                     <p>{fullDescription ? courseData?.description : courseData?.description?.slice(0, 250)}<span className='more-btn' onClick={() => setFullDescription(!fullDescription)}>{fullDescription ? 'Less' : 'More..'}</span></p>
