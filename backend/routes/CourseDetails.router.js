@@ -9,27 +9,27 @@ const upload = multer({ storage: storage });
 
 const bufferToBase64 = (buffer) => buffer.toString('base64');
 
-const parseFields = (req, res, next) => {
+const parseJsonFields = (req, res, next) => {
   try {
     if (req.body.overviewPoints && typeof req.body.overviewPoints === 'string') {
-      req.body.overviewPoints = .parse(req.body.overviewPoints);
+      req.body.overviewPoints = JSON.parse(req.body.overviewPoints);
     }
     if (req.body.lessons && typeof req.body.lessons === 'string') {
-      req.body.lessons = .parse(req.body.lessons);
+      req.body.lessons = JSON.parse(req.body.lessons);
     }
     if (req.body.whoIsThisFor && typeof req.body.whoIsThisFor === 'string') {
-      req.body.whoIsThisFor = .parse(req.body.whoIsThisFor);
+      req.body.whoIsThisFor = JSON.parse(req.body.whoIsThisFor);
     }
     if (req.body.whatYouGet && typeof req.body.whatYouGet === 'string') {
-      req.body.whatYouGet = .parse(req.body.whatYouGet);
+      req.body.whatYouGet = JSON.parse(req.body.whatYouGet);
     }
     next();
   } catch (error) {
-    res.status(400).({ message: 'Invalid  in request body', error: error.message });
+    res.status(400).json({ message: 'Invalid JSON in request body', error: error.message });
   }
 };
 
-courseDetailsRouter.post('/add', upload.single('image'), parseFields, async (req, res) => {
+courseDetailsRouter.post('/add', upload.single('image'), parseJsonFields, async (req, res) => {
   try {
     const {
       title,
@@ -56,23 +56,23 @@ courseDetailsRouter.post('/add', upload.single('image'), parseFields, async (req
       whoIsThisFor,
       whatYouGet,
       syllabus,
-      price: Number(.parse(price))
+      price: Number(JSON.parse(price))
     });
 
     await newCourse.save();
-    res.status(201).({ message: 'Course created successfully', newCourse });
+    res.status(201).json({ message: 'Course created successfully', newCourse });
   } catch (error) {
     console.error(error);
-    res.status(500).({ message: 'Error creating course', error: error.message });
+    res.status(500).json({ message: 'Error creating course', error: error.message });
   }
 });
 
 courseDetailsRouter.get('/', async (req, res) => {
   try {
     const courses = await CourseDetail.find();
-    res.status(200).(courses);
+    res.status(200).json(courses);
   } catch (error) {
-    res.status(500).({ message: 'Error fetching courses', error: error.message });
+    res.status(500).json({ message: 'Error fetching courses', error: error.message });
   }
 });
 
@@ -81,15 +81,15 @@ courseDetailsRouter.get('/:id', async (req, res) => {
     const { id } = req.params;
     const course = await CourseDetail.findById(id);
     if (!course) {
-      return res.status(404).({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found' });
     }
-    res.status(200).(course);
+    res.status(200).json(course);
   } catch (error) {
-    res.status(500).({ message: 'Error fetching course', error: error.message });
+    res.status(500).json({ message: 'Error fetching course', error: error.message });
   }
 });
 
-courseDetailsRouter.put('/edit/:id', upload.single('image'), parseFields, async (req, res) => {
+courseDetailsRouter.put('/edit/:id', upload.single('image'), parseJsonFields, async (req, res) => {
   try {
     const { id } = req.params;
     const {
@@ -125,13 +125,13 @@ courseDetailsRouter.put('/edit/:id', upload.single('image'), parseFields, async 
     );
 
     if (!updatedCourse) {
-      return res.status(404).({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found' });
     }
 
-    res.status(200).({ message: 'Course updated successfully', updatedCourse });
+    res.status(200).json({ message: 'Course updated successfully', updatedCourse });
   } catch (error) {
     console.error(error);
-    res.status(500).({ message: 'Error updating course', error: error.message });
+    res.status(500).json({ message: 'Error updating course', error: error.message });
   }
 });
 
@@ -140,12 +140,12 @@ courseDetailsRouter.delete('/delete/:id', async (req, res) => {
     const { id } = req.params;
     const deletedCourse = await CourseDetail.findByIdAndDelete(id);
     if (!deletedCourse) {
-      return res.status(404).({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found' });
     }
-    res.status(200).({ message: 'Course deleted successfully', deletedCourse });
+    res.status(200).json({ message: 'Course deleted successfully', deletedCourse });
   } catch (error) {
     console.error(error);
-    res.status(500).({ message: 'Error deleting course', error: error.message });
+    res.status(500).json({ message: 'Error deleting course', error: error.message });
   }
 });
 
