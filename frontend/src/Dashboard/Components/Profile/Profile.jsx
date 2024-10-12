@@ -45,7 +45,33 @@ const Profile = () => {
     const userInfo = JSON.parse(localStorage.getItem("userDataUpdated"));
     if (userInfo) {
       // console.log(response.data.user);
-      const data = userInfo;
+      console.log(userInfo)
+      console.log(profileData)
+      let data = userInfo;
+      data = {
+        "name": userInfo.name,
+        "email": userInfo.email,
+        "phoneNumber": userInfo.phoneNumber,
+        "testScore": "0",
+        "idCard": userInfo.idCard,
+        "gender": userInfo.gender,
+        "profilePic": profileImage,
+        "profileBanner": profileBanner,
+        "address": userInfo.address,
+        "companyname": userInfo.companyname,
+        "position": userInfo.address,
+        "linkedIn": userInfo.linkedIn,
+        "bio": userInfo.bio,
+        "emergencyContact": {
+        "name": '',
+        "relationship": '',
+        "phone": '',
+        "address": '',
+        },
+        "coursePurchased": [{ "courseId": "669137b147b28bc5497c0db7", "courseName": "Strategic Leadership and Management" }, { "courseId": "66978f14222fb4742783b9f6", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66975cc1874d284a5d306d84", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66962a90868b1ce57400c814", "courseName": "Chief Information Security Officer - CISO Certification" }, { "courseId": "66989ac2579d34a2e76dbb85", "courseName": "Chief Information Security Officer - CISO Certification" }], "testScores": [], "courseProgress": [], "createdAt": "2024-10-03T15:50:46.085Z", "updatedAt": "2024-10-03T15:50:46.085Z", "__v": 0
+      }
+      // data =
+      //   { "_id": "66febd566a1b97907290bb3f", "gender":"female", "name": "keerthu", "email": "keerthu@gmail.com", "linkedIn": "https://www.linkedin.com/in/keerthu", "type": "user", "firstLogin": true, "elaComplete": false, "coursePurchased": [{ "courseId": "669137b147b28bc5497c0db7", "courseName": "Strategic Leadership and Management" }, { "courseId": "66978f14222fb4742783b9f6", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66975cc1874d284a5d306d84", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66962a90868b1ce57400c814", "courseName": "Chief Information Security Officer - CISO Certification" }, { "courseId": "66989ac2579d34a2e76dbb85", "courseName": "Chief Information Security Officer - CISO Certification" }], "testScores": [], "courseProgress": [], "createdAt": "2024-10-03T15:50:46.085Z", "updatedAt": "2024-10-03T15:50:46.085Z", "__v": 0 }
       // console.log(response.data.users[0]._id);
       setProfileData(data);
 
@@ -184,11 +210,11 @@ const Profile = () => {
       });
     }
   };
-
-  const handleSaveClick = async () => {
+  console.log(profileData)
+  const handleSaveClick = async (e) => {
+    localStorage.setItem("userDataUpdated", JSON.stringify(profileData));
     setIsEditing(false);
     const formData = new FormData();
-
     for (const key in profileData) {
       if (key === "emergencyContact") {
         const emergencyContact = profileData[key];
@@ -199,13 +225,13 @@ const Profile = () => {
         formData.append(key, profileData[key]);
       }
     }
+    console.log(formData)
     if (selectedProfileImage) {
       formData.append("profilePic", selectedProfileImage);
     }
     if (selectedProfileBanner) {
       formData.append("profileBanner", selectedProfileBanner);
     }
-
     try {
       const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -213,7 +239,6 @@ const Profile = () => {
         `${apiBaseUrl}/user/${profileData._id}`,
         formData
       );
-
       localStorage.setItem(
         "userDataUpdated",
         JSON.stringify(response.data.user)
@@ -411,7 +436,7 @@ const Profile = () => {
               name="email"
               value={profileData?.email}
               onChange={handleChange}
-              disabled={!isEditing}
+              readOnly
             />
           </div>
           <div
