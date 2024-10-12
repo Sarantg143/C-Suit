@@ -6,6 +6,7 @@ import imgd from "../Assets/Images/imagenotxt2.png";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ErrorDataFetchOverlay from "../Error/ErrorDataFetchOverlay";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa6";
+import LandingCourses from '../Assets/Data/LandingCourses.json'
 import Aos from "aos"
 import 'aos/dist/aos.css'
 
@@ -160,29 +161,29 @@ const CoursesLandingPage = () => {
           <div className='engage-head' style={{margin:"0px", padding:"0px"}}>
           <h2 style={{fontSize:"28px", paddingBottom:"3rem"}} data-aos="fade-up">Our Courses</h2>
           <div data-aos="fade-up" className="courseContainer3">
-            {filterCourses(selectedFilters).map((course, index) => index < 4 && (
-              <div className="courseCard3" key={course._id}>
+            {LandingCourses?.courses?.map((course, index) => index < 4 && (
+              <div className="courseCard3" key={index}>
                 <div className="courseOverlay3">
                   <div className="courseImageBox3">
                     <img
-                      src={course.image ? resolveImagePath(course.image) : imgd}
-                      alt={course.title}
+                      src={course?.image ? resolveImagePath(course?.image) : imgd}
+                      alt={course?.Title}
                       className="courseImage3"
                     />
-                    <div className="courseImageTxt3">{course.title}</div>
+                    <div className="courseImageTxt3">{course?.Title}</div>
                   </div>
                   <div className="courseDetails3">
-                    <p>{truncateDescription(course.description)}...</p>
+                    <p>{truncateDescription(course?.Overview[0])}...</p>
                     <button className="courseDetailBtn3">View Details</button>
                   </div>
                 </div>
                 <div className="courseLessonBox3">
                   <h5>Lessons</h5>
                   <ul>
-                    {course.lessons.slice(0, 3).map((lesson, index) => (
-                      <li key={index}>{lesson.title}</li>
+                    {course?.Topics.slice(0, 3).map((lesson, index) => (
+                      <li key={index}>{lesson}</li>
                     ))}
-                    {course.lessons.length > 3 && <li>...and more</li>}
+                    {course?.Topics.length > 3 && <li>...and more</li>}
                   </ul>
                   <button
                     onClick={() =>
