@@ -504,7 +504,7 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div className="profileSeperator"></div>
+          {/* <div className="profileSeperator"></div>
           <h5>Emergency Contact</h5>
           <div
             className={`${inputClassName(
@@ -560,7 +560,7 @@ const Profile = () => {
               onChange={handleChange}
               disabled={!isEditing}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
