@@ -11,26 +11,27 @@ export const addNewQuestion = async (testId, section, question) => {
   console.log(testId, section, question);
   try {
     const { data } = await addQuestion(testId, section, question);
+    console.log(data)
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const editQuestions = async (testId, section, questionIndex,questionData) => {
-  console.log(testId, section, questionIndex,questionData);
+export const editQuestions = async (testId, section, questionIndex, questionData) => {
+  console.log(testId, section, questionIndex, questionData);
   try {
-    const { data } = await updateQuestion(testId, section, questionIndex,questionData);
+    const { data } = await updateQuestion(testId, section, questionIndex, questionData);
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const editQuestionDetails = async (testId,sectionData) => {
-  console.log(testId,sectionData);
+export const editQuestionDetails = async (testId, sectionData) => {
+  console.log(testId, sectionData);
   try {
-    const { data } = await updateQuestionDetails(testId,sectionData);
+    const { data } = await updateQuestionDetails(testId, sectionData);
     console.log(data);
     return data;
   } catch (error) {
@@ -59,10 +60,10 @@ export const deleteSingleSection = async (testId, section) => {
   }
 };
 
-export const addSection = async (testId,sectionData) => {
-  console.log(testId,sectionData);
+export const addSection = async (testId, sectionData) => {
+  console.log(testId, sectionData);
   try {
-    const { data } = await addSectionToTest(testId,sectionData);
+    const { data } = await addSectionToTest(testId, sectionData);
     console.log(data);
     return data;
   } catch (error) {

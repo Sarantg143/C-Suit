@@ -28,10 +28,10 @@ function Header() {
                    <NavSlider  />
                 </li>
                 <li className="nav-item active ml-4">
-                <Link className="nav-link text-light ">Why C-Suite?</Link>
+                <a className="nav-link text-light " href='#why'>Why C-Suite?</a>
                 </li>
                 <li className="nav-item active ml-4">
-                <Link className="nav-link text-light">Courses</Link>
+                <a className="nav-link text-light" href=''>Courses</a>
                 </li>
                 <li className="nav-item active ml-4">
                 <Link className="nav-link text-light">Customers</Link>

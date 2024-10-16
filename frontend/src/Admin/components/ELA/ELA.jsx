@@ -84,8 +84,8 @@ const ELA = () => {
         currentQuestion?.updateIndex,
         currentQuestion
       );
-      setCurrentTest(updatedQuestions)
-      setCurrentQuestion({...updatedQuestions?.sections[currentSection]?.questions[nextIndex],updateIndex:nextIndex});
+      if(updatedQuestions) setCurrentTest(updatedQuestions)
+      if(updatedQuestions) setCurrentQuestion({...updatedQuestions?.sections[currentSection]?.questions[nextIndex],updateIndex:nextIndex});
     }
   };
 
@@ -154,7 +154,7 @@ const ELA = () => {
       TestId,
       questionDetails
     );
-    setCurrentTest(data);
+    if(data) setCurrentTest(data);
   };
 
   const deleteQuestionByIndex = async () => {
@@ -165,7 +165,7 @@ const ELA = () => {
         currentTest?.sections[currentSection].section,
         currentQuestion.updateIndex
       );
-      setCurrentTest(res);
+     if(res) setCurrentTest(res);
     }
   };
 
@@ -183,9 +183,10 @@ const ELA = () => {
     const res = await addSection(TestId, {
       section: currentTest?.sections?.length + 1,
     });
-    setCurrentTest(res);
+   if(res) setCurrentTest(res);
   };
 
+  console.log(currentQuestion,currentSection)
   return (
     <div className="ela-test-page">
       <p className="ela-title">Create or Edit your ELA assessment</p>

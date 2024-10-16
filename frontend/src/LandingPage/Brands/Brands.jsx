@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
 import './brands.css';
@@ -50,45 +50,45 @@ const data = {
     { name: 'Salt Security', src: salt },
     { name: 'Trade Republic', src: trade },
     { name: 'The Warehouse Group', src: warehouse },
-    { name: 'Zeiss', src: zeiss},
+    { name: 'Zeiss', src: zeiss },
     { name: 'JW Player', src: player },
     { name: 'New York Times', src: nytimes },
     { name: 'Tabcorp', src: tabcorp },
     { name: 'OneMain', src: onemain },
-    
+
   ],
-  
+
   stats: {
-    users:'15',
-    instructors:'10',
-    courses:'20',
+    users: '15',
+    instructors: '10',
+    courses: '20',
   },
 };
 
 const Brands = () => {
 
-   //aos fatch 
-   useEffect(()=>{
+  //aos fatch 
+  useEffect(() => {
     Aos.init();
-  },[])
+  }, [])
 
-  
+
   const { ref: usersRef, inView: usersInView } = useInView();
   const { ref: instructorsRef, inView: instructorsInView } = useInView();
   const { ref: coursesRef, inView: coursesInView } = useInView();
 
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const container = document.querySelector('.logos-container');
     const wrapper = document.querySelector('.logos-wrapper');
-  
+
     // Clone the content to create a seamless scroll effect
     const clone = wrapper.cloneNode(true);
     container.appendChild(clone);
-  
+
     function startScrolling() {
       let pos = 0;
       const step = 1; // Adjust the speed of the scroll
-  
+
       function scroll() {
         pos -= step;
         if (pos <= -wrapper.clientHeight) {
@@ -97,14 +97,14 @@ const Brands = () => {
         container.scrollTo(0, pos);
         requestAnimationFrame(scroll);
       }
-  
+
       requestAnimationFrame(scroll);
     }
-  
+
     startScrolling();
   });
 
- 
+
 
   return (
     <div className='container-fluid' id='why'>
@@ -156,11 +156,11 @@ const Brands = () => {
               <div className="logos-content">
                 {data.brandone.map((logo, index) => (
                   <div data-aos="fade-left"
-                  data-aos-easing="linear"
-                  data-aos-duration="1500" key={index} className="logo-item">
+                    data-aos-easing="linear"
+                    data-aos-duration="1500" key={index} className="logo-item">
                     <img src={logo.src} alt={logo.name} className="logo-image" />
                   </div>
-                  
+
                 ))}
               </div>
             </div>

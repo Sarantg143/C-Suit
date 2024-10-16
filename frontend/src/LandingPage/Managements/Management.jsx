@@ -11,6 +11,7 @@ import p3 from "./Asset/mrm.jpg"
 import p4 from "./Asset/col.jpg"
 import { useNavigate } from "react-router-dom";
 import ManagementCard from "./ManagementCard";
+import LearningJourney from "./LearningJourney/LearningJourney";
 
 const contentData = {
   Assessment: {
@@ -74,51 +75,54 @@ const Management = () => {
   const renderContent = () => {
     const content = contentData[selectedContent];
     let classname = "";
-    if(content.title==="Learning"){
+    if (content.title === "Learning") {
       classname = "col-md-12";
     }
-    else if(content.title==="ABOUT US"){
+    else if (content.title === "ABOUT US") {
       classname = "col-md-4";
     }
-    else{
+    else {
       classname = "col-md-0"
     }
     if (!content) return null;
     return (
       <div className="container-fluid">
-        <div className="row">
-          {content.title!=="Learning" && <div className={content.title === "Team | Faculty" || content.title === "Expert" ? "col-md-12" : "col-md-8"}>
-            <div data-aos="fade-right" className="changes-head">
-              <h1 className="content-title">{content.title}</h1>
-              <div className="total-content">
-                {content?.title === "Team|Faculty" || content?.title === "Expert" ?
-                  (<div className="custom-cards-container">
-                    {content?.content.map((memberData, index) => (
-                      <ManagementCard data={memberData} key={index} />
-                    ))}
-                  </div>) :
-                  (<div className="container-para">
-                    {content.content.map((item, index) => (
-                      <div key={index}>
-                        <strong className="item-title">{item.title}</strong>
-                        {item.text && <p className="pt-1">{item.text}</p>}
-                        {item.component && (
-                          <item.component />
-                        )
-                        }
-                      </div>
-                    ))}
-                  </div>)
-                }
+        {content.title !== "Learning" ?
+          <div className="row">
+            <div className={content.title === "Team | Faculty" || content.title === "Expert" ? "col-md-12" : "col-md-8"}>
+              <div data-aos="fade-right" className="changes-head">
+                <h1 className="content-title">{content.title}</h1>
+                <div className="total-content">
+                  {content?.title === "Team|Faculty" || content?.title === "Expert" ?
+                    (<div className="custom-cards-container">
+                      {content?.content.map((memberData, index) => (
+                        <ManagementCard data={memberData} key={index} />
+                      ))}
+                    </div>) :
+                    (<div className="container-para">
+                      {content.content.map((item, index) => (
+                        <div key={index}>
+                          <strong className="item-title">{item.title}</strong>
+                          {item.text && <p className="pt-1">{item.text}</p>}
+                          {item.component && (
+                            <item.component />
+                          )
+                          }
+                        </div>
+                      ))}
+                    </div>)
+                  }
+                </div>
               </div>
             </div>
-          </div>}
-          <div className={classname}>
-            <div data-aos="fade-left" className="image-sytle">
-              <div className={content.imageClass}></div>
+            <div className={classname}>
+              <div data-aos="fade-left" className="image-sytle">
+                <div className={content.imageClass}></div>
+              </div>
             </div>
-          </div>
-        </div>
+          </div> : (
+            <LearningJourney />
+          )}
       </div>
     );
   };
