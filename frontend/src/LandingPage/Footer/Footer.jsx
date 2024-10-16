@@ -16,9 +16,11 @@ import footerlogo from '../Header/Asset/brand-footer.png'
 //Aos animations
 import Aos from "aos"
 import 'aos/dist/aos.css'
+import { useNavigate } from 'react-router';
 
 function Footer() {
 
+  let navigate = useNavigate()
   //aos fatch 
   useEffect(()=>{
     Aos.init();
@@ -51,6 +53,10 @@ function Footer() {
         <a>Help Desk</a>
         <a>Customer Support</a>
         <a>Professional Services</a>
+        <a onClick={(e)=>{
+          e.preventDefault()
+          navigate('./admin')
+          }}>Administrative service</a>
       </section>
       <section data-aos="fade-up" className='section4'>
         <h4 >Become an Instructor</h4>
