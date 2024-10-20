@@ -6,7 +6,10 @@ import Manager from '../Asset/manager.png'
 import Online from '../Asset/online.png'
 import Payment from '../Asset/payment.png'
 import Lecture from '../Asset/lecture.png'
-import LearningBottom from '../Asset/learning-bottom.jpg'
+import Step1 from '../Asset/LJ-step-1.svg'
+import Step2 from '../Asset/LJ-step-2.svg'
+import Step3 from '../Asset/LJ-step-3.svg'
+import Step4 from '../Asset/LJ-step-4.svg'
 
 
 const LearningJourney = () => {
@@ -82,9 +85,55 @@ const LearningJourney = () => {
                         <p className='text-value'>Start Learning</p>
                     </div>
                 </div>
-                <h4 className=''></h4>
             </div>
-            <img src={LearningBottom} alt="bottom" className='bottom-image' />
+            <div className='journey-box'>
+                <h4 className='bold-text'> <span >Learning </span>Journey</h4>
+                <div className='journey-elements-cnt'>
+                    <div className='journey-steps-icons'>
+                        <img src={Step1} data-aos="fade-down" alt="step-1" className='steps-svg' />
+                        <img src={Step2} data-aos="fade-down" alt="step-1" className='steps-svg' style={{ top: "7rem" }} />
+                        <img src={Step3} data-aos="fade-down" alt="step-1" className='steps-svg' style={{ bottom: "9rem" }} />
+                        <img src={Step4} data-aos="fade-down" alt="step-1" className='steps-svg' style={{ bottom: '3rem' }} />
+                    </div>
+                    <div className='journey-steps'>
+                        <div className='top-steps-cnt'>
+                            <div className='half-steps-cnt'>
+                                <div className='steps-line' />
+                                <div className='absolute-steps-cnt'>
+                                    <div className='journey-step'>
+                                        <p>Self-Paced learning for 45 hours</p>
+                                    </div>
+                                    <div className='journey-step cross-radius' style={{ marginTop: "2rem" }}>
+                                        <p>Complete online Assessment</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='half-steps-cnt'>
+                                <div className='steps-line' />
+                                <div className='absolute-steps-cnt'>
+                                    <div className='journey-step cross-radius'>
+                                        <p>Connect to tutors online</p>
+                                    </div>
+                                    <div className='journey-step' style={{ marginTop: "2rem" }}>
+                                        <p>Virtual meetings with experts at weekly once</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='bottom-steps-cnt'>
+                            <div className='bottom-line' />
+                            <div className='bottom-steps'>
+                                <div className='bottom-step'>
+                                    <p>Attend virtual interview with C-SUITE panel</p>
+                                </div>
+                                <div className='bottom-step  bottom-radius'>
+                                    <p>Get Certificate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
