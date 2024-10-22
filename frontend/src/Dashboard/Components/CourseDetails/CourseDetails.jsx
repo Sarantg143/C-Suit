@@ -39,7 +39,7 @@ const CourseDetails = () => {
         const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
         const response = await axios.get(
-          `https://csuite-production.up.railway.app/api/courseDetail/${courseId}`
+          `https://csuite-ui0f.onrender.com/api/courseDetail/${courseId}`
         );
         setCourseContentDetailsData(response.data);
         // console.log(response.data.price);
@@ -99,7 +99,7 @@ const CourseDetails = () => {
     if (localStorage.getItem("isloggedin") === "true") {
       try {
         const response = await axios.put(
-          `https://csuite-production.up.railway.app/api/user/updatecourse/${userId}`,
+          `https://csuite-ui0f.onrender.com/api/user/updatecourse/${userId}`,
           { courseId, courseName }
         );
 
