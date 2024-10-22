@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://csuite-production.up.railway.app/api",
+  baseURL: "https://csuite-ui0f.onrender.com/api",
 });
 
 
