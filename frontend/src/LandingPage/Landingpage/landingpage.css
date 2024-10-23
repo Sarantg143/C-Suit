@@ -75,7 +75,7 @@
     margin: 0px;
 }
 .text-grow{
-    margin: 0px;
+    margin-top: 35px;
     font-size:clamp(30px,4vw,64px);
     font-weight:700; 
 }
