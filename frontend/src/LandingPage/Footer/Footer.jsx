@@ -53,10 +53,10 @@ function Footer() {
         <a>Help Desk</a>
         <a>Customer Support</a>
         <a>Professional Services</a>
-        <a onClick={(e)=>{
-          e.preventDefault()
-          navigate('./admin')
-          }}>Administrative service</a>
+        <a onClick={(e) => {
+          e.preventDefault();
+          navigate('/admin/login'); 
+        }}>Administrative service</a>
       </section>
       <section data-aos="fade-up" className='section4'>
         <h4 >Become an Instructor</h4>
