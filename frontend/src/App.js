@@ -51,6 +51,7 @@ import ELApage from "./Admin/components/ELA/ELApage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from './Auth/components/auth/Auth';
+import AdminLoginPage from './Auth/components/auth/AdminLoginPage';
 import ResetPage from './Auth/components/auth/ResetPage';
 import LinkedInAuth from './Auth/components/auth/LinkedInAuth';
 import AuthContainer from './Auth';
@@ -80,6 +81,7 @@ function App() {
           />
           <Route path="/management/details" index element={<MoreDetails />}></Route>
           <Route path='/authentication' element={<Auth />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} /> 
           <Route path='/course-preview' element={<CoursePreview />} />
           <Route path="reset-password" element={<ResetPage />} />
           <Route path="auth-linkedin-bridge" element={<LinkedInAuth />} />
@@ -115,6 +117,7 @@ function App() {
             <Route path="courseContent/:courseId" element={<CourseContent />} />
             <Route path="courseDetails/:courseId" element={<CourseDetails />} />
           </Route>
+
           <Route path='/admin' element={<AllCourses />} />
           <Route path="/admin/Courses/new" element={<AddnewCourse />} />
           <Route path="/admin/Course/edit" element={<EditCourse />} />

@@ -28,17 +28,17 @@ function Header() {
                    <NavSlider  />
                 </li>
                 <li className="nav-item active ml-4">
-                <a className="nav-link text-light " href='#why'>Why C-Suite?</a>
+                <a className="nav-link text-light" href="#why">Why C-Suite?</a>
                 </li>
                 <li className="nav-item active ml-4">
-                <a className="nav-link text-light" href=''>Courses</a>
-                </li>
-                <li className="nav-item active ml-4">
-                <Link className="nav-link text-light">Customers</Link>
-                </li>
-                <li className="nav-item active ml-4">
-                <Link className="nav-link text-light">Career</Link>
-                </li>
+  <a className="nav-link text-light" href="#courses">Courses</a>
+</li>
+               <li className="nav-item active ml-4">
+               <a className="nav-link text-light" href="#why">Customers</a>
+               </li>
+               <li className="nav-item active ml-4">
+               <a className="nav-link text-light" href="#contact">Contact Us</a>
+               </li>
                 {/* <li className="nav-item active ml-4">
                 <Link className="nav-link text-light">Resources</Link>
                 </li> */}
@@ -59,4 +59,4 @@ function Header() {
   )
 }
 
-export default Header
+export default Header;

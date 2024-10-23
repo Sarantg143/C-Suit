@@ -6,9 +6,9 @@ import imgd from "../Assets/Images/imagenotxt2.png";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ErrorDataFetchOverlay from "../Error/ErrorDataFetchOverlay";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa6";
-import LandingCourses from '../Assets/Data/LandingCourses.json'
-import Aos from "aos"
-import 'aos/dist/aos.css'
+import LandingCourses from '../Assets/Data/LandingCourses.json';
+import Aos from "aos";
+import 'aos/dist/aos.css';
 
 const CoursesLandingPage = () => {
   const navigate = useNavigate();
@@ -18,10 +18,9 @@ const CoursesLandingPage = () => {
   const [fetchError, setFetchError] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     Aos.init();
-  },[])
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,9 +29,9 @@ const CoursesLandingPage = () => {
         const response = await axios.get(`https://csuite-ui0f.onrender.com`);
         const allCourses = response.data;
 
-        // filtering purschased course
+        // filtering purchased course
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            setCoursesData(allCourses);
+        setCoursesData(allCourses);
 
         setIsLoading(false);
       } catch (err) {
@@ -124,42 +123,46 @@ const CoursesLandingPage = () => {
     return truncated;
   };
 
-//   if (isLoading) {
-//     return (
-//       <div>
-//         <LoadingPage />
-//       </div>
-//     );
-//   }
+  // Loading state handling
+  if (isLoading) {
+    return (
+      <div id="courses" className="main-content">
+        <LoadingPage />
+      </div>
+    );
+  }
 
   if (fetchError) {
-    return <ErrorDataFetchOverlay />;
+    return (
+      <div id="courses" className="main-content">
+        <ErrorDataFetchOverlay />
+      </div>
+    );
   }
 
   return (
-    <>
-      <div className="main-content">
-        <div className="cardContainer3">
-          {/* <div className="filterChips">
-            {allLessons.map((lesson, index) => (
-              <div
-                key={index}
-                className={`filterChip ${
-                  selectedFilters.includes(lesson) ? "active" : ""
-                }`}
-                onClick={() => handleFilterClick(lesson)}
-              >
-                {lesson}
-              </div>
-            ))}
-            {selectedFilters.length > 0 && (
-              <button className="clearFilters" onClick={clearFilters}>
-                Clear All
-              </button>
-            )}
-          </div> */}
-          <div className='engage-head' style={{margin:"0px", padding:"0px"}}>
-          <h2 style={{fontSize:"28px", paddingBottom:"3rem"}} data-aos="fade-up">Our Courses</h2>
+    <div id="courses" className="main-content"> {/* ID for scrolling */}
+      <div className="cardContainer3">
+        {/* <div className="filterChips">
+          {allLessons.map((lesson, index) => (
+            <div
+              key={index}
+              className={`filterChip ${
+                selectedFilters.includes(lesson) ? "active" : ""
+              }`}
+              onClick={() => handleFilterClick(lesson)}
+            >
+              {lesson}
+            </div>
+          ))}
+          {selectedFilters.length > 0 && (
+            <button className="clearFilters" onClick={clearFilters}>
+              Clear All
+            </button>
+          )}
+        </div> */}
+        <div className='engage-head' style={{ margin: "0px", padding: "0px" }}>
+          <h2 style={{ fontSize: "28px", paddingBottom: "3rem" }} data-aos="fade-up">Our Courses</h2>
           <div data-aos="fade-up" className="courseContainer3">
             {LandingCourses?.courses?.map((course, index) => index < 4 && (
               <div className="courseCard3" key={index}>
@@ -187,7 +190,7 @@ const CoursesLandingPage = () => {
                   </ul>
                   <button
                     onClick={() =>
-                      navigate(`/course-preview`,{state:{course}})
+                      navigate(`/course-preview`, { state: { course } })
                     }
                     className="lessonDetailBtn3"
                   >
@@ -197,24 +200,23 @@ const CoursesLandingPage = () => {
               </div>
             ))}
           </div>
-        {/* <div data-aos="fade-up" style={{padding:"5rem 0px 0px 0px"}}>
-         <h4 onClick={() =>
-                      {
-                        console.log(localStorage.getItem('isloggedin'))
-                    if(localStorage.getItem('isloggedin')=="true"){
-                        navigate(`/home/Courses`)
-                    }
-                    else{
-                        navigate(`/authentication`)
-                    }
+          {/* <div data-aos="fade-up" style={{ padding: "5rem 0px 0px 0px" }}>
+            <h4 onClick={() =>
+              {
+                console.log(localStorage.getItem('isloggedin'))
+                if (localStorage.getItem('isloggedin') == "true") {
+                  navigate(`/home/Courses`)
                 }
-                    } 
-                    style={{fontSize:"25px"}}>More <FaArrowRight size='1.2rem'/></h4>
-        </div> */}
-     </div>
+                else {
+                  navigate(`/authentication`)
+                }
+              }
+            } 
+            style={{ fontSize: "25px" }}>More <FaArrowRight size='1.2rem' /></h4>
+          </div> */}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
