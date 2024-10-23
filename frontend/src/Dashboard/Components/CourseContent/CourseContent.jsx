@@ -36,7 +36,7 @@ const CourseContent = () => {
       try {
         const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
         const response = await axios.get(
-          `https://csuite-production.up.railway.app/api/courseDetail/${courseId}`
+          `https://csuite-ui0f.onrender.com/api/courseDetail/${courseId}`
         );
         setCourseData(response.data);
         // console.log(response.data.course);
@@ -69,7 +69,7 @@ const CourseContent = () => {
         const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
         const response = await axios.get(
-          `https://csuite-production.up.railway.app/api/completevideo/${userId}/${courseId}`
+          `https://csuite-ui0f.onrender.com/api/completevideo/${userId}/${courseId}`
         );
 
         const data = response.data.completedUserData;
@@ -118,7 +118,7 @@ const CourseContent = () => {
               const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
               await axios.post(
-                `https://csuite-production.up.railway.app/api/completevideo/`,
+                `https://csuite-ui0f.onrender.com/api/completevideo/`,
                 {
                   userId,
                   courseId,
@@ -225,7 +225,7 @@ const CourseContent = () => {
 
         // Video already completed, update if necessary
         await axios.put(
-          `https://csuite-production.up.railway.app/api/completevideo/${fetchedID}/updatelesson`,
+          `https://csuite-ui0f.onrender.com/api/completevideo/${fetchedID}/updatelesson`,
           { lesson: data.title }
         );
       }

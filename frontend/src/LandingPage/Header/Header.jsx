@@ -17,7 +17,7 @@ function Header() {
   return (
     <header>
           <nav class="navbar navbar-expand-lg navbar-light  sticky-top" style={{height:"100px", margin:"0"}}>
-            <a data-aos="fade-right" class="navbar-brand ml-5 text-light" href="#"><img src={logo} alt="" height={"40px"} /></a>
+            <a data-aos="fade-right" class="navbar-brand ml-3 text-light" href="#"><img src={logo} alt="" height={"40px"} /></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>

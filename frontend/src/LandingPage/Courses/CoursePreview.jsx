@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Book from '../Assets/Images/book.png'
 import CheckMark from '../Assets/Images/check.png'
 import VideoIcon from '../Assets/Images/online-video.png'
+import logo from "../Assets/Images/logo.png"
+
 
 const CoursePreview = () => {
     const courseData = useLocation().state?.course
@@ -11,7 +13,9 @@ const CoursePreview = () => {
     // console.log(`https://vimeo.com/video${courseData?.videoUrl?.slice(17,)}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`)
     return (
         <div className='preview-page'>
+            
             <div className='course-info-cnt'>
+            {/* <a data-aos="fade-right" class="navbar-brand ml-5 text-light" href="#"><img src={logo} alt="" height={"50px"} /></a> */}
                 <h1 className='course-title'>{courseData?.Title}</h1>
                 <div className='lesson-count-cnt'>
                     <img src={Book} alt="book" className='lesson-icon' />
@@ -91,12 +95,12 @@ const CoursePreview = () => {
                             ))}
                     </div>
                 </div>
-                <div className='course-amount-cnt-phone'>
+                {/* <div className='course-amount-cnt-phone'> */}
                     <div className='course-price-info-cnt' style={{minHeight:"fit-content"}}>
-                    <h2 className='preview-header' style={{marginBottom:'1rem'}}>Pricing</h2>
+                    <h2 className='preview-header' style={{marginBottom:'1rem', fontSize:"25px"}}>Pricing</h2>
                         <div className='outcome-list'>
                             <div className='outcome-item'>
-                                <p >duration :</p>
+                                <p style={{fontSize:"20px"}}><b>Duration :</b></p>
                                 <div>
                                     <p className='text-icon'>{courseData?.Course_Duration}</p>
                                 </div>
@@ -118,9 +122,9 @@ const CoursePreview = () => {
                             <h3 className='white-text'>{`Enroll Now >>`}</h3>
                         </div>
                     </div>
-                </div>
+                {/* </div> */}
             </div>
-            <div className='course-amount-cnt'>
+            {/* <div className='course-amount-cnt'>
                 <div className='course-price-info-cnt'>
                     <div className='outcome-list'>
                         <div className='outcome-item'>
@@ -129,7 +133,7 @@ const CoursePreview = () => {
                                 <p className='text-icon'>{courseData?.Course_Duration}</p>
                             </div>
                         </div>
-                        {/* {courseData?.courseDetails
+                        {courseData?.courseDetails
                             ?.map((lesson, index) => (
                                 <div className='outcome-item' key={index}>
                                     <p className='text-icon'>{lesson?.icon}</p>
@@ -137,7 +141,7 @@ const CoursePreview = () => {
                                         <p>{lesson?.text}</p>
                                     </div>
                                 </div>
-                            ))} */}
+                            ))}
                     </div>
                     <div className='price-display-cnt'>
                         <p className='price-text'>Price : ₹ {courseData?.Price}</p>
@@ -146,7 +150,7 @@ const CoursePreview = () => {
                         <h3 className='white-text'>{`Enroll Now >>`}</h3>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
