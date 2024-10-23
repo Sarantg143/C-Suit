@@ -32,7 +32,7 @@ export const googlePopup = async () => {
 async function adduser(name, email) {
   try {
     const response = await axios.get(
-      "https://csuite-production.up.railway.app/api/user/check",
+      "https://csuite-ui0f.onrender.com/api/user/check",
       {
         params: {
           email: email,

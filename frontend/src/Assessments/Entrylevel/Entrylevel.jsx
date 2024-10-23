@@ -40,7 +40,7 @@ const Entrylevel = () => {
             //     console.log(res.data[0])
             // })  
 
-            const response = await axios.get(`https://csuite-production.up.railway.app/api/question`);
+            const response = await axios.get(`https://csuite-ui0f.onrender.com/api/question`);
             console.log("response.data",response?.data[0])
             // var data = questionData;
             var data = response?.data[0];

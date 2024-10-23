@@ -16,7 +16,7 @@ export const signinMicrosoft = async () => {
     .catch((error) => {
       return error;
     });
-  await axios.post("https://csuite-production.up.railway.app/api/user/new", {
+  await axios.post("https://csuite-ui0f.onrender.com/api/user/new", {
     name: res?.result?.user?.displayName,
     email: res?.result?.user?.email,
     authId: res?.result?.user?.uid,

@@ -12,6 +12,7 @@ import Header from '../Header/Header';
 //Aos animations
 import Aos from "aos"
 import 'aos/dist/aos.css'
+import { Link } from 'react-router-dom';
 
 const Landingpage = () => {
   
@@ -35,7 +36,9 @@ const Landingpage = () => {
             <p className='text-course-development'  data-aos="zoom-in-up"  data-aos-duration="3000">Only 3% of Top-performers make it to the C-suite.</p>
             <div data-aos="fade-up"
             data-aos-duration="3000">
+              <Link to={'./authentication'}>
               <button type="button" className="button-unlock" >Unlock Your Potential</button>
+              </Link>
             </div>
              
           </div>

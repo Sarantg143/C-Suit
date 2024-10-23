@@ -39,7 +39,7 @@ function Header() {
               <NavSlider />
             </li>
             <li className="nav-item active ml-4">
-              <a className="nav-link text-light" href="#why">Why C-Suite?</a>
+              <a className="nav-link text-light" href="#what">Why C-Suite?</a>
             </li>
             <li className="nav-item active ml-4">
               <a className="nav-link text-light" href="#courses">Courses</a>

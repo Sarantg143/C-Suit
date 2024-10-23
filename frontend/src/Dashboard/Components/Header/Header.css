@@ -1,4 +1,4 @@
-.header {
+.header1 {
   display: flex;
   width: 60%;
   align-items: center;
@@ -19,7 +19,7 @@
   width: 300px;
 }
 
-.header {
+.header1 {
   flex: 1;
   background-image: url("../Assets/Images/welcomebg.jpg");
   background-size: cover;
