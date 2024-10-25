@@ -264,13 +264,16 @@ const CourseContent = () => {
   };
 
   const renderEmbeddedPPT = (link) => {
-    const fileIdMatch = link.match(/\/d\/(.*?)\//);
-    if (!fileIdMatch) {
+    // console.log(link);
+
+    const fileIdMatch = link.match(/\/d\/([^/]+)/);
+    const fileId = fileIdMatch ? fileIdMatch[1] : null;
+
+    if (!fileId) {
       return <p>Error: Invalid link format</p>;
     }
 
-    const fileId = fileIdMatch[1];
-    const googleEmbedUrl = `https://docs.google.com/presentation/d/${fileId}/embed?start=false&loop=false&delayms=3000`;
+    const googleEmbedUrl = `https://docs.google.com/presentation/d/${fileId}/embed`;
     const officeEmbedUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
       link
     )}`;
