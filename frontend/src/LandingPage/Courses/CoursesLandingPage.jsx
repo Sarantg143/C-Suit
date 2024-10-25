@@ -26,7 +26,7 @@ const CoursesLandingPage = () => {
     const fetchData = async () => {
       try {
         const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-        const response = await axios.get(`https://csuite-ui0f.onrender.com/api`);
+        const response = await axios.get(`https://csuite-ui0f.onrender.com`);
         const allCourses = response.data;
 
         // filtering purchased course
