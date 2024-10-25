@@ -263,6 +263,40 @@ const CourseContent = () => {
     }
   };
 
+  const renderEmbeddedPPT = (link) => {
+    const fileIdMatch = link.match(/\/d\/(.*?)\//);
+    if (!fileIdMatch) {
+      return <p>Error: Invalid link format</p>;
+    }
+
+    const fileId = fileIdMatch[1];
+    const googleEmbedUrl = `https://docs.google.com/presentation/d/${fileId}/embed?start=false&loop=false&delayms=3000`;
+    const officeEmbedUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
+      link
+    )}`;
+
+    return (
+      <div>
+        <iframe
+          title="PPT Viewer"
+          src={googleEmbedUrl}
+          style={{ width: "100%", height: "100%", border: "none" }}
+          allow="autoplay; encrypted-media"
+          onError={(e) => {
+            e.target.src = officeEmbedUrl;
+          }}
+        />
+        <p>
+          If the viewer fails to load,{" "}
+          <a href={link} target="_blank" rel="noopener noreferrer">
+            download the PPT file
+          </a>
+          .
+        </p>
+      </div>
+    );
+  };
+
   const renderContent = (link, typeManual) => {
     if (typeManual === "video") {
       return (
@@ -278,19 +312,20 @@ const CourseContent = () => {
         </div>
       );
     } else if (typeManual === "ppt") {
-      const fileId = link.split("/d/")[1].split("/")[0];
-      const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-      return (
-        <div>
-          <iframe
-            title="PPT"
-            className="embed-responsive-item"
-            src={embedUrl}
-            style={{ width: "100%", height: "100%" }}
-            allow="autoplay; encrypted-media"
-          ></iframe>
-        </div>
-      );
+      // const fileId = link.split("/d/")[1].split("/")[0];
+      // const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+      // return (
+      //   <div>
+      //     <iframe
+      //       title="PPT"
+      //       className="embed-responsive-item"
+      //       src={embedUrl}
+      //       style={{ width: "100%", height: "100%" }}
+      //       allow="autoplay; encrypted-media"
+      //     ></iframe>
+      //   </div>
+      // );
+      return renderEmbeddedPPT(link);
     }
   };
 

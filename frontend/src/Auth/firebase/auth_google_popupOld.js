@@ -43,7 +43,7 @@ async function adduser(name, email) {
       let data = { name: name, email: email, linkedin: null, password: null };
       try {
         const response = await axios.post(
-          "https://csuite-production.up.railway.app/api/user/signup",
+          "https://csuite-ui0f.onrender.com/api/user/signup",
           data,
           {
             headers: { "Content-Type": "application/json" }, // Set Content-Type header

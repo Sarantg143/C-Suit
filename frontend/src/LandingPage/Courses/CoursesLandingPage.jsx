@@ -135,7 +135,7 @@ const CoursesLandingPage = () => {
   if (fetchError) {
     return (
       <div id="courses" className="main-content">
-        <ErrorDataFetchOverlay />
+        {/* <ErrorDataFetchOverlay /> */}
       </div>
     );
   }

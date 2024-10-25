@@ -32,12 +32,12 @@ function Header() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item active ml-4">
+            {/* <li className="nav-item active ml-4">
               <Link className="nav-link text-light">
                 Our Features <FontAwesomeIcon className='angledown' icon={faAngleDown} />
               </Link>
               <NavSlider />
-            </li>
+            </li> */}
             <li className="nav-item active ml-4">
               <a className="nav-link text-light" href="#what">Why C-Suite?</a>
             </li>
