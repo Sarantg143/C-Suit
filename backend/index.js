@@ -7,7 +7,10 @@ const connectionString = "mongodb+srv://sarandatabase:saran%40143@mycluster.zm3y
 const app = express();
 
 // Enable CORS
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  credentials: true,
+}));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 // Models
