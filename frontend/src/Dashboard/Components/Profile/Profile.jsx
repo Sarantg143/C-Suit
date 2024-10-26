@@ -234,9 +234,9 @@ const Profile = () => {
     }
     try {
       const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-
+      const userId = user.id;
       const response = await axios.put(
-        `${apiBaseUrl}/user/${profileData._id}`,
+        `${apiBaseUrl}/user/${userId}}`,
         formData
       );
       localStorage.setItem(
