@@ -38,7 +38,64 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [saveError, setSaveError] = useState(null);
-  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  
+    // axios
+    //   .get(`${apiBaseUrl}/user/user/${id}`)
+    //   .then((response) => {
+    //     // console.log(response.data.user);
+    //     const data = response.data.user;
+    //     // console.log(response.data.users[0]._id);
+    //     setProfileData(data);
+
+    //     // usid
+    //     const csuiteUserInfo = {
+    //       userID: data._id,
+    //       coursePurchased:
+    //         data.coursePurchased != []
+    //           ? data.coursePurchased.map((x) => x.courseId)
+    //           : [],
+    //     };
+    //     localStorage.setItem("userInfo", JSON.stringify(csuiteUserInfo));
+
+    //     if (
+    //       data.profilePic &&
+    //       !data.profilePic.startsWith("data:image/jpeg;base64,")
+    //     ) {
+    //       setProfileData((prevData) => ({
+    //         ...prevData,
+    //         profilePic: `data:image/jpeg;base64,${data.profilePic}`,
+    //       }));
+    //     } else if (data.profilePic) {
+    //       setProfileData((prevData) => ({
+    //         ...prevData,
+    //         profilePic: data.profilePic,
+    //       }));
+    //     }
+
+    //     if (
+    //       data.profileBanner &&
+    //       !data.profileBanner.startsWith("data:image/jpeg;base64,")
+    //     ) {
+    //       setProfileData((prevData) => ({
+    //         ...prevData,
+    //         profileBanner: `data:image/jpeg;base64,${data.profileBanner}`,
+    //       }));
+    //     } else if (data.profileBanner) {
+    //       setProfileData((prevData) => ({
+    //         ...prevData,
+    //         profileBanner: data.profileBanner,
+    //       }));
+    //     }
+
+    //     setIsLoading(false);
+    //   })
+    //   .catch(() => {
+    //     console.error("Error fetching profile data:");
+    //     setIsLoading(false);
+    //     setFetchError(true);
+    //   });
+
 
   const fetchProfileData = async () => {
     try {
@@ -87,8 +144,7 @@ const Profile = () => {
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
-    setSaveError(null);
-    setSaveSuccess(false);
+    setSaveError(null); // Clear any previous save errors
   };
 
   const handleChange = (e) => {
@@ -113,7 +169,6 @@ const Profile = () => {
   const handleSaveClick = async () => {
     setIsLoading(true);
     setSaveError(null);
-    setSaveSuccess(false);
 
     try {
       const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -156,8 +211,6 @@ const Profile = () => {
         await fetchProfileData();
         
         setIsEditing(false);
-        setSaveSuccess(true);
-        setTimeout(() => setSaveSuccess(false), 3000);
       } else {
         throw new Error("Invalid response from server");
       }
@@ -222,16 +275,6 @@ const Profile = () => {
 
   return (
     <div className="profileContainer">
-      {saveError && (
-        <div className="error-message">
-          {saveError}
-        </div>
-      )}
-      {saveSuccess && (
-        <div className="success-message">
-          Profile updated successfully!
-        </div>
-      )}
       <div className="profileBannerBox">
         <div className="profileBGBox">
           <img
@@ -291,7 +334,9 @@ const Profile = () => {
       <div className="profileContent">
         <div className="profileSection">
           <h5>General Information</h5>
-          <div className={`${inputClassName(profileData?.name)} profileDetails`}>
+          <div
+            className={`${inputClassName(profileData?.name)} profileDetails`}
+          >
             <label>Name</label>
             <input
               type="text"
@@ -301,7 +346,10 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div className={`${inputClassName(profileData.gender)} profileDetails`}>
+          <div
+            className={`${inputClassName(profileData.gender)} profileDetails`}
+          >
+            {" "}
             <label>Gender</label>
             <input
               type="text"
@@ -311,7 +359,9 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div className={`${inputClassName(profileData.idCard)} profileDetails`}>
+          <div
+            className={`${inputClassName(profileData.idCard)} profileDetails`}
+          >
             <label>ID Card</label>
             <input
               type="text"
@@ -321,16 +371,23 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div className={`${inputClassName(profileData.address)} profileDetails`}>
+          <div
+            className={`${inputClassName(profileData.address)} profileDetails`}
+          >
             <label>Address</label>
             <textarea
+              type="text"
               name="address"
               value={profileData?.address}
               onChange={handleChange}
               disabled={!isEditing}
             />
           </div>
-          <div className={`${inputClassName(profileData.testScore)} profileDetails`}>
+          <div
+            className={`${inputClassName(
+              profileData.testScore
+            )} profileDetails`}
+          >
             <label>Test Score</label>
             <input
               type="number"
@@ -341,8 +398,12 @@ const Profile = () => {
           </div>
           <div className="profileSeperator"></div>
           <h5>Contact Details</h5>
-          <div className={`${inputClassName(profileData.email)} profileDetails profileSPLBox`}>
-            <img src={mailSVG} alt="mailSVG" />
+          <div
+            className={`${inputClassName(
+              profileData.email
+            )} profileDetails profileSPLBox`}
+          >
+            <img src={phoneSVG} alt="phoneNumberSVG" />
             <label>Email</label>
             <input
               type="email"
@@ -352,8 +413,12 @@ const Profile = () => {
               readOnly
             />
           </div>
-          <div className={`${inputClassName(profileData.phoneNumber)} profileDetails profileSPLBox`}>
-            <img src={phoneSVG} alt="phoneNumberSVG" />
+          <div
+            className={`${inputClassName(
+              profileData.phoneNumber
+            )} profileDetails profileSPLBox`}
+          >
+            <img src={mailSVG} alt="mailSVG" />
             <label>Phone Number</label>
             <input
               type="number"
@@ -366,7 +431,11 @@ const Profile = () => {
         </div>
         <div className="profileSection">
           <h5>Professional Details</h5>
-          <div className={`${inputClassName(profileData.companyname)} profileDetails`}>
+          <div
+            className={`${inputClassName(
+              profileData.companyname
+            )} profileDetails`}
+          >
             <label>Company Name</label>
             <input
               type="text"
@@ -376,7 +445,9 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div className={`${inputClassName(profileData.position)} profileDetails`}>
+          <div
+            className={`${inputClassName(profileData.position)} profileDetails`}
+          >
             <label>Position</label>
             <input
               type="text"
@@ -386,7 +457,9 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div className={`${inputClassName(profileData.linkedIn)} profileDetails`}>
+          <div
+            className={`${inputClassName(profileData.linkedIn)} profileDetails`}
+          >
             <label>LinkedIn</label>
             <input
               type="url"
@@ -405,6 +478,63 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
+          {/* <div className="profileSeperator"></div>
+          <h5>Emergency Contact</h5>
+          <div
+            className={`${inputClassName(
+              profileData.emergencyContact?.name
+            )} profileDetails`}
+          >
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="emergencyContact.name"
+              value={profileData?.emergencyContact?.name}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </div>
+          <div
+            className={`${inputClassName(
+              profileData.emergencyContact?.relationship
+            )} profileDetails`}
+          >
+            <label>Relationship</label>
+            <input
+              type="text"
+              name="emergencyContact.relationship"
+              value={profileData?.emergencyContact?.relationship}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </div>
+          <div
+            className={`${inputClassName(
+              profileData.emergencyContact?.phone
+            )} profileDetails`}
+          >
+            <label>Phone Number</label>
+            <input
+              type="number"
+              name="emergencyContact.phone"
+              value={profileData?.emergencyContact?.phone}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </div>
+          <div
+            className={`${inputClassName(
+              profileData.emergencyContact?.address
+            )} profileDetails`}
+          >
+            <label>Address</label>
+            <textarea
+              name="emergencyContact.address"
+              value={profileData?.emergencyContact?.address}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </div> */}
         </div>
       </div>
     </div>
