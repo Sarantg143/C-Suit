@@ -7,7 +7,6 @@ import mailSVG from "../Assets/SVG/mailSVG.svg";
 import axios from "axios";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ErrorDataFetchOverlay from "../Error/ErrorDataFetchOverlay";
-import { fetchUserData } from "../../../api/baseapi";
 import defaultPorfileSVG from "../Assets/SVG/defaultPorfileSVG.svg";
 import defaultBannerSVG from "../Assets/SVG/defaultBannerSVG.svg";
 
@@ -38,158 +37,58 @@ const Profile = () => {
   const [selectedProfileBanner, setSelectedProfileBanner] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
-  useEffect(() => {
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-    const id = localStorage.getItem("userid");
-    const userInfo = JSON.parse(localStorage.getItem("userDataUpdated"));
-    if (userInfo) {
-      // console.log(response.data.user);
-      console.log(userInfo)
-      console.log(profileData)
-      let data = userInfo;
-      data = {
-        "name": userInfo.name,
-        "email": userInfo.email,
-        "phoneNumber": userInfo.phoneNumber,
-        "testScore": "0",
-        "idCard": userInfo.idCard,
-        "gender": userInfo.gender,
-        "profilePic": profileImage,
-        "profileBanner": profileBanner,
-        "address": userInfo.address,
-        "companyname": userInfo.companyname,
-        "position": userInfo.address,
-        "linkedIn": userInfo.linkedIn,
-        "bio": userInfo.bio,
-        "emergencyContact": {
-        "name": '',
-        "relationship": '',
-        "phone": '',
-        "address": '',
-        },
-        "coursePurchased": [{ "courseId": "669137b147b28bc5497c0db7", "courseName": "Strategic Leadership and Management" }, { "courseId": "66978f14222fb4742783b9f6", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66975cc1874d284a5d306d84", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66962a90868b1ce57400c814", "courseName": "Chief Information Security Officer - CISO Certification" }, { "courseId": "66989ac2579d34a2e76dbb85", "courseName": "Chief Information Security Officer - CISO Certification" }], "testScores": [], "courseProgress": [], "createdAt": "2024-10-03T15:50:46.085Z", "updatedAt": "2024-10-03T15:50:46.085Z", "__v": 0
-      }
-      // data =
-      //   { "_id": "66febd566a1b97907290bb3f", "gender":"female", "name": "keerthu", "email": "keerthu@gmail.com", "linkedIn": "https://www.linkedin.com/in/keerthu", "type": "user", "firstLogin": true, "elaComplete": false, "coursePurchased": [{ "courseId": "669137b147b28bc5497c0db7", "courseName": "Strategic Leadership and Management" }, { "courseId": "66978f14222fb4742783b9f6", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66975cc1874d284a5d306d84", "courseName": "Chief Technology Officer - CTO Certification" }, { "courseId": "66962a90868b1ce57400c814", "courseName": "Chief Information Security Officer - CISO Certification" }, { "courseId": "66989ac2579d34a2e76dbb85", "courseName": "Chief Information Security Officer - CISO Certification" }], "testScores": [], "courseProgress": [], "createdAt": "2024-10-03T15:50:46.085Z", "updatedAt": "2024-10-03T15:50:46.085Z", "__v": 0 }
-      // console.log(response.data.users[0]._id);
-      setProfileData(data);
+  const fetchProfileData = async () => {
+    try {
+      const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+      const id = localStorage.getItem("userid");
+      
+      const response = await axios.get(`${apiBaseUrl}/user/user/${id}`);
+      const data = response.data.user;
 
-      // usid
+      // Update localStorage with fresh data from server
+      localStorage.setItem("userDataUpdated", JSON.stringify(data));
+
+      // Update user info for course access
       const csuiteUserInfo = {
         userID: data._id,
-        coursePurchased:
-          data.coursePurchased != []
-            ? data.coursePurchased.map((x) => x.courseId)
-            : [],
+        coursePurchased: data.coursePurchased?.length ? 
+          data.coursePurchased.map((x) => x.courseId) : [],
       };
       localStorage.setItem("userInfo", JSON.stringify(csuiteUserInfo));
 
-      if (
-        data.profilePic &&
-        !data.profilePic.startsWith("data:image/jpeg;base64,")
-      ) {
-        setProfileData((prevData) => ({
-          ...prevData,
-          profilePic: `data:image/jpeg;base64,${data.profilePic}`,
-        }));
-      } else if (data.profilePic) {
-        setProfileData((prevData) => ({
-          ...prevData,
-          profilePic: data.profilePic,
-        }));
-      }
+      // Handle profile pictures
+      const processedData = {
+        ...data,
+        profilePic: data.profilePic ? 
+          (data.profilePic.startsWith("data:image/jpeg;base64,") ? 
+            data.profilePic : `data:image/jpeg;base64,${data.profilePic}`) : 
+          defaultPorfileSVG,
+        profileBanner: data.profileBanner ? 
+          (data.profileBanner.startsWith("data:image/jpeg;base64,") ? 
+            data.profileBanner : `data:image/jpeg;base64,${data.profileBanner}`) : 
+          defaultBannerSVG,
+      };
 
-      if (
-        data.profileBanner &&
-        !data.profileBanner.startsWith("data:image/jpeg;base64,")
-      ) {
-        setProfileData((prevData) => ({
-          ...prevData,
-          profileBanner: `data:image/jpeg;base64,${data.profileBanner}`,
-        }));
-      } else if (data.profileBanner) {
-        setProfileData((prevData) => ({
-          ...prevData,
-          profileBanner: data.profileBanner,
-        }));
-      }
-
+      setProfileData(processedData);
       setIsLoading(false);
-    } else {
-      console.error("Error fetching profile data:");
-      setIsLoading(false);
-      setFetchError(true);
-    }
-
-    // axios
-    //   .get(`${apiBaseUrl}/user/user/${id}`)
-    //   .then((response) => {
-    //     // console.log(response.data.user);
-    //     const data = response.data.user;
-    //     // console.log(response.data.users[0]._id);
-    //     setProfileData(data);
-
-    //     // usid
-    //     const csuiteUserInfo = {
-    //       userID: data._id,
-    //       coursePurchased:
-    //         data.coursePurchased != []
-    //           ? data.coursePurchased.map((x) => x.courseId)
-    //           : [],
-    //     };
-    //     localStorage.setItem("userInfo", JSON.stringify(csuiteUserInfo));
-
-    //     if (
-    //       data.profilePic &&
-    //       !data.profilePic.startsWith("data:image/jpeg;base64,")
-    //     ) {
-    //       setProfileData((prevData) => ({
-    //         ...prevData,
-    //         profilePic: `data:image/jpeg;base64,${data.profilePic}`,
-    //       }));
-    //     } else if (data.profilePic) {
-    //       setProfileData((prevData) => ({
-    //         ...prevData,
-    //         profilePic: data.profilePic,
-    //       }));
-    //     }
-
-    //     if (
-    //       data.profileBanner &&
-    //       !data.profileBanner.startsWith("data:image/jpeg;base64,")
-    //     ) {
-    //       setProfileData((prevData) => ({
-    //         ...prevData,
-    //         profileBanner: `data:image/jpeg;base64,${data.profileBanner}`,
-    //       }));
-    //     } else if (data.profileBanner) {
-    //       setProfileData((prevData) => ({
-    //         ...prevData,
-    //         profileBanner: data.profileBanner,
-    //       }));
-    //     }
-
-    //     setIsLoading(false);
-    //   })
-    //   .catch(() => {
-    //     console.error("Error fetching profile data:");
-    //     setIsLoading(false);
-    //     setFetchError(true);
-    //   });
-  }, []);
-
-  async function fetchData(id) {
-    try {
-      const res = await fetchUserData(id);
-      console.log(res);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching profile data:", error);
+      setFetchError(true);
+      setIsLoading(false);
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
+    setSaveError(null);
+    setSaveSuccess(false);
   };
 
   const handleChange = (e) => {
@@ -204,78 +103,100 @@ const Profile = () => {
         },
       }));
     } else {
-      setProfileData({
-        ...profileData,
+      setProfileData((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     }
   };
-  console.log(profileData)
-  const handleSaveClick = async (e) => {
-    localStorage.setItem("userDataUpdated", JSON.stringify(profileData));
-    setIsEditing(false);
-    const formData = new FormData();
-    for (const key in profileData) {
-      if (key === "emergencyContact") {
-        const emergencyContact = profileData[key];
-        for (const field in emergencyContact) {
-          formData.append(`emergencyContact.${field}`, emergencyContact[field]);
-        }
-      } else {
-        formData.append(key, profileData[key]);
-      }
-    }
-    console.log(formData)
-    if (selectedProfileImage) {
-      formData.append("profilePic", selectedProfileImage);
-    }
-    if (selectedProfileBanner) {
-      formData.append("profileBanner", selectedProfileBanner);
-    }
+
+  const handleSaveClick = async () => {
+    setIsLoading(true);
+    setSaveError(null);
+    setSaveSuccess(false);
+
     try {
       const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+      const formData = new FormData();
+
+      // Append all profile data to formData
+      Object.entries(profileData).forEach(([key, value]) => {
+        if (key === "emergencyContact") {
+          Object.entries(value).forEach(([contactKey, contactValue]) => {
+            formData.append(`emergencyContact.${contactKey}`, contactValue);
+          });
+        } else if (key !== "profilePic" && key !== "profileBanner") {
+          formData.append(key, value);
+        }
+      });
+
+      // Handle image uploads
+      if (selectedProfileImage) {
+        formData.append("profilePic", selectedProfileImage);
+      }
+      if (selectedProfileBanner) {
+        formData.append("profileBanner", selectedProfileBanner);
+      }
 
       const response = await axios.put(
         `${apiBaseUrl}/user/${profileData._id}`,
-        formData
-      );
-      localStorage.setItem(
-        "userDataUpdated",
-        JSON.stringify(response.data.user)
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
       );
 
-      if (response.status !== 200) {
-        console.error("Error updating profile:", response.data);
+      if (response.data.user) {
+        // Update local storage with new data
+        localStorage.setItem("userDataUpdated", JSON.stringify(response.data.user));
+        
+        // Refresh profile data from server
+        await fetchProfileData();
+        
+        setIsEditing(false);
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 3000);
+      } else {
+        throw new Error("Invalid response from server");
       }
     } catch (error) {
-      console.error("Network error updating profile:", error);
+      console.error("Error saving profile:", error);
+      setSaveError("Failed to save profile changes. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleProfileImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
+    if (e.target.files?.[0]) {
       const file = e.target.files[0];
       setSelectedProfileImage(file);
+      
       const reader = new FileReader();
-      reader.onload = (e) =>
-        setProfileData((prevData) => ({
-          ...prevData,
+      reader.onload = (e) => {
+        setProfileData((prev) => ({
+          ...prev,
           profilePic: e.target.result,
         }));
+      };
       reader.readAsDataURL(file);
     }
   };
 
   const handleProfileBannerChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
+    if (e.target.files?.[0]) {
       const file = e.target.files[0];
       setSelectedProfileBanner(file);
+      
       const reader = new FileReader();
-      reader.onload = (e) =>
-        setProfileData((prevData) => ({
-          ...prevData,
+      reader.onload = (e) => {
+        setProfileData((prev) => ({
+          ...prev,
           profileBanner: e.target.result,
         }));
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -301,6 +222,16 @@ const Profile = () => {
 
   return (
     <div className="profileContainer">
+      {saveError && (
+        <div className="error-message">
+          {saveError}
+        </div>
+      )}
+      {saveSuccess && (
+        <div className="success-message">
+          Profile updated successfully!
+        </div>
+      )}
       <div className="profileBannerBox">
         <div className="profileBGBox">
           <img
@@ -360,9 +291,7 @@ const Profile = () => {
       <div className="profileContent">
         <div className="profileSection">
           <h5>General Information</h5>
-          <div
-            className={`${inputClassName(profileData?.name)} profileDetails`}
-          >
+          <div className={`${inputClassName(profileData?.name)} profileDetails`}>
             <label>Name</label>
             <input
               type="text"
@@ -372,10 +301,7 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div
-            className={`${inputClassName(profileData.gender)} profileDetails`}
-          >
-            {" "}
+          <div className={`${inputClassName(profileData.gender)} profileDetails`}>
             <label>Gender</label>
             <input
               type="text"
@@ -385,9 +311,7 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div
-            className={`${inputClassName(profileData.idCard)} profileDetails`}
-          >
+          <div className={`${inputClassName(profileData.idCard)} profileDetails`}>
             <label>ID Card</label>
             <input
               type="text"
@@ -397,23 +321,16 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div
-            className={`${inputClassName(profileData.address)} profileDetails`}
-          >
+          <div className={`${inputClassName(profileData.address)} profileDetails`}>
             <label>Address</label>
             <textarea
-              type="text"
               name="address"
               value={profileData?.address}
               onChange={handleChange}
               disabled={!isEditing}
             />
           </div>
-          <div
-            className={`${inputClassName(
-              profileData.testScore
-            )} profileDetails`}
-          >
+          <div className={`${inputClassName(profileData.testScore)} profileDetails`}>
             <label>Test Score</label>
             <input
               type="number"
@@ -424,12 +341,8 @@ const Profile = () => {
           </div>
           <div className="profileSeperator"></div>
           <h5>Contact Details</h5>
-          <div
-            className={`${inputClassName(
-              profileData.email
-            )} profileDetails profileSPLBox`}
-          >
-            <img src={phoneSVG} alt="phoneNumberSVG" />
+          <div className={`${inputClassName(profileData.email)} profileDetails profileSPLBox`}>
+            <img src={mailSVG} alt="mailSVG" />
             <label>Email</label>
             <input
               type="email"
@@ -439,12 +352,8 @@ const Profile = () => {
               readOnly
             />
           </div>
-          <div
-            className={`${inputClassName(
-              profileData.phoneNumber
-            )} profileDetails profileSPLBox`}
-          >
-            <img src={mailSVG} alt="mailSVG" />
+          <div className={`${inputClassName(profileData.phoneNumber)} profileDetails profileSPLBox`}>
+            <img src={phoneSVG} alt="phoneNumberSVG" />
             <label>Phone Number</label>
             <input
               type="number"
@@ -457,11 +366,7 @@ const Profile = () => {
         </div>
         <div className="profileSection">
           <h5>Professional Details</h5>
-          <div
-            className={`${inputClassName(
-              profileData.companyname
-            )} profileDetails`}
-          >
+          <div className={`${inputClassName(profileData.companyname)} profileDetails`}>
             <label>Company Name</label>
             <input
               type="text"
@@ -471,9 +376,7 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div
-            className={`${inputClassName(profileData.position)} profileDetails`}
-          >
+          <div className={`${inputClassName(profileData.position)} profileDetails`}>
             <label>Position</label>
             <input
               type="text"
@@ -483,9 +386,7 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div
-            className={`${inputClassName(profileData.linkedIn)} profileDetails`}
-          >
+          <div className={`${inputClassName(profileData.linkedIn)} profileDetails`}>
             <label>LinkedIn</label>
             <input
               type="url"
@@ -504,63 +405,6 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          {/* <div className="profileSeperator"></div>
-          <h5>Emergency Contact</h5>
-          <div
-            className={`${inputClassName(
-              profileData.emergencyContact?.name
-            )} profileDetails`}
-          >
-            <label>Full Name</label>
-            <input
-              type="text"
-              name="emergencyContact.name"
-              value={profileData?.emergencyContact?.name}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-          <div
-            className={`${inputClassName(
-              profileData.emergencyContact?.relationship
-            )} profileDetails`}
-          >
-            <label>Relationship</label>
-            <input
-              type="text"
-              name="emergencyContact.relationship"
-              value={profileData?.emergencyContact?.relationship}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-          <div
-            className={`${inputClassName(
-              profileData.emergencyContact?.phone
-            )} profileDetails`}
-          >
-            <label>Phone Number</label>
-            <input
-              type="number"
-              name="emergencyContact.phone"
-              value={profileData?.emergencyContact?.phone}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-          <div
-            className={`${inputClassName(
-              profileData.emergencyContact?.address
-            )} profileDetails`}
-          >
-            <label>Address</label>
-            <textarea
-              name="emergencyContact.address"
-              value={profileData?.emergencyContact?.address}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div> */}
         </div>
       </div>
     </div>
