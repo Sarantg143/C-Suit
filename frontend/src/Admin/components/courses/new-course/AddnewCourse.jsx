@@ -1,3 +1,4 @@
+//AddnewCourse.jsx
 import React from "react";
 import NewCourse from "./NewCourse";
 import Sidebar from "../../sidebar/LeftBar";

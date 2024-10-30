@@ -107,17 +107,21 @@ const Edit = ({ courseDetails }) => {
 
   const deleteThisCourse = async () => {
     const confirm = window.confirm(
-      "Confirm to delete this course all lessons associated will be lost"
+      "Confirm to delete this course. All lessons associated will be lost."
     );
     if (confirm) {
       try {
         const res = await deleteCourse(courseDetails._id);
-        if (res) navigate("/");
+        if (res) {
+          // Navigate only after a successful deletion
+          navigate("/admin");
+        }
       } catch (error) {
         console.log(error);
       }
     }
   };
+  
 
   const handleRemoveOverview = (index) => {
     const newOverviews = [...courseData?.overviewPoints];

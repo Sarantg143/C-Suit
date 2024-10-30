@@ -3,13 +3,15 @@ import Trash from "../../Assets/Images/trash.png";
 import Edit from "../../Assets/Images/edit.png";
 import Test from "../../Assets/Images/exam.png";
 import AddTest from "./AddTest";
-import { uploadDocument, uploadVedio } from "../../../api/baseApi";
+import { uploadDocument, uploadVideo } from "../../../api/baseApi"; // Ensure the correct function name is imported
+
 import { findFileType } from "../../../hooks/newCourseFunctions";
 import BackIcon from "../../Assets/Images/left-arrow.png";
 
-
 const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
   const [openTest, setOpenTest] = useState({ open: false, data: null });
+  const [errors, setErrors] = useState({});
+  const [uploadingFile, setUploadingFile] = useState(false);
 
   const [currentLesson, setCurrentLesson] = useState({
     title: null,
@@ -18,6 +20,7 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     updateIndex: null,
     description: "test-description",
   });
+
   const [currentSublesson, setCurrentSublesson] = useState({
     title: "",
     duration: "",
@@ -25,95 +28,84 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
     updateIndex: null,
     type: null,
   });
+
   const [sublessonFile, setSublessonFile] = useState(null);
-  const [uploadingFile, setUploadingFile] = useState(false);
+
+  useEffect(() => {
+    if (editData) setCurrentLesson(editData);
+  }, [editData]);
 
   const handleAddFile = (file) => {
     const filetype = findFileType(file);
-    console.log("filetype", filetype);
     setSublessonFile(file);
     setCurrentSublesson({ ...currentSublesson, type: filetype });
+    setErrors(prev => ({ ...prev, file: null }));
   };
 
   const handleSubLessonsInput = (type, value) => {
     setCurrentSublesson({ ...currentSublesson, [type]: value });
+    setErrors(prev => ({ ...prev, [type]: null }));
   };
 
-  const getVideoURL = async () => {
+  const uploadFile = async (file, type) => {
     try {
-      const vedioFormData = new FormData();
-      vedioFormData.append("video", sublessonFile);
-      const { data } = await uploadVedio(vedioFormData);
-      console.log(data);
-      // setCurrentSublesson({...currentSublesson,url:data?.videoUrl})
-      return data?.videoUrl;
+      const formData = new FormData();
+      formData.append(type === 'video' ? 'video' : 'document', file);
+      
+      const { data, error } = await (type === 'video' ? 
+        uploadVideo(formData) : 
+        uploadDocument(formData)
+      );
+      
+      if (error) throw new Error(error);
+      
+      return data.url || data.videoUrl;
     } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getDocumentUrl = async () => {
-    try {
-      const vedioFormData = new FormData();
-      vedioFormData.append("document", sublessonFile);
-      const { data } = await uploadDocument(vedioFormData);
-      console.log(" doc response -> data", data);
-      return data?.url;
-    } catch (error) {
-      console.log(error);
+      throw new Error(`Failed to upload ${type}: ${error.message}`);
     }
   };
 
   const addSublessons = async () => {
-    setUploadingFile(true)
-    const newLessons = [...currentLesson.chapter];
-    if (currentSublesson.title && currentSublesson.duration && sublessonFile) {
-      let Link;
-      if (currentSublesson.type === "video") Link = await getVideoURL();
-      if (
-        currentSublesson.type === "pdf" ||
-        currentSublesson.type === "ppt" ||
-        currentSublesson.type === "doc"
-      )
-        Link = await getDocumentUrl();
-      setUploadingFile(false)
-      if (
-        currentSublesson.updateIndex === null ||
-        currentSublesson.updateIndex === undefined
-      ) {
-        newLessons.push({ ...currentSublesson, link: Link });
-        setCurrentLesson({ ...currentLesson, chapter: newLessons });
-        setSublessonFile(null)
-        setCurrentSublesson({
-          title: "",
-          duration: "",
-          link: "#",
-          updateIndex: null,
-          type: null,
-        });
-      } else {
-        newLessons[currentSublesson.updateIndex] = {
-          ...currentSublesson,
-          link: Link,
-        };
-        setCurrentLesson({ ...currentLesson, chapter: newLessons });
-        setSublessonFile(null)
-        setCurrentSublesson({
-          title: "",
-          duration: "",
-          link: "#",
-          updateIndex: null,
-          type: null,
-        });
+    try {
+      setUploadingFile(true);
+      setErrors({});
+
+      // Validate inputs
+      if (!currentSublesson.title) {
+        setErrors(prev => ({ ...prev, title: "Title is required" }));
+        return;
       }
-    } else if (
-      currentSublesson.link !== "#" &&
-      currentSublesson.title &&
-      currentSublesson.duration
-    ) {
-      newLessons[currentSublesson.updateIndex] = currentSublesson;
+      if (!currentSublesson.duration) {
+        setErrors(prev => ({ ...prev, duration: "Duration is required" }));
+        return;
+      }
+      if (!sublessonFile && currentSublesson.link === "#") {
+        setErrors(prev => ({ ...prev, file: "File is required" }));
+        return;
+      }
+
+      const newLessons = [...currentLesson.chapter];
+      
+      if (sublessonFile) {
+        const Link = await uploadFile(
+          sublessonFile, 
+          currentSublesson.type === 'video' ? 'video' : 'document'
+        );
+
+        if (currentSublesson.updateIndex === null) {
+          newLessons.push({ ...currentSublesson, link: Link });
+        } else {
+          newLessons[currentSublesson.updateIndex] = {
+            ...currentSublesson,
+            link: Link,
+          };
+        }
+      } else if (currentSublesson.link !== "#") {
+        newLessons[currentSublesson.updateIndex] = currentSublesson;
+      }
+
       setCurrentLesson({ ...currentLesson, chapter: newLessons });
-      setSublessonFile(null)
+      setSublessonFile(null);
       setCurrentSublesson({
         title: "",
         duration: "",
@@ -121,6 +113,11 @@ const NewLesson = ({ addLesson, cancel, editData, removeThisLesson }) => {
         updateIndex: null,
         type: null,
       });
+
+    } catch (error) {
+      setErrors(prev => ({ ...prev, submit: error.message }));
+    } finally {
+      setUploadingFile(false);
     }
   };
 
