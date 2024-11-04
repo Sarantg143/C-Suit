@@ -13,7 +13,6 @@ const Users = ({openNewUser,openEditUser}) => {
       <div className="users-list-header">
         <h2>
           All users
-          <span> 44</span>
         </h2>
         <div className="users-header-actions-cnt">
           <div className="search-user-cnt">
