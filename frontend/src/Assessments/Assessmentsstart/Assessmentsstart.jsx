@@ -12,7 +12,7 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 //react-router
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Elacompleted } from "../../api/baseapi";
+import { Elacompleted, Elatestscore } from "../../api/baseapi";
 
 const Assessmentsstart = () => {
   const navigate = useNavigate();
@@ -251,27 +251,59 @@ const Assessmentsstart = () => {
       });
     }
   }
-
-  async function testcomplete() {
-    let sum = 0;
-    for (let i = 0; i < Object.values(score).length; i++) {
-      sum += Object.values(score)[i];
-    }
-    try {
-      const Id = localStorage.getItem("userid");
-      console.log(Id);
-      const res = await Elacompleted(Id, { testScore: sum, elaComplete: true });
-      console.log(res);
-      if (res) {
-        setFinalScore(sum);
-        localStorage.setItem("finalScore", sum);
-        navigate("/finish-assessment");
+async function testcomplete() {
+  let sum = 0;
+  for (let section of questions.sections) {
+    for (let question of section.questions) {
+      const userAnswer = score[question.question]; 
+      const correctAnswer = question.answer;
+      if (userAnswer === correctAnswer) {
+        sum += 1; 
       }
-    } catch (error) {
-      console.log(error);
     }
   }
 
+  try {
+    const Id = localStorage.getItem("userid");
+    console.log(Id);
+
+    const completionRes = await Elacompleted(Id, { elaComplete: true });
+    console.log("Test completed:", completionRes);
+
+    const scoreRes = await Elatestscore(Id, { testScore: sum });
+    console.log("Test score updated:", scoreRes);
+
+    if (scoreRes) {
+      setFinalScore(sum);
+      localStorage.setItem("finalScore", sum);
+      navigate("/finish-assessment");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+ // async function testcomplete() {
+//    let sum = 0;
+//    for (let i = 0; i < Object.values(score).length; i++) {
+//      sum += Object.values(score)[i];
+//    }
+//    try {
+//      const Id = localStorage.getItem("userid");
+//      console.log(Id);
+//      const res = await Elacompleted(Id, { testScore: sum, elaComplete: true });
+//      console.log(res);
+//      if (res) {
+//        setFinalScore(sum);
+//        localStorage.setItem("finalScore", sum);
+//        navigate("/finish-assessment");
+//      }
+//   } catch (error) {
+//      console.log(error);
+//    }
+//  }
+
+  
   return (
     <div className="assessment-head">
       <div className="assessment-inside">
