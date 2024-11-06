@@ -11,7 +11,7 @@ const API = axios.create({
 export const check = (userdata) =>
   API.get("/api/user/check", {
     params: { email: userdata.email },
-  });
+  }); 
 
 export const loginCheck = (userdata) => API.post("/api/user/login", userdata);
 
