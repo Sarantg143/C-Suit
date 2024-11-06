@@ -395,14 +395,15 @@ const Profile = () => {
               disabled={!isEditing}
             />
           </div>
-          <div className={`${inputClassName(profileData.testScore)} profileDetails`}>
-            <label>Test Score</label>
-            <input
-              type="number"
-              name="testScore"
-              value={profileData?.testScore || ''}
-              disabled
-            />
+          <div className={`${inputClassName(profileData?.testScore)} profileDetails`}>
+          <label>Test Score</label>
+          <input
+          type="number"
+          name="testScore"
+          value={profileData?.testScore || ''}
+          onChange={handleChange}  // Allow changes when editing
+          disabled={!isEditing}    // Disable input when not editing
+          />
           </div>
           <div className="profileSeperator"></div>
           <h5>Contact Details</h5>

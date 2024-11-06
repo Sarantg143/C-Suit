@@ -94,7 +94,7 @@ const Edit = ({ courseDetails }) => {
       try {
         const { data } = await updateCourse(courseData);
         console.log(data);
-        navigate("/");
+        navigate("/admin");
       } catch (error) {
         console.log(error);
       }

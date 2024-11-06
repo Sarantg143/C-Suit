@@ -6,6 +6,7 @@ import Google from "./images/google.png";
 import Microsoft from "./images/microsoft.png";
 import LinkedIn from "./images/linkedIn.png";
 import Eye from "./images/eye.png";
+import Eye_Closed_Icon from "./images/Eye_Closed_Icon.png"
 import mail_icon from "./images/vector4.svg";
 import Apple from "./images/apple.svg";
 import Lock_Vector from "./images/lock-vector.svg";
@@ -22,6 +23,7 @@ const Images = {
   Microsoft,
   LinkedIn,
   Eye,
+  Eye_Closed_Icon,
   mail_icon,
   Apple,
   Lock_Vector,
