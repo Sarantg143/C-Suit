@@ -26,6 +26,7 @@ const Assessmentsstart = () => {
   const [bookmarkedQuestions, setBookmarkedQuestions] = useState({});
   var questionData = JSON.parse(localStorage.getItem("questionData"));
   const [finalScore, setFinalScore] = useState(0);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     setTimeLeft(localStorage.getItem("TimeLeft"));
