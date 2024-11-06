@@ -24,3 +24,8 @@ export const fetchUserData = (id) => API.get(`/api/user/user/${id}`);
 
 export const Elacompleted = (userId, data) =>
   API.put(`/api/user/${userId}/ela`, data);
+
+export const Elatestscore = (userId, data) =>
+  API.put(`/api/user/updateElaScore/${userId}`, data);
+
+
