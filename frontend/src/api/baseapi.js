@@ -4,7 +4,7 @@ import axios from "axios";
 const API = axios.create({
   baseURL: "https://csuite-ui0f.onrender.com",
 });
-
+ 
 // user
 // export const check = (userdata) => API.post("/api/user");
 
