@@ -12,7 +12,7 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 //react-router
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Elacompleted, Elatestscore } from "../../api/baseapi";
+import { Elacompleted } from "../../api/baseapi";
 
 const Assessmentsstart = () => {
   const navigate = useNavigate();
@@ -26,7 +26,6 @@ const Assessmentsstart = () => {
   const [bookmarkedQuestions, setBookmarkedQuestions] = useState({});
   var questionData = JSON.parse(localStorage.getItem("questionData"));
   const [finalScore, setFinalScore] = useState(0);
-  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     setTimeLeft(localStorage.getItem("TimeLeft"));
@@ -253,39 +252,6 @@ const Assessmentsstart = () => {
     }
   }
 
-  
-//async function testcomplete() {
-//  let sum = 0;
-//  for (let section of questions.sections) {
-//    for (let question of section.questions) {
-//      const userAnswer = score[question.question]; 
-//      const correctAnswer = question.answer;
-//      if (userAnswer === correctAnswer) {
-//        sum += 1; 
-//      }
-//    }
-//  }
-
-//  try {
-//    const Id = localStorage.getItem("userid");
-//    console.log(Id);
-
-//    const completionRes = await Elacompleted(Id, { elaComplete: true });
- //   console.log("Test completed:", completionRes);
-
- //   const scoreRes = await Elatestscore(Id, { testScore: sum });
-//    console.log("Test score updated:", scoreRes);
-
-//    if (scoreRes) {
-//      setFinalScore(sum);
- //     localStorage.setItem("finalScore", sum);
- //     navigate("/finish-assessment");
- //   }
- // } catch (error) {
- //   console.log(error);
- // }
-//}
-
   async function testcomplete() {
     let sum = 0;
     for (let i = 0; i < Object.values(score).length; i++) {
@@ -301,12 +267,11 @@ const Assessmentsstart = () => {
         localStorage.setItem("finalScore", sum);
         navigate("/finish-assessment");
       }
-   } catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }
 
-  
   return (
     <div className="assessment-head">
       <div className="assessment-inside">
