@@ -187,9 +187,13 @@ padding:5rem;
 
 .total-content {
 display: flex;
-justify-content:start;
+justify-content:space-between;
 align-items: center;
 padding-top: 1rem;
+max-width: 800px;
+width: 100%;
+flex-grow: 1; 
+text-align: justify;
 }
 
 .content-title{
@@ -213,8 +217,10 @@ align-items: center;
 background-image: url('./Asset/Assessment.jpg');
 background-size: 100% 100%;
 border-radius:5px;
-width:350px; 
-height:300px; 
+width:400px; 
+height:350px; 
+margin-right: 100px;
+margin-bottom: 100px;
 } 
 
 /* .card-image-subscribe{

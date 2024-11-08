@@ -35,9 +35,11 @@
 }
 .footer .section1 .sociallinks{
     display: flex;
-    gap: 10px;
+    gap: 17px;
 }
-
+.footer .section1 .sociallinks a {
+    color: black; 
+}
 /* section 2 */
 
 .footer .section2{
@@ -145,7 +147,36 @@
     padding: 5px 10px;
     color: white;
 }
+/* Copyright Section */
+.copyright-section {
+    background-color: black;
+    color: white;
+    padding: 20px 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
 
+.copyright-text {
+    font-size: 14px;
+}
+
+.copyright-links {
+    display: flex;
+    gap: 20px;
+}
+
+.copyright-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.copyright-links a:hover {
+    color: #ccc;
+}
 
 @media (max-width:1150px) {
     .footer{
@@ -172,5 +203,17 @@
     }
     .footer .section4 .instructoremail{
         flex-direction: column;
+    }
+    .copyright-section {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 15px 2%;
+    }
+
+    .copyright-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
     }
 }

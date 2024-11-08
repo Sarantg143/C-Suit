@@ -114,7 +114,7 @@ const Brands = () => {
             <h1 className='why-lms'>Do I really, need C-Suite <br />coaching?</h1>
             {/* <h3 className='why-para-one'>Preferred by educators worldwide.<br /> Adopted by leading educational institutions.</h3> */}
             <p className='why-para-two'>
-              In an average large enterprise, there are about 10,000 employees. Of which:
+              In an average large enterprise, there are about 10,000 employees. Of whom:
               <ul >
                 <li>200 to 300 are considered as High Performers.</li>
                 <li>Only 5 to 10 have true strategic authority, i.e., CXOs.</li>

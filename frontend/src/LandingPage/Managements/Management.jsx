@@ -22,7 +22,7 @@ const contentData = {
         text: "• High-performing executives with great potential in strategic leadership spend decades to reach positions where they can steer the course of their companies."
       },
       {
-        text: "• Many make it to CXO positions in the dusk years of their career and do not have enough time to contribute real value.",
+        text: "• Many make it to CXO positions in the twilight years of their careers and do not have enough time to contribute real value.",
       },
       {
         title: "C-Suite will help you climb the corporate ladder faster, giving you enough time to meaningfully contribute.",

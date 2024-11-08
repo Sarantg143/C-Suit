@@ -1,3 +1,4 @@
+// Header.jsx
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NavSlider from './NavSlider';
@@ -6,7 +7,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import logo from './Asset/brand-1.png';
-import './Header.css'; // Import the CSS file
+import './Header.css';
 
 function Header() {
   useEffect(() => {
@@ -32,12 +33,6 @@ function Header() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
-            {/* <li className="nav-item active ml-4">
-              <Link className="nav-link text-light">
-                Our Features <FontAwesomeIcon className='angledown' icon={faAngleDown} />
-              </Link>
-              <NavSlider />
-            </li> */}
             <li className="nav-item active ml-4">
               <a className="nav-link text-light" href="#what">Why C-Suite?</a>
             </li>
@@ -53,19 +48,23 @@ function Header() {
           </ul>
           <ul className="navbar-nav ml-auto mr-3" data-aos="fade-left">
             <li className="nav-item active ml-4">
-              <Link to={'./authentication'}>
-                <button type="button" className="btn button-logoin text-light mb-2 mb-md-2 mb-lg-0">Log In</button>
+              <Link to="/authentication?form=login">
+                <button type="button" className="btn button-logoin text-light mb-2 mb-md-2 mb-lg-0">
+                  Log In
+                </button>
               </Link>
             </li>
             <li className="nav-item active ml-md-3 ml-4">
-              <Link to={'./authentication'}>
-                <button type="button" className="btn btn-light">Get Started</button>
+              <Link to="/authentication?form=signup">
+                <button type="button" className="btn btn-light">
+                  Get Started
+                </button>
               </Link>
             </li>
           </ul>
         </div>
       </nav>
-      <hr className='tag-size' />
+      <hr className="tag-size" />
     </header>
   );
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 // const API = axios.create({ baseURL: "https://csuite-production.up.railway.app" });
 const API = axios.create({
   baseURL: "https://csuite-ui0f.onrender.com",
@@ -25,7 +26,7 @@ export const fetchUserData = (id) => API.get(`/api/user/user/${id}`);
 export const Elacompleted = (userId, data) =>
   API.put(`/api/user/${userId}/ela`, data);
 
-export const Elatestscore = (userId, data) =>
+export const elaTestScore = (userId, data) =>
   API.put(`/api/user/updateElaScore/${userId}`, data);
 
 
