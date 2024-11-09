@@ -7,7 +7,7 @@ export async function signinMicrosoft() {
   const provider = new OAuthProvider('microsoft.com');
 
   try {
-    const result = await  signInWithRedirect(auth, provider);
+    const result = await  signInWithPopup(auth, provider);
     const user = result.user;
     
     // Extract user details
