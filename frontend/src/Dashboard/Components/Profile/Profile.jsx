@@ -16,7 +16,7 @@ const Profile = () => {
     name: "",
     email: "",
     phoneNumber: "",
-    testScore: "",
+    elaTestScore: "",
     idCard: "",
     gender: "",
     profilePic: profileImage,

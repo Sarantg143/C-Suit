@@ -1,25 +1,36 @@
-import axios from "axios";
-import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, signInWithRedirect, OAuthProvider } from "firebase/auth";
+import axios from 'axios';
 
-const auth = getAuth();
-const provider = new OAuthProvider("microsoft.com");
 
-export const signinMicrosoft = async () => {
-  const res = await signInWithPopup(auth, provider)
-    .then((result) => {
-      const credential = OAuthProvider.credentialFromResult(result);
-      // const accessToken = credential.accessToken;
-      // const idToken = credential.idToken;
+export async function signinMicrosoft() {
+  const auth = getAuth();
+  const provider = new OAuthProvider('microsoft.com');
 
-      return { result, credential };
-    })
-    .catch((error) => {
-      return error;
-    });
-  await axios.post("https://csuite-ui0f.onrender.com/api/user/new", {
-    name: res?.result?.user?.displayName,
-    email: res?.result?.user?.email,
-    authId: res?.result?.user?.uid,
-  });
-  return res;
-};
+  try {
+    const result = await  signInWithPopup(auth, provider);
+    const user = result.user;
+    
+    // Extract user details
+    const microsoftUserData = {
+      name: user.displayName,
+      email: user.email,
+      socialMediaId: user.uid, 
+      profilePic: user.photoURL
+    };
+
+    // Save to backend
+    await saveMicrosoftUser(microsoftUserData);
+
+  } catch (error) {
+    console.error("Microsoft Sign-in failed:", error);
+  }
+}
+
+async function saveMicrosoftUser(data) {
+  try {
+    const response = await axios.post("https://csuite-ui0f.onrender.com/api/user", data);
+    console.log("User saved:", response.data);
+  } catch (error) {
+    console.error("Error saving Microsoft user:", error);
+  }
+}
