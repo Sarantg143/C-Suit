@@ -16,10 +16,14 @@ export const signinMicrosoft = async () => {
     .catch((error) => {
       return error;
     });
+ try {
   await axios.post("https://csuite-ui0f.onrender.com/api/user", {
-    name: res?.result?.user?.displayName,
-    email: res?.result?.user?.email,
-    authId: res?.result?.user?.uid,
+    name: result.user?.displayName,
+    email: result.user?.email,
+    authId: result.user?.uid,
   });
-  return res;
+} catch (error) {
+  console.error("Error posting user data:", error.response?.data || error.message);
+}
+
 };
