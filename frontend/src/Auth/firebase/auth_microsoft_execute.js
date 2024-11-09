@@ -1,4 +1,4 @@
-import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, signInWithRedirect, OAuthProvider } from "firebase/auth";
 import axios from 'axios';
 
 
@@ -7,14 +7,14 @@ export async function signinMicrosoft() {
   const provider = new OAuthProvider('microsoft.com');
 
   try {
-    const result = await signInWithPopup(auth, provider);
+    const result = await  signInWithRedirect(auth, provider);
     const user = result.user;
     
     // Extract user details
     const microsoftUserData = {
       name: user.displayName,
       email: user.email,
-      socialMediaId: user.uid, // Firebase UID can be used as a unique identifier
+      socialMediaId: user.uid, 
       profilePic: user.photoURL
     };
 
