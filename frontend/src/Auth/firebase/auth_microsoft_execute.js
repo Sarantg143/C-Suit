@@ -1,29 +1,36 @@
-import axios from "axios";
 import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
+import axios from 'axios';
 
-const auth = getAuth();
-const provider = new OAuthProvider("microsoft.com");
+const provider = new OAuthProvider('microsoft.com');
 
-export const signinMicrosoft = async () => {
-  let result; // Define result outside the try block for scope
+async function microsoftSignIn() {
+  const auth = getAuth();
 
   try {
-    result = await signInWithPopup(auth, provider);
-    const credential = OAuthProvider.credentialFromResult(result);
-    // Optionally retrieve tokens if needed
-    // const accessToken = credential.accessToken;
-    // const idToken = credential.idToken;
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    
+    // Extract user details
+    const microsoftUserData = {
+      name: user.displayName,
+      email: user.email,
+      socialMediaId: user.uid, // Firebase UID can be used as a unique identifier
+      profilePic: user.photoURL
+    };
 
-    // Send user data to your backend
-    await axios.post("https://csuite-ui0f.onrender.com/api/user", {
-      name: result.user?.displayName,
-      email: result.user?.email,
-      authId: result.user?.uid,
-    });
+    // Save to backend
+    await saveMicrosoftUser(microsoftUserData);
 
-    return { result, credential };
   } catch (error) {
     console.error("Microsoft Sign-in failed:", error);
-    return { error };
   }
-};
+}
+
+async function saveMicrosoftUser(data) {
+  try {
+    const response = await axios.post("https://csuite-ui0f.onrender.com/api/user", data);
+    console.log("User saved:", response.data);
+  } catch (error) {
+    console.error("Error saving Microsoft user:", error);
+  }
+}
