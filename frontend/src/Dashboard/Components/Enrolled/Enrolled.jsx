@@ -154,12 +154,18 @@ const Enrolled = () => {
     <>
       <div className="main-content">
         <div className="cardContainer3">
+          <button
+        className="back-btn"
+        onClick={() => navigate(-1)}  
+      >
+        Back
+      </button>
           <h2>Enrolled Courses</h2>
           {!hasPurchasedCourses && (
             <h3>No courses have been purchased. Please purchase a course.</h3>
           )}
 
-          <div className="filterChips">
+          {/* <div className="filterChips">
             {allLessons.map((lesson, index) => (
               <div
                 key={index}
@@ -176,7 +182,7 @@ const Enrolled = () => {
                 Clear All
               </button>
             )}
-          </div>
+          </div> */}
           <div className="courseContainer3">
             {filterCourses(selectedFilters).map((course) => (
               <div className="courseCard3" key={course._id}>

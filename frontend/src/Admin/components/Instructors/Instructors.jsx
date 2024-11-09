@@ -1,11 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";  // For navigation
 import searchIcon from "../Assets/Images/search.png";
 import addIcon from "../Assets/Images/plus.png";
 import InstructorsList from "./InstructorsList";
 
 const Instructors = ({ openEditInstructor, openAddInstructor }) => {
+  const navigate = useNavigate();  
+
   return (
     <div className="user-page">
+      {/* Back Button */}
+      <button
+        className="back-btn"
+        onClick={() => navigate(-1)}  
+      >
+        Back
+      </button>
+
       <>
         <h2 className="users-page-title">Instructor Management</h2>
         <p>Manage the instructors and their details here</p>

@@ -1,48 +1,23 @@
-// src/components/Chart.js
-import React from "react";
+import React from 'react';
 import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
   BarChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 
-const Chart = ({ data }) => {
-  const isPieChart = data.hasOwnProperty("completed");
-
-  return (
-    <div className="chart">
-      {isPieChart ? (
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={[
-                { name: "Completed", value: data.completed },
-                { name: "In Progress", value: data.inProgress },
-                { name: "Not Started", value: data.notStarted },
-              ]}
-              cx="50%"
-              cy="55%"
-              outerRadius={110}
-              fill="#82ca9d"
-              label
-            >
-              <Cell key="completed" fill="#82ca9d" />
-              <Cell key="inProgress" fill="#8884d8" />
-              <Cell key="notStarted" fill="#FFBB28" />
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-      ) : (
+const Chart = ({ data, isTimeSpent }) => {
+  // If it's time spent data, render bar chart
+  if (isTimeSpent) {
+    return (
+      <div className="chart">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
             data={Object.entries(data).map(([key, value]) => ({
@@ -58,7 +33,36 @@ const Chart = ({ data }) => {
             <Bar dataKey="value" fill="#8949FF" />
           </BarChart>
         </ResponsiveContainer>
-      )}
+      </div>
+    );
+  }
+
+  // For course progress, render pie chart
+  const progress = data.progress || 0;
+  const pieData = [
+    { name: "Completed", value: progress },
+    { name: "Remaining", value: 100 - progress }
+  ];
+
+  return (
+    <div className="chart">
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={pieData}
+            cx="50%"
+            cy="50%"
+            outerRadius={110}
+            dataKey="value"
+            label={({ name, value }) => `${name}: ${value.toFixed(1)}%`}
+          >
+            <Cell fill="#82ca9d" /> {/* Completed */}
+            <Cell fill="#FFBB28" /> {/* Remaining */}
+          </Pie>
+          <Tooltip formatter={(value) => `${value.toFixed(1)}%`} />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
     </div>
   );
 };

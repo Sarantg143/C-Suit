@@ -1,5 +1,6 @@
 import React, {useEffect, useState } from "react";
 import { getEla } from "../../api/baseApi";
+import { useNavigate } from "react-router-dom"; 
 import {
   addNewQuestion,
   addSection,
@@ -12,7 +13,9 @@ import {
 } from "../../hooks/ElaFunctions";
 
 const ELA = () => {
-  const initialState = {
+  const navigate = useNavigate(); 
+  const initialState =
+   {
     question: "",
     answer: null,
     options: [],
@@ -189,6 +192,12 @@ const ELA = () => {
   console.log(currentQuestion,currentSection)
   return (
     <div className="ela-test-page">
+      <button
+        className="back-btn"
+        onClick={() => navigate(-1)}  // Navigates back
+      >
+        Back
+      </button>
       <p className="ela-title">Create or Edit your ELA assessment</p>
       <div className="questions-block-cnt justify-section-cnt">
         {currentTest?.sections?.length > 0 &&

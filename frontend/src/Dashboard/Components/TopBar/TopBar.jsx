@@ -2,42 +2,53 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
 import "./TopBar.css";
-import defaultPorfileSVG from "../Assets/SVG/defaultPorfileSVG.svg";
+import defaultProfileSVG from "../Assets/SVG/defaultPorfileSVG.svg";
 
 const TopBar = () => {
-  const [userData, setUserData] = useState({
-    name: "",
-    profilePic: ""
-  });
+  const [userName, setUserName] = useState("User");
+  const [userProfilePic, setUserProfilePic] = useState(defaultProfileSVG);
 
   useEffect(() => {
-    // Function to get user data from localStorage
-    const getUserData = () => {
+    // Fetch and set user data for name
+    const getUserName = () => {
       try {
         const userDataString = localStorage.getItem("userDataUpdated");
         if (userDataString) {
           const parsedData = JSON.parse(userDataString);
-          setUserData({
-            name: parsedData.name || "User",
-            profilePic: parsedData.profilePic || defaultPorfileSVG
-          });
+          setUserName(parsedData.name || "User");
         }
       } catch (error) {
         console.error("Error parsing user data:", error);
-        setUserData({
-          name: "User",
-          profilePic: defaultPorfileSVG
-        });
+        setUserName("User");
       }
     };
 
-    // Initial load
-    getUserData();
+    // Fetch and set user profile picture
+    const getUserProfilePic = () => {
+      try {
+        const userDataString = localStorage.getItem("userDataUpdated");
+        if (userDataString) {
+          const parsedData = JSON.parse(userDataString);
+          setUserProfilePic(parsedData.profilePic || defaultProfileSVG);
+        }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        setUserProfilePic(defaultProfileSVG);
+      }
+    };
 
-    // Set up event listener for storage changes
+    // Initial load to get name and profile pic independently
+    getUserName();
+    getUserProfilePic();
+
+    // Event listeners to handle changes to localStorage
     const handleStorageChange = (e) => {
       if (e.key === "userDataUpdated") {
-        getUserData();
+        if (e.newValue) {
+          const updatedData = JSON.parse(e.newValue);
+          setUserName(updatedData.name || "User");
+          setUserProfilePic(updatedData.profilePic || defaultProfileSVG);
+        }
       }
     };
 
@@ -57,16 +68,16 @@ const TopBar = () => {
       </div>
       <div className="user-info">
         <img
-          src={userData.profilePic}
+          src={userProfilePic}
           alt="User Avatar"
           className="user-avatar"
           onError={(e) => {
-            e.target.src = defaultPorfileSVG;
+            e.target.src = defaultProfileSVG;
           }}
         />
         <div className="user-text">
           <span className="welcome-text">Welcome back</span>
-          <span className="user-name">{userData.name}</span>
+          <span className="user-name">{userName}</span>
         </div>
         <div className="notification-icon">
           <FontAwesomeIcon icon={faBell} />

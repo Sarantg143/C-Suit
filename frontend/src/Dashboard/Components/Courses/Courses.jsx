@@ -10,7 +10,7 @@ const Courses = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [allLessons, setAllLessons] = useState([]);
-  const [coursesData, setCoursesData] = useState([]);
+  const [coursesData, setCoursesData] = useState([]); // To store all courses
   const [fetchError, setFetchError] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
 
@@ -23,26 +23,18 @@ const Courses = () => {
         );
         const allCourses = response.data;
 
-        // filtering purschased course
+        // Handle user info and purchased courses, but no filtering for now
         const userInfo = JSON.parse(localStorage.getItem("userDataUpdated"));
         if (userInfo) {
           const { coursePurchased } = userInfo;
-
           const purchasedCourseIds = coursePurchased.map(
             (course) => course.courseId
           );
-
-          // Checking course vangiyacha ?
-          if (purchasedCourseIds.length > 0) {
-            // Filtering
-            const remainingCourses = allCourses.filter(
-              (course) => !purchasedCourseIds.includes(course._id)
-            );
-
-            setCoursesData(remainingCourses);
-          } else {
-            setCoursesData(allCourses);
-          }
+          // Optionally, mark purchased courses, add them as a property if needed
+          allCourses.forEach(course => {
+            course.isPurchased = purchasedCourseIds.includes(course._id);
+          });
+          setCoursesData(allCourses); // Store all courses (purchased + not purchased)
         } else {
           setFetchError(true);
           alert("User not logged in, Go to Profile page");
@@ -177,13 +169,17 @@ const Courses = () => {
       <div className="main-content">
         <div className="cardContainer3">
           <h2>Courses</h2>
-          <div className="filterChips">
+          <button
+        className="back-btn"
+        onClick={() => navigate(-1)}  
+      >
+        Back
+      </button>
+          {/* <div className="filterChips">
             {allLessons.map((lesson, index) => (
               <div
                 key={index}
-                className={`filterChip ${
-                  selectedFilters.includes(lesson) ? "active" : ""
-                }`}
+                className={`filterChip ${selectedFilters.includes(lesson) ? "active" : ""}`}
                 onClick={() => handleFilterClick(lesson)}
               >
                 {lesson}
@@ -194,7 +190,7 @@ const Courses = () => {
                 Clear All
               </button>
             )}
-          </div>
+          </div> */}
           <div className="courseContainer3">
             {filterCourses(selectedFilters).map((course) => (
               <div className="courseCard3" key={course._id}>
@@ -214,29 +210,22 @@ const Courses = () => {
                 </div>
                 <div className="courseLessonBox3">
                   <h5>Lessons</h5>
-                  {/* <ul>
-                    {course.lessons.slice(0, 3).map((lesson, index) => (
-                      <li key={index}>{lesson.title}</li>
-                    ))}
-                    {course.lessons.length > 3 && <li>...and more</li>}
-                  </ul> */}
                   <ul>
                     {getLessonList(course.lessons).map((lesson, index) => (
                       <li key={index}>{lesson.title}</li>
                     ))}
-                    {course.lessons.length >
-                      getLessonList(course.lessons).length && (
+                    {course.lessons.length > getLessonList(course.lessons).length && (
                       <li>...and more</li>
                     )}
                   </ul>
                   <button
-                    onClick={() =>
-                      navigate(`/home/courseDetails/${course._id}`)
-                    }
+                    onClick={() => navigate(`/home/courseDetails/${course._id}`)}
                     className="lessonDetailBtn3"
                   >
                     View Course
                   </button>
+                  {/* Optionally, display if purchased */}
+                  {course.isPurchased && <span className="purchasedLabel">Purchased</span>}
                 </div>
               </div>
             ))}
