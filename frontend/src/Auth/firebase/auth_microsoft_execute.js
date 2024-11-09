@@ -1,10 +1,10 @@
 import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 import axios from 'axios';
 
-const provider = new OAuthProvider('microsoft.com');
 
-async function microsoftSignIn() {
+export async function signinMicrosoft() {
   const auth = getAuth();
+  const provider = new OAuthProvider('microsoft.com');
 
   try {
     const result = await signInWithPopup(auth, provider);
