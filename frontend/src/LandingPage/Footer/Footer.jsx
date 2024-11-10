@@ -26,13 +26,13 @@ function Footer() {
             <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faLinkedin} />
             </a>
-            <a href="https://www.facebook.com/your-profile" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/profile.php?id=61568457662306&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faFacebookF} />
             </a>
-            <a href="https://www.instagram.com/your-profile" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/c_suiteacademy?igsh=MWY3dHEwMHd1eHUzbQ==" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faSquareInstagram} />
             </a>
-            <a href="https://twitter.com/your-profile" target="_blank" rel="noopener noreferrer">
+            <a href="https://x.com/CSuite_Academy?t=gl--2-4UQmp6Ceio61GxXA&s=09" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faXTwitter} />
             </a>
           </div>
