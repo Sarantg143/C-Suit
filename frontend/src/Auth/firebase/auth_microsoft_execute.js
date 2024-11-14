@@ -27,9 +27,13 @@ export async function signinMicrosoft() {
 
 async function saveMicrosoftUser(data) {
   try {
-    const response = await axios.post("https://csuite-ui0f.onrender.com/api/user", data);
-    console.log("User saved:", response.data);
+    const response = await axios.post("https://csuite-ui0f.onrender.com/api/user/checks", data);
+    if (response.data.exists) {
+      console.log("User signed in:", response.data.user);
+    } else {
+      console.log("New user signed up:", response.data.user);
+    }
   } catch (error) {
-    console.error("Error saving Microsoft user:", error);
+    console.error("Error checking or saving Microsoft user:", error);
   }
 }
