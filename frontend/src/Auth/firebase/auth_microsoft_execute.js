@@ -12,8 +12,8 @@ export async function signinMicrosoft() {
     const microsoftUserData = {
       name: user.displayName,
       email: user.email,
-      socialMediaId: user.uid, 
-      profilePic: user.photoURL
+      socialMediaId: user.uid
+     
     };
     await saveMicrosoftUser(microsoftUserData);
 
