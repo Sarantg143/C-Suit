@@ -115,6 +115,7 @@ const Login = ({ toggleSlide }) => {
       console.error("Error signing in with Microsoft.");
     }
   }
+}
 };
 
   return (
