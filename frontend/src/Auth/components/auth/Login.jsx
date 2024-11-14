@@ -102,15 +102,16 @@ const Login = ({ toggleSlide }) => {
     }
     if (type === "github") handleLinkedIn();
     if (type === "microsoft") {
-    const microsoftRes = await signinMicrosoft();
-    if (microsoftRes && microsoftRes.data) {
-      if (microsoftRes.data.user.elaComplete === false) {
-        navigate("../quick-assessment");
-      } else if (Courseid) {
-        navigate("../home/courseDetails/" + Courseid);
-      } else {
-        navigate("../home");
-      }
+      res = await signinMicrosoft(navigate, Courseid);
+      setTimeout(() => {
+        if (res.data.user.elaComplete == false) {
+                navigate("../quick-assessment");
+              } else if (Courseid) {
+                navigate("../home/courseDetails/" + Courseid);
+              } else {
+                navigate("../home");
+              }
+            }, 5000);
     } else {
       console.error("Error signing in with Microsoft.");
     }
