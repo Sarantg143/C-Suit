@@ -113,8 +113,7 @@ const Login = ({ toggleSlide }) => {
               }
             }, 5000);
     } else {
-      console.error("Error signing in with Microsoft.");
-    }
+    console.error("Error signing in with Microsoft.");
   }
 };
 
