@@ -30,8 +30,10 @@ async function saveMicrosoftUser(data) {
     const response = await axios.post("https://csuite-ui0f.onrender.com/api/user/checks", data);
     if (response.data.exists) {
       console.log("User signed in:", response.data.user);
+       localStorage.setItem('user', JSON.stringify(response.data.user));
     } else {
       console.log("New user signed up:", response.data.user);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
     }
   } catch (error) {
     console.error("Error checking or saving Microsoft user:", error);
