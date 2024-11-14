@@ -1,28 +1,27 @@
-import { getAuth, signInWithPopup, signInWithRedirect, OAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 import axios from 'axios';
-
 
 export async function signinMicrosoft() {
   const auth = getAuth();
   const provider = new OAuthProvider('microsoft.com');
 
   try {
-    const result = await  signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    
-    // Extract user details
+
     const microsoftUserData = {
       name: user.displayName,
       email: user.email,
       socialMediaId: user.uid, 
       profilePic: user.photoURL
     };
-
-    // Save to backend
     await saveMicrosoftUser(microsoftUserData);
 
   } catch (error) {
     console.error("Microsoft Sign-in failed:", error);
+    if (error.code === 'auth/network-request-failed') {
+      setTimeout(signinMicrosoft, 1000); 
+    }
   }
 }
 
@@ -34,16 +33,3 @@ async function saveMicrosoftUser(data) {
     console.error("Error saving Microsoft user:", error);
   }
 }
-
-async function retryMicrosoftSignIn() {
-  try {
-    const result = await firebase.auth().signInWithPopup(provider);
-    console.log("Microsoft Sign-in successful", result);
-  } catch (error) {
-    console.error("Microsoft Sign-in failed:", error);
-    if (error.code === 'auth/network-request-failed') {
-      setTimeout(retryMicrosoftSignIn, 1000); // Retry after a delay
-    }
-  }
-}
-
