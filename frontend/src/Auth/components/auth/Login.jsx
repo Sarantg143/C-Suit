@@ -91,12 +91,31 @@ const Login = ({ toggleSlide }) => {
     if (type === "google") {
       res = await googlePopup(navigate, Courseid);
       setTimeout(() => {
-        if (Courseid) navigate("../home/courseDetails/" + Courseid);
-        else navigate("../home");
-      }, 5000);
+        if (res.data.user.elaComplete == false) {
+                navigate("../quick-assessment");
+              } else if (Courseid) {
+                navigate("../home/courseDetails/" + Courseid);
+              } else {
+                navigate("../home");
+              }
+            }, 5000);
     }
     if (type === "github") handleLinkedIn();
     if (type === "microsoft") res = await signinMicrosoft();
+      const microsoftRes = await signinMicrosoft(); 
+    if (microsoftRes && microsoftRes.data) {
+      if (microsoftRes.data.user.elaComplete == false) {
+        navigate("../quick-assessment");
+      } else if (Courseid) {
+        navigate("../home/courseDetails/" + Courseid);
+      } else {
+        navigate("../home");
+      }
+    } else {
+      console.error("Error signing in with Microsoft.");
+    }
+  }
+};
   };
 
   return (
