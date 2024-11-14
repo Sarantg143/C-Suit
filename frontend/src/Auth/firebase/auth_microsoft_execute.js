@@ -34,3 +34,16 @@ async function saveMicrosoftUser(data) {
     console.error("Error saving Microsoft user:", error);
   }
 }
+
+async function retryMicrosoftSignIn() {
+  try {
+    const result = await firebase.auth().signInWithPopup(provider);
+    console.log("Microsoft Sign-in successful", result);
+  } catch (error) {
+    console.error("Microsoft Sign-in failed:", error);
+    if (error.code === 'auth/network-request-failed') {
+      setTimeout(retryMicrosoftSignIn, 1000); // Retry after a delay
+    }
+  }
+}
+
