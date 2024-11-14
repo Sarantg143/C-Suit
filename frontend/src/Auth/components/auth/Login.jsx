@@ -136,10 +136,18 @@ const Login = ({ toggleSlide }) => {
     if (type === "github") {
       handleLinkedIn();
     }
-    if (type === "microsoft") {
-      res = await signinMicrosoft();
+     if (type === "microsoft") {
+    res = await signinMicrosoft();
+
+    if (res === "home") {
+      navigate("../home/courseDetails/" + Courseid);
+    } else if (res === "quick-assessment") {
+      navigate("../quick-assessment");
+    } else {
+      console.error("Error signing in with Microsoft.");
     }
-  };
+  }
+};
 
   return (
     <div className="login-container">
