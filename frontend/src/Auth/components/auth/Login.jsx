@@ -116,7 +116,6 @@ const Login = ({ toggleSlide }) => {
     }
   }
 };
-  };
 
   return (
     <div className="login-container">
