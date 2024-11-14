@@ -101,10 +101,10 @@ const Login = ({ toggleSlide }) => {
             }, 5000);
     }
     if (type === "github") handleLinkedIn();
-    if (type === "microsoft") res = await signinMicrosoft();
-      const microsoftRes = await signinMicrosoft(); 
+    if (type === "microsoft") {
+    const microsoftRes = await signinMicrosoft();
     if (microsoftRes && microsoftRes.data) {
-      if (microsoftRes.data.user.elaComplete == false) {
+      if (microsoftRes.data.user.elaComplete === false) {
         navigate("../quick-assessment");
       } else if (Courseid) {
         navigate("../home/courseDetails/" + Courseid);
@@ -115,7 +115,6 @@ const Login = ({ toggleSlide }) => {
       console.error("Error signing in with Microsoft.");
     }
   }
-}
 };
 
   return (
