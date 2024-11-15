@@ -44,18 +44,17 @@
 import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 import { toast } from "react-toastify";
 import { check, signupCheck } from "../../api/baseapi.js";
-import axios from 'axios';
-
 
 const auth = getAuth();
 const provider = new OAuthProvider('microsoft.com');
 
 export const signinMicrosoft = async (navigate, Courseid) => {
   let loc = "";
+  let result = null; // Declare result outside try-catch for scope accessibility
 
   try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;  // Defined within the try block
+    result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
     console.log("Checking if Microsoft user already exists...");
     
@@ -72,19 +71,23 @@ export const signinMicrosoft = async (navigate, Courseid) => {
     if (checkError.response && checkError.response.status === 404) {
       toast.info("User not found. Registering...");
 
-      const microsoftUserData = {
-        name: result.user.displayName, // Use result.user directly here
-        email: result.user.email,
-        socialMediaId: result.user.uid
-      };
+      if (result) {  // Ensure result is available before accessing
+        const microsoftUserData = {
+          name: result.user.displayName,
+          email: result.user.email,
+          socialMediaId: result.user.uid
+        };
 
-      try {
-        const signupResponse = await signupCheck(microsoftUserData);
-        console.log("New user signed up:", signupResponse.data);
-        loc = login(signupResponse.data);
-      } catch (signupError) {
-        console.error("Signup error:", signupError);
-        toast.error("Signup failed");
+        try {
+          const signupResponse = await signupCheck(microsoftUserData);
+          console.log("New user signed up:", signupResponse.data);
+          loc = login(signupResponse.data);
+        } catch (signupError) {
+          console.error("Signup error:", signupError);
+          toast.error("Signup failed");
+        }
+      } else {
+        console.error("Microsoft sign-in result not available for user data.");
       }
 
     } else {
