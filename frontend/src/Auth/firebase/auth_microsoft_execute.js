@@ -46,6 +46,7 @@ import { toast } from "react-toastify";
 import { check, signupCheck } from "../../api/baseapi.js";
 import axios from 'axios';
 
+
 const auth = getAuth();
 const provider = new OAuthProvider('microsoft.com');
 
@@ -54,9 +55,10 @@ export const signinMicrosoft = async (navigate, Courseid) => {
 
   try {
     const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    const user = result.user;  // Defined within the try block
 
     console.log("Checking if Microsoft user already exists...");
+    
     // Check if the user exists in the backend
     const checkResponse = await check({ email: user.email });
     
@@ -67,14 +69,13 @@ export const signinMicrosoft = async (navigate, Courseid) => {
     }
 
   } catch (checkError) {
-    // If user doesn't exist, initiate sign-up
     if (checkError.response && checkError.response.status === 404) {
       toast.info("User not found. Registering...");
-      
-      let microsoftUserData = {
-        name: user.displayName,
-        email: user.email,
-        socialMediaId: user.uid
+
+      const microsoftUserData = {
+        name: result.user.displayName, // Use result.user directly here
+        email: result.user.email,
+        socialMediaId: result.user.uid
       };
 
       try {
@@ -96,7 +97,6 @@ export const signinMicrosoft = async (navigate, Courseid) => {
 };
 
 function login(data) {
-  // Assuming data is already an object
   const userData = data.user ? data.user : data;
 
   toast.success("Login Successful!");
@@ -108,6 +108,5 @@ function login(data) {
   localStorage.setItem("linkedin", userData.linkedin);
   localStorage.setItem("elacomplete", userData.elaComplete);
 
-  // Redirect based on ELA completion status
   return userData.elaComplete ? "home" : "quick-assessment";
 }
