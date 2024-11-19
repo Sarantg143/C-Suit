@@ -1,4 +1,4 @@
-const clientId = "86mel6vthcai4p";
+const clientId = "86zi1t4qeml4hq";
 const redirectUri = "https://c-suit.vercel.app/auth-linkedin-bridge";
 const state = "linkedIn-auth-state-secret";
 const scope = "profile openid email";
